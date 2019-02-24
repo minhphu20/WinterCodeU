@@ -68,6 +68,7 @@ function fetchMessages() {
       });
 }
 
+/** Fetches user's about data and adds it to the page. */
 function fetchAboutMe(){
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
@@ -77,9 +78,7 @@ function fetchAboutMe(){
     if(aboutMe == ''){
       aboutMe = 'This user has not entered any information yet.';
     }
-    
     aboutMeContainer.innerHTML = aboutMe;
-
   });
 }
 
