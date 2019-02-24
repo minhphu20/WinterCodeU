@@ -62,7 +62,7 @@ public class Datastore {
   }
 
   /**
-   * Fetches the messages of all users.
+   * Fetches the messages of all users, or an empty list if there are no users.
    *
    * @return a list of messages posted by all users, or empty list if noone has
    *     ever posted a message. List is sorted by time descending.
