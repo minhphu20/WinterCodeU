@@ -29,7 +29,6 @@ import java.util.UUID;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
-
   private DatastoreService datastore;
 
   public Datastore() {
@@ -65,7 +64,7 @@ public class Datastore {
   /**
    * Fetches the messages of all users.
    *
-   * @return a list of messages posted by all users, or empty list noone has
+   * @return a list of messages posted by all users, or empty list if noone has
    *     ever posted a message. List is sorted by time descending.
    */
   public List<Message> getAllMessages() {
@@ -102,5 +101,4 @@ public class Datastore {
     }
     return messages;
   }
-
 }
