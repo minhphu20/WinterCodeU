@@ -2,5 +2,6 @@
 /Users/macbookpro/WinterCodeU/src/main/java/com/google/codeu/data/Datastore.java
 /Users/macbookpro/WinterCodeU/src/main/java/com/google/codeu/servlets/LoginServlet.java
 /Users/macbookpro/WinterCodeU/src/main/java/com/google/codeu/servlets/MessageServlet.java
+/Users/macbookpro/WinterCodeU/src/main/java/com/google/codeu/servlets/AboutMeServlet.java
 /Users/macbookpro/WinterCodeU/src/main/java/com/google/codeu/servlets/LogoutServlet.java
 /Users/macbookpro/WinterCodeU/src/main/java/com/google/codeu/servlets/LoginStatusServlet.java
