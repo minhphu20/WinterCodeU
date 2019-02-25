@@ -25,7 +25,7 @@ public class Message {
   private String user;
   private String text;
   private long timestamp;
-  private String recipient;  /** {@code recipient} */
+  private String recipient;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content and {@code recipient}. 
