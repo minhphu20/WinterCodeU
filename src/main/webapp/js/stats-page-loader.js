@@ -1,4 +1,6 @@
-// Fetch stats and display them in the page.
+/**
+ * Fetch stats and display them in the page.
+ */
 function fetchStats() {
    const url = '/stats';
    fetch(url).then((response) => {
