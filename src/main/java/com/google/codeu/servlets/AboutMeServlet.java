@@ -19,47 +19,44 @@ public class AboutMeServlet extends HttpServlet {
 
   private Datastore datastore;
 
- @Override
- public void init() {
-  datastore = new Datastore();
- }
+  @Override
+  public void init() {
+    datastore = new Datastore();
+  }
  
  /**
   * Responds with the "about me" section for a particular user.
   */
- @Override
- public void doGet(HttpServletRequest request, HttpServletResponse response)
-   throws IOException {
-
-  response.setContentType("text/html");
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("text/html");
   
-  String user = request.getParameter("user");
+    String user = request.getParameter("user");
   
-  if(user == null || user.equals("")) {
-   // Request is invalid, return empty response
-   return;
+    if(user == null || user.equals("")) {
+      // Request is invalid, return empty response
+      return;
+    }
+  
+    String aboutMe = "This is " + user + "'s about me.";
+  
+    response.getOutputStream().println(aboutMe);
   }
-  
-  String aboutMe = "This is " + user + "'s about me.";
-  
-  response.getOutputStream().println(aboutMe);
- }
  
- @Override
- public void doPost(HttpServletRequest request, HttpServletResponse response)
-   throws IOException {
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-  UserService userService = UserServiceFactory.getUserService();  
-  if (!userService.isUserLoggedIn()) {
-   response.sendRedirect("/index.html");
-   return;
+    UserService userService = UserServiceFactory.getUserService();  
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.html");
+      return;
+    }
+  
+    String userEmail = userService.getCurrentUser().getEmail();
+
+    System.out.println("Saving about me for " + userEmail);
+    // TODO: save the data
+  
+    response.sendRedirect("/user-page.html?user=" + userEmail);
   }
-  
-  String userEmail = userService.getCurrentUser().getEmail();
-
-  System.out.println("Saving about me for " + userEmail);
-  // TODO: save the data
-  
-  response.sendRedirect("/user-page.html?user=" + userEmail);
- }
 }
