@@ -95,17 +95,19 @@ function buildMessageDiv(message) {
 /**  Fetches about me data from user's input and adds it to the page. */
 function fetchAboutMe(){
   const url = '/about?user=' + parameterUsername;
-  fetch(url).then((response) => {
-    return response.text();
-  }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-container');
-    if(aboutMe == ''){
-      aboutMe = 'This user has not entered any information yet.';
-    }
-    
-    aboutMeContainer.innerHTML = aboutMe;
+  fetch(url)
+      .then((response) => {
+        return response.text();
+      })
+      .then((aboutMe) => {
+        const aboutMeContainer = document.getElementById('about-me-container');
+        if (aboutMe == ''){
+          aboutMe = 'This user has not entered any information yet.';
+        }
 
-  });
+        aboutMeContainer.innerHTML = aboutMe;
+        
+      });
 }
 
 /** Fetches data and populates the UI of the page. */
