@@ -1,5 +1,6 @@
 /**
- * Fetch stats and display them in the page.
+ * Fetch stats and displays them in the page.
+ * @return {Element}
  */
 function fetchStats() {
    const url = '/stats';
@@ -8,7 +9,6 @@ function fetchStats() {
    }).then((stats) => {
       const statsContainer = document.getElementById('stats-container');
       statsContainer.innerHTML = '';
-
       const messageCountElement = buildStatElement('Message count: ' + stats.messageCount);
       statsContainer.appendChild(messageCountElement);
    });
@@ -25,7 +25,10 @@ function buildStatElement(statString) {
    return statElement;
 }
 
-// Fetch data and populate the UI of the page.
+/**
+ * Fetch data and populate the UI of the page.
+ * @return {Element}
+ */
 function buildUI() {
    fetchStats();
 }
