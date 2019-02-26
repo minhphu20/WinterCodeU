@@ -43,6 +43,7 @@ public class Datastore {
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
+    messageEntity.setProperty("recipient", message.getRecipient());
 
     datastore.put(messageEntity);
   }
@@ -60,6 +61,7 @@ public class Datastore {
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
 
+<<<<<<< HEAD
       PreparedQuery results = datastore.prepare(query);
 
       for (Entity entity : results.asIterable()) {
@@ -76,6 +78,23 @@ public class Datastore {
             System.err.println(entity.toString());
             e.printStackTrace();
          }
+=======
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+        String recipient = (String) entity.getProperty("recipient");
+
+        // Added recipient argument
+        Message message = new Message(id, user, text, timestamp, recipient);
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+>>>>>>> 0651c4ce5f00a00b07eb79d79510b2afa063f81d
       }
 
       return messages;
