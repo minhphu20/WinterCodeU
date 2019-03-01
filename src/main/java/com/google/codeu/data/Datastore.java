@@ -78,7 +78,7 @@ public class Datastore {
       }
     }
 
-    return return messages;
+    return messages;
   }
 
   /**
