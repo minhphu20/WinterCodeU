@@ -61,6 +61,8 @@ public class Datastore {
             .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
             .addSort("timestamp", SortDirection.DESCENDING);
 
+    PreparedQuery results = datastore.prepare(query);
+
     for(Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
@@ -121,7 +123,6 @@ public class Datastore {
             e.printStackTrace();
          }
       }
-    }
     return messages;
   }
 
@@ -138,7 +139,6 @@ public class Datastore {
     * null if no matching User was found.
     */
   public User getUser(String email) {
-
     Query query = new Query("User")
       .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
     PreparedQuery results = datastore.prepare(query);
@@ -151,5 +151,11 @@ public class Datastore {
     User user = new User(email, aboutMe);
 
     return user;
+  }
+
+  public int getTotalMessageCount(){
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
 }
