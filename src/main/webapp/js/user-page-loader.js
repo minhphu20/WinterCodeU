@@ -83,7 +83,7 @@ function buildMessageDiv(message) {
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = message.text;
+  bodyDiv.innerHTML = convertInput(message.text);
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
@@ -94,7 +94,7 @@ function buildMessageDiv(message) {
 }
 
 /**  Fetches about me data from user's input and adds it to the page. */
-function fetchAboutMe(){
+function fetchAboutMe() {
   const url = '/about?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
@@ -106,9 +106,16 @@ function fetchAboutMe(){
           aboutMe = 'This user has not entered any information yet.';
         }
 
-        aboutMeContainer.innerHTML = aboutMe;
-
+        aboutMeContainer.innerHTML = convertInput(aboutMe);
       });
+}
+
+/** Uses the showdown library to markdown user's input. */
+function convertInput(input) {
+  let converter = new showdown.Converter(),
+  html = converter.makeHtml(input);
+  console.log(html)
+  return html
 }
 
 /** Fetches data and populates the UI of the page. */
