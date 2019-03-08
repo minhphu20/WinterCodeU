@@ -110,11 +110,14 @@ function fetchAboutMe() {
       });
 }
 
-/** Uses the showdown library to markdown user's input. */
+/**
+ * Converts user input with showdown markdown library. 
+ * @param {String} input
+ * @return {Element}
+ */
 function convertInput(input) {
   let converter = new showdown.Converter(),
   html = converter.makeHtml(input);
-  console.log(html)
   return html
 }
 
