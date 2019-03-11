@@ -21,7 +21,12 @@
 
         // Create a bar chart
         var chart = new google.visualization.BarChart(document.getElementById('book_chart'));
-        chart.draw(book_data);
+        // Options to tyle the chart
+        var chart_options = {width: 800, height: 400, title: "Our favorite books :)"};
+        chart.draw(book_data, chart_options);
+
+        // TODO: add a new chart based on our team's theme
+        // TODO: add an about page to explain this feature
       }
     </script>
   </head>
