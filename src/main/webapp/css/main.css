@@ -36,6 +36,17 @@ body {
   overflow: scroll;
   word-wrap: break-word;
 }
+/* cornflowerblue, lightcoral*/
+.shadow{
+  font-family: 'Playfair Display', serif; 
+  font-size: 75px;
+  color: lightseagreen;
+  text-shadow:
+   -1px -1px 0 #000,  
+   1px -1px 0 #000,
+   -1px 1px 0 #000,
+   1px 1px 0 #000;
+}
 
 /* Remove bullet points from navigation bar. */
 nav ul {
