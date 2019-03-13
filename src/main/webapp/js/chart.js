@@ -14,7 +14,7 @@ function drawRegionChart(){
 
   function drawRegionsMap() {
     // Create a DataTable to store data
-    // Data taken from: http://www.irishdogs.ie/articles/countries-with-the-most-dogs-worldwide.html
+    // Data taken from http://www.irishdogs.ie/articles/countries-with-the-most-dogs-worldwide.html
     var data = google.visualization.arrayToDataTable([
       ['Country', 'Pet Dogs Population [Million, 2012]'],
       ['United States', 75.8],
@@ -24,12 +24,11 @@ function drawRegionChart(){
       ['Japan', 12.0]
     ]);
     // Create a map chart
-    var options = {};
     var chart = new google.visualization.GeoChart(document.getElementById('regions_chart'));
+    var options = {title: "Top five countries that love dogs", width: 800, height: 400};
     chart.draw(data, options);
   }
 }
-
 
 /**
  * Draw the default chart.
@@ -58,9 +57,9 @@ function drawDefaultChart(){
 }
 
 /**
- * Build the chart.
+ * Build the charts.
  */
 function buildChart() {
-  drawDefaultChart()
+  //drawDefaultChart()
   drawRegionChart()
 }
