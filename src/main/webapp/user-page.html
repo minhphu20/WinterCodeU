@@ -24,34 +24,36 @@ limitations under the License.
     <script src="/js/user-page-loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
   </head>
-  <body onload="buildUI();">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-      </ul>
-    </nav>
-    <h1 id="page-title">User Page</h1>
+  <body onload="buildUI();"> 
+    <div class="box">
+      <nav>
+        <ul id="navigation">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </nav>
+      <h1 id="page-title">User Page</h1>
 
-    <div id="about-me-container">Loading...</div>
-    <div id="about-me-form" class="hidden">
-      <form action="/about" method="POST">
-        <textarea name="about-me" placeholder="who u" rows=4 required></textarea>
+      <div id="about-me-container">Loading...</div>
+      <div id="about-me-form" class="hidden">
+        <form action="/about" method="POST">
+          <textarea name="about-me" placeholder="who u" rows=4 required></textarea>
+          <br/>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+      </br>
+
+      <form id="message-form" action="/messages" method="POST" class="hidden">
+        Enter a new message:
+        <br/>
+        <textarea name="text" id="message-input"></textarea>
         <br/>
         <input type="submit" value="Submit">
       </form>
+      <hr/>
+
+      <div id="message-container">Loading...</div>
+      
     </div>
-    </br>
-
-    <form id="message-form" action="/messages" method="POST" class="hidden">
-      Enter a new message:
-      <br/>
-      <textarea name="text" id="message-input"></textarea>
-      <br/>
-      <input type="submit" value="Submit">
-    </form>
-    <hr/>
-
-    <div id="message-container">Loading...</div>
-
   </body>
 </html>
