@@ -15,7 +15,7 @@ function drawRegionChart(){
     ['Japan', 12.0]
   ]);
   // Create a map chart
-  var chart = new google.visualization.GeoChart(document.getElementById('regions_chart'));
+  var chart = new google.visualization.GeoChart(document.getElementById('region_chart'));
   var options = {title: "Top five countries that love dogs", width: 800, height: 400};
   chart.draw(data, options);
 }
@@ -37,7 +37,7 @@ function drawDefaultChart(){
   ]);
   // Create a bar chart
   var chart = new google.visualization.BarChart(document.getElementById('book_chart'));
-  var chart_options = {width: 800, height: 400, title: "GREAT BOOKS"};
+  var chart_options = {title: "GREAT BOOKS", width: 800, height: 400};
   chart.draw(book_data, chart_options);
 }
 
