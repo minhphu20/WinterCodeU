@@ -28,11 +28,25 @@
   margin-top: 20px;
 }
 
+input[type=submit] {
+  background-color: #f5be6c;
+  color: rgb(61, 43, 43);
+  height: 5%;
+  width: 10%;
+  font-size: 12pt;
+}
+
 /* Add a bottom border to the message header. */
 .message-header {
   border-bottom: thin solid black;
   background-image: linear-gradient(to right, white , #f39c69);
   padding: 5px;
+}
+
+.rounded {
+  border: thin solid black;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 /* Give the message body a margin so the text
