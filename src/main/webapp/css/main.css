@@ -27,21 +27,7 @@ body {
 }
 
 p {
-  font-family: 'Muli', sans-serif;
-  margin-bottom: 15px;
   font-size: 20px;
-}
-
-#teamName {
-  color: #CEF0D4;
-  font-family: 'Rouge Script', cursive;
-  font-size: 80px;
-  font-weight: normal;
-  line-height: 100px;
-  padding-top: 10px;
-  margin: 0 0 50px;
-  text-align: center;
-  text-shadow: 1px 1px 2px #082b34;
 }
 
 .box {
@@ -59,11 +45,12 @@ p {
   overflow: scroll;
   word-wrap: break-word;
 }
+
 /* cornflowerblue, lightcoral*/
 .shadow {
   font-family: 'Playfair Display', serif; 
   font-size: 75px;
-  color: lightseagreen;
+  color: #20b2aa;
   text-shadow:
    -1px -1px 0 #000,  
    1px -1px 0 #000,
@@ -77,11 +64,11 @@ nav {
 
 a {
   text-decoration: none;
-  color: rgb(45, 78, 189);
+  color: #2d4ebd;
 }
 
 a:hover {
-  color: lightseagreen;
+  color: #20b2aa;
 }
 
 /* Remove bullet points from navigation bar. */
