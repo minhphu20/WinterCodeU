@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map Project</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy" rel="stylesheet">
+  <style>
+    #map{
+      width: 500px;
+      height: 500px;
+      text-align: center;
+      border: thin solid black;
+    }
+  </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx9EGUv8okQHzVkHhin7xAKw32gIJ3998"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/navigation-loader.js"></script>
+</head>
+<body onload="createMap();">
+  <div class="box">
+      <nav>
+        <ul id="navigation">
+            <li><a href="/">Home</a></li>
+            <li><a href="/stats.html">Stats</a></li>
+            <li><a href="/map.html">Map</a></li>
+            <li><a href="/feed.html">Feed</a></li>
+            <li><a href="/chart.html">Chart</a></li>
+        </ul>
+      </nav>
+    <h1 class="shadow">Map Project</h1>
+    <div id="map"></div>
+  </div>
+</body>
+</html>
