@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sp19-codeu-29-5443",
+  "private_key_id": "d866ab91c65999cd2639a17916cb479e5c2f81e5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCdO6ziTnyUox2w\nvDSX3GDFca4668/X/g6HX/ZFD8bR9hXyHkm22q1Fhq8ulAZBp9nkBDUQ00+J15Pj\nKdPMs24u8zey+84htrR3bfMjnUDOr7k+6q6ZD7TFz7sU3FDFS6Pik0m4f4LxBJ9j\nOfiuSz9Ktl+frHFuWq+VkohaaeCZkHqls5q1qIGCJe5hiqTU9bQuyPp68cmLbfyU\ndRa5XpylIg/geOJ/ln4bOf7kN9DTvOHMwyaSBCewBHIQFrkkqF8SRKjeCIX3ODCy\nyJ5hPUyY+vivWxhzr7h2FvoZC3tpS5g5btvGnVusKwsCLZ5Og0h/p15lRTYjtuYI\n6holQtgdAgMBAAECggEABidTqZVqn52aV/RRtvTPeRgXz84IAnslYevMoAt78PPe\n4YIzyTCEnLE7/MhweJQuEqljKJ9V4FOb1zA9ThMNV6Xksur9zbN7G3vQitReI4ix\n6RIMbHNL1FHAOmgx+rrDtVEljuSMq8v4xKHRnK6svDWS3Kqw03cV9/ZgwvBxs3N/\nQHwzfQPPveh3ykje+D+w9ugXRpkY8sJxpTCij9AanhYIQQk4buj2vZh85Jz1HnRz\nWP3oabPf5gJeCFf89lOqljqMqmLzpUt+rPRtZEiVKO3VFjAybpRcramFiZLVu8ov\nPilIBZj3V1b/jFZhKf2tLoNtEdotDXcu3l9guLk+eQKBgQDdPchZO11XG/cFKAyp\n3LhWjhW80ptjna0aQu2FJg7LR1yOi1oJTt0zRjTZbtuNE+YqXhn0b1GIVA0YeFyk\n6QdM/qQo3ft9jDUMb0X76jfFLSKzAgvyGK5bBPZkRb33BECBAtUp0QoOEu+eU5QY\nqnr/PDUdWpz4p+EZE21x8o2UhQKBgQC174NkJ/rk5N50PZwY2a6rIJ+6DL2cqbQI\n8HJCaF6OCPHHH/3jyC0yQbaoEo6JW5dKmvmq4D0BRCKpoE7t4iejMRkv5u/6JVC+\n3Q4ba3zsCQKqCD1QUFzwN0bXgaOavUPx5F0+MZg7rWjQsrL01PIvtdDdMn1Mf8Mr\nbiWwjAG0uQKBgFpcVIrVaz8bxd1OSTXLV2LKr2gqoJqkGMJEGZyrOZme8NerZL+u\nfTvm7cjstTE+smAVhQZHvQYwRhT7e+NC5d91lXi3iXLyo+wLOos0U0juMWDpchWU\nLQox0ayMq5TLIMlQbd2hajjrVQDWZANbBddfMNZnXvtUHeTPAYFrrpW9AoGAXqwn\nDBw905RBKe3RZ6EG4mfUliUBGh+43pn4axQSeAixf7PnEvvcgPVvDiCx6Uou/RSN\n7NxJAnqpKumPiPwRMjtfZuzeXaXDUb6IE76oP88kgsRM25kl855gD86XCvOIAryZ\nxL5cAFnpXAhRVVPmPut2p1QZnZAySExF8ou4a4kCgYAZlg4BzXif2BxpVZJZuoD7\nbFkeKQRGE9hCkFYsIISitPBG2Qpq+zSZM/TxOjxekxsA82u6MoHtlcVe7nLZvo+b\nOY6OhsML8Xbrpy2MFKryxnr3/zs/bbB+AQLBI0bZA68IQWb4JKlQ3VmZosMruARI\nJB07ucRYAO9z01EwLmWiZA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "rafael-development-account@sp19-codeu-29-5443.iam.gserviceaccount.com",
+  "client_id": "100179047405671495314",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rafael-development-account%40sp19-codeu-29-5443.iam.gserviceaccount.com"
+}

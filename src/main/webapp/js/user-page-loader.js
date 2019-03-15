@@ -90,6 +90,11 @@ function buildMessageDiv(message) {
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
 
+  headerDiv.appendChild(document.createTextNode(
+    message.user + ' - ' +
+    new Date(message.timestamp) +
+    ' [' + message.sentimentScore + ']'));
+
   return messageDiv;
 }
 
@@ -111,7 +116,7 @@ function fetchAboutMe() {
 }
 
 /**
- * Converts user input with showdown markdown library. 
+ * Converts user input with showdown markdown library.
  * @param {String} input
  * @return {Element}
  */
