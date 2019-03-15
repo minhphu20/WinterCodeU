@@ -30,6 +30,7 @@ p {
   font-size: 20px;
 }
 
+/* Add box styling to content. */
 .box {
   position: fixed;
   top: 50%;
@@ -46,7 +47,7 @@ p {
   word-wrap: break-word;
 }
 
-/* cornflowerblue, lightcoral*/
+/* Add heading styling. */
 .shadow {
   font-family: 'Playfair Display', serif; 
   font-size: 75px;
