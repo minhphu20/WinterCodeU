@@ -83,6 +83,8 @@ public class Datastore {
     return messages;
   }
 
+  // TODO: make ascending or descending an option!
+  // TODO: check if changing to ascending does not mess other parts up
   /**
    * Fetches the messages of all users, or an empty list if there are no users.
    *
