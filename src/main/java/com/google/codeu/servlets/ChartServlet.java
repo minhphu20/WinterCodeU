@@ -54,25 +54,4 @@ public class ChartServlet extends HttpServlet {
     String json = gson.toJson(msgList);
     response.getWriter().println(json);
   }
-
-  /** Stores a new {@link Message}. */
-  // @Override
-  // public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    // UserService userService = UserServiceFactory.getUserService();
-    // if (!userService.isUserLoggedIn()) {
-    //   response.sendRedirect("/index.html");
-    //   return;
-    // }
-
-    // String user = userService.getCurrentUser().getEmail();
-    // String text = Jsoup.clean(request.getParameter("text"), Whitelist.relaxed());
-    // String recipient = request.getParameter("recipient");
-
-    // Message message = new Message(user, text, recipient);
-    // datastore.storeMessage(message);
-    
-    // response.sendRedirect("/user-page.html?user=" + recipient);
-
-  // }
 }
