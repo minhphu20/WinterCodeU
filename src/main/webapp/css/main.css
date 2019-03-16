@@ -16,7 +16,60 @@
 
 /* Prevent the page from becoming too wide. */
 body {
+  font-family: 'Crete Round', serif;
+  background-image: url("../images/dachshund_pattern.png");
+  background-repeat: repeat;
   max-width: 600px;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+p {
+  font-size: 20px;
+}
+
+/* Add box styling to content. */
+.box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 2px solid black;
+  background-color: white;
+  padding: 0% 5% 5% 5%;
+  opacity: 0.98;
+  width: 60%;
+  height: 80%;
+  overflow: scroll;
+  word-wrap: break-word;
+}
+
+/* Add heading styling. */
+.shadow {
+  font-family: 'Playfair Display', serif; 
+  font-size: 75px;
+  color: #20b2aa;
+  text-shadow:
+   -1px -1px 0 #000,  
+   1px -1px 0 #000,
+   -1px 1px 0 #000,
+   1px 1px 0 #000;
+}
+
+nav {
+  font-size: 25px;
+}
+
+a {
+  text-decoration: none;
+  color: #2d4ebd;
+}
+
+a:hover {
+  color: #20b2aa;
 }
 
 /* Remove bullet points from navigation bar. */
@@ -29,4 +82,9 @@ nav ul {
 nav li {
   display: inline-block;
   margin-right: 10px
+}
+
+#lazyboi {
+  width: 25%;
+  height: auto;
 }
