@@ -12,10 +12,10 @@ import com.google.gson.JsonArray;
 /**
  * Returns UFO data as a JSON array, e.g. [{"lat": 38.4404675, "lng": -122.7144313}]
  */
- @WebServlet("/ufo-data")
+@WebServlet("/ufo-data")
 public class UfoDataServlet extends HttpServlet {
 
-  JsonArray ufoSightingArray;
+ JsonArray ufoSightingArray;
 
  @Override
  public void init() {
