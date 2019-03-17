@@ -83,20 +83,33 @@ public class Datastore {
     return messages;
   }
 
-  // TODO: make ascending or descending an option!
-  // TODO: check if changing to ascending does not mess other parts up
   /**
    * Fetches the messages of all users, or an empty list if there are no users.
+   *
+   * @return a list of messages posted by all users, or empty list if noone has
+   *     ever posted a message. List is sorted by time ascending if ascending is
+   *     set to true, else it is sorted by time descending.
+   */
+  public List<Message> getAllMessages(boolean ascending) {
+    Query query = new Query("Message");
+    if (ascending == true) {
+      query.addSort("timestamp", SortDirection.ASCENDING);
+    } else {
+      query.addSort("timestamp", SortDirection.DESCENDING);
+    }
+    PreparedQuery results = datastore.prepare(query);
+
+    return getMessages(results);
+  }
+
+  /**
+   * Overload getAllMessages(boolean ascending) to make ascending default to false.
    *
    * @return a list of messages posted by all users, or empty list if noone has
    *     ever posted a message. List is sorted by time descending.
    */
   public List<Message> getAllMessages() {
-    Query query = new Query("Message")
-      .addSort("timestamp", SortDirection.ASCENDING);
-    PreparedQuery results = datastore.prepare(query);
-
-    return getMessages(results);
+    return getAllMessages(false);  
   }
 
   /**

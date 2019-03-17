@@ -49,7 +49,7 @@ public class ChartServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     response.setContentType("application/json");
-    List<Message> msgList = datastore.getAllMessages();
+    List<Message> msgList = datastore.getAllMessages(true);
     Gson gson = new Gson();
     String json = gson.toJson(msgList);
     response.getWriter().println(json);
