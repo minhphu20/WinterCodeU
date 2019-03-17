@@ -21,6 +21,13 @@
   width: 100%;
 }
 
+/* Restricting size of images */
+.message-body img {
+  display: block;
+  margin-top: 25px;
+  max-width: 75%;
+}
+
 /* Give each message a rounded border. */
 .message-div {
   border: thin solid black;
@@ -28,10 +35,25 @@
   margin-top: 20px;
 }
 
+input[type=submit] {
+  background-color: #f5be6c;
+  color: rgb(61, 43, 43);
+  height: 5%;
+  width: 10%;
+  font-size: 12pt;
+}
+
 /* Add a bottom border to the message header. */
 .message-header {
   border-bottom: thin solid black;
+  background-color: #b5cbf3;
   padding: 5px;
+}
+
+.rounded {
+  border: thin solid black;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 /* Give the message body a margin so the text
