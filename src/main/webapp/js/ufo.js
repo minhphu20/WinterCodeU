@@ -1,5 +1,6 @@
 /**
  * Put Ufo position on the map
+ * Display the state once click on the marker
  */
 function createUfoSightingsMap(){
     fetch('/ufo-data').then(function(response) {
@@ -12,10 +13,16 @@ function createUfoSightingsMap(){
       });
 
       ufoSightings.forEach((ufoSighting) => {
-        new google.maps.Marker({
+        const marker = new google.maps.Marker({
           position: {lat: ufoSighting.lat, lng: ufoSighting.lng},
-          map: map
-        });  
+          map: map,
+        });
+        var infoWindow = new google.maps.InfoWindow({
+          content: ufoSighting.state
+        })
+        marker.addListener('click', function() {
+          infoWindow.open(map, marker);
+        });
       });
     });
   }
