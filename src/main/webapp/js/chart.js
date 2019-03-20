@@ -21,24 +21,38 @@ function drawRegionChart(){
 }
 
 /**
- * Draw the default chart.
+ * Draw a generic bar chart from data.
+ * @param {DataTable} data
+ * @param {String} divName
  */
-function drawDefaultChart(){
-  // Create a DataTable to store data
-  var book_data = new google.visualization.DataTable();
-  book_data.addColumn('string', 'Book Title');
-  book_data.addColumn('number', 'Votes');
-  book_data.addRows([
-    ["The Best We Could Do", 6],
-    ["Sing, Unburied, Sing", 10],
-    ["The Book of Unknown Americans", 7],
-    ["The 57 Bus", 4],
-    ["The Handmaid's Tale", 8]
-  ]);
-  // Create a bar chart
-  var chart = new google.visualization.BarChart(document.getElementById('book_chart'));
-  var chart_options = {title: "GREAT BOOKS", width: 800, height: 400};
-  chart.draw(book_data, chart_options);
+function drawBarChart(data, divName){
+  var chart = new google.visualization.BarChart(document.getElementById(divName));
+  var options = {width: 800, height: 400};
+  chart.draw(data, options);
+}
+
+/**
+ * Draw a bar chart of message counts per day.
+ */
+function drawMessageCountChart() {
+  fetch("/messagechart")
+    .then((response) => {
+      return response.json();
+    })
+    .then((msgJson) => {
+      var msgData = new google.visualization.DataTable();
+      msgData.addColumn('date', 'Date');
+      msgData.addColumn('number', 'Message Count');
+
+      for (i = 0; i < msgJson.length; i++) {
+        msgRow = [];
+        var timestampAsDate = new Date (msgJson[i].timestamp);
+        var totalMessages = i + 1;
+        msgRow.push(timestampAsDate, totalMessages);
+        msgData.addRow(msgRow);
+      }
+      drawBarChart(msgData, 'bar_chart');
+    });
 }
 
 /**
@@ -46,10 +60,10 @@ function drawDefaultChart(){
  */
 function buildChart() {
   google.charts.load('current', {
-    'packages': ['corechart', 'geochart'],
+    'packages': ['corechart', 'geochart', 'table'],
     // Note: you will need to get a mapsApiKey for your project.
     // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
     'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'});
-  google.charts.setOnLoadCallback(drawDefaultChart);
+  google.charts.setOnLoadCallback(drawMessageCountChart);
   google.charts.setOnLoadCallback(drawRegionChart);
 }
