@@ -131,8 +131,6 @@ function buildUI() {
   showMessageFormIfViewingSelf();
   fetchMessages();
   fetchAboutMe();
-}
-
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config );
 }
