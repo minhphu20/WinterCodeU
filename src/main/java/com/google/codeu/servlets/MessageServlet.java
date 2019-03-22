@@ -18,6 +18,10 @@ package com.google.codeu.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.Document.Type;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
@@ -82,11 +86,21 @@ public class MessageServlet extends HttpServlet {
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = userText.replaceAll(regex, replacement);
     String recipient = request.getParameter("recipient");
+    float sentimentScore = this.getSentimentScore(userText);
 
-    Message message = new Message(user, textWithImagesReplaced, recipient);
+    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);
+  }
 
+  private float getSentimentScore(String text) throws IOException {
+    Document doc = Document.newBuilder().setContent(text).setType(Type.PLAIN_TEXT).build();
+
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    languageService.close();
+
+    return sentiment.getScore();
   }
 }

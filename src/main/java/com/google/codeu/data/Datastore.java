@@ -43,6 +43,7 @@ public class Datastore {
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("recipient", message.getRecipient());
+    messageEntity.setProperty("sentimentScore", message.getSentimentScore());
 
     datastore.put(messageEntity);
   }
@@ -70,8 +71,11 @@ public class Datastore {
         String user = (String) entity.getProperty("user");
         String text = (String)entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
+        float sentimentScore = entity.getProperty("sentimentScore") == null
+                                  ? (float) 0.0
+                                  : ((Double) entity.getProperty("sentimentScore")).floatValue();
 
-        Message message = new Message(id, user, text, timestamp, recipient);
+        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
         messages.add(message);
       } catch(Exception e) {
         System.err.println("Error reading message.");
@@ -90,6 +94,7 @@ public class Datastore {
    *     ever posted a message. List is sorted by time ascending if ascending is
    *     set to true, else it is sorted by time descending.
    */
+
   public List<Message> getAllMessages(boolean ascending) {
     Query query = new Query("Message");
     if (ascending == true) {
@@ -97,6 +102,7 @@ public class Datastore {
     } else {
       query.addSort("timestamp", SortDirection.DESCENDING);
     }
+
     PreparedQuery results = datastore.prepare(query);
 
     return getMessages(results);
@@ -109,7 +115,7 @@ public class Datastore {
    *     ever posted a message. List is sorted by time descending.
    */
   public List<Message> getAllMessages() {
-    return getAllMessages(false);  
+    return getAllMessages(false);
   }
 
   /**
@@ -128,9 +134,13 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         String recipient = (String) entity.getProperty("recipient");
+        float sentimentScore =
+            entity.getProperty("sentimentScore") == null
+                ? (float) 0.0
+                : ((Double) entity.getProperty("sentimentScore")).floatValue();
 
             // Added recipient argument
-            Message message = new Message(id, user, text, timestamp, recipient);
+            Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
             messages.add(message);
          } catch (Exception e) {
             System.err.println("Error reading message.");

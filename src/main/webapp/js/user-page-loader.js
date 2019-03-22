@@ -57,6 +57,7 @@ function fetchMessages() {
         return response.json();
       })
       .then((messages) => {
+        console.log(messages);
         const messagesContainer = document.getElementById('message-container');
         if (messages.length == 0) {
           messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
@@ -76,10 +77,13 @@ function fetchMessages() {
  * @return {Element}
  */
 function buildMessageDiv(message) {
+  console.log(message);
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
+    message.user + ' - ' +
+    new Date(message.timestamp) +
+    ' [' + message.sentimentScore + ']'));
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
@@ -111,7 +115,7 @@ function fetchAboutMe() {
 }
 
 /**
- * Converts user input with showdown markdown library. 
+ * Converts user input with showdown markdown library.
  * @param {String} input
  * @return {Element}
  */
