@@ -69,7 +69,7 @@ public class Datastore {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
         String user = (String) entity.getProperty("user");
-        String text = (String)entity.getProperty("text");
+        String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         float sentimentScore = entity.getProperty("sentimentScore") == null
                                   ? (float) 0.0
