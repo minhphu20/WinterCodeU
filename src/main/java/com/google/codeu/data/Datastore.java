@@ -55,48 +55,28 @@ public class Datastore {
    * @return a list of messages posted by the user, or empty list if user has never posted a
    *     message. List is sorted by time descending.
    */
-  public List<Message> getMessages(String recipient) {
-    List<Message> messages = new ArrayList<>();
-
-    Query query =
-        new Query("Message")
-            .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
-            .addSort("timestamp", SortDirection.DESCENDING);
-
-    PreparedQuery results = datastore.prepare(query);
-
-    for(Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String user = (String) entity.getProperty("user");
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-        float sentimentScore = entity.getProperty("sentimentScore") == null
-                                  ? (float) 0.0
-                                  : ((Double) entity.getProperty("sentimentScore")).floatValue();
-
-        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
-        messages.add(message);
-      } catch(Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    }
-
-    return messages;
-  }
-
   public List<Message> getMessages(String recipient, String sender) {
     List<Message> messages = new ArrayList<>();
-
-    Query query =
+    Query query;
+     
+    if (sender == ""){
+      query =
+          new Query("Message")
+              .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
+              .addSort("timestamp", SortDirection.DESCENDING);
+    }else{
+      query =
         new Query("Message")
-            .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
-              new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
-              new Query.FilterPredicate("user", FilterOperator.EQUAL, sender))))
+            .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, Arrays.asList(
+              new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+                new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
+                new Query.FilterPredicate("user", FilterOperator.EQUAL, sender))),
+              new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+                new Query.FilterPredicate("recipient", FilterOperator.EQUAL, sender),
+                new Query.FilterPredicate("user", FilterOperator.EQUAL, recipient)
+              )))))
             .addSort("timestamp", SortDirection.DESCENDING);
+    }
 
     PreparedQuery results = datastore.prepare(query);
 
