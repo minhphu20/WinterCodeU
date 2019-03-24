@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/user-page.css">
     <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy" rel="stylesheet">
     <link rel="icon" href="images/doge.jpg">
-    <script src="/js/user-page-loader.js"></script>
+    <script src="/js/chat-room-loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
@@ -24,8 +24,6 @@
       </nav>
       <h1 id="page-title" class="shadow">Chatroom</h1>
 
-      <div id="message-container">Loading...</div>
-
       <form id="message-form" action="/chatroom" method="POST" class="hidden">
         Enter a new message:
         <br/>
@@ -33,6 +31,9 @@
         <br/>
         <input type="submit" value="Submit" class="rounded">
       </form>
+
+      <div id="message-container">Loading...</div>
+      
       <hr/>
     </div>
   </body>
