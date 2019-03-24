@@ -5,6 +5,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx9EGUv8okQHzVkHhin7xAKw32gIJ3998"></script>
   <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
   <script src="/js/ufo.js"></script>
+  <script src="/js/navigation-loader.js"></script>
   <style>
     #map{
       width: 500px;
@@ -16,7 +17,7 @@
     }
   </style>
 </head>
-<body onload="createUfoSightingsMap();">
+<body onload="createUfoSightingsMap();addLoginOrLogoutLinkToNavigation();">
  <h1>UFO Sightings</h1>
  <div id="map"></div>
 </body>
