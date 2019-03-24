@@ -1,4 +1,5 @@
 let map;
+let editMarker;
 
 /**
  * Create a map
@@ -27,7 +28,11 @@ function createMap(){
  * @param {*} lng longitude
  */
 function createMarkerForEdit(lat, lng){
-    const marker = new google.maps.Marker({
+    if(editMarker){
+        editMarker.setMap(null)
+    }
+
+    editMarker = new google.maps.Marker({
         position: {lat: lat, lng: lng},
         map: map
     });  
@@ -36,7 +41,11 @@ function createMarkerForEdit(lat, lng){
         content: buildInfoWindowInput()
     });
         
-    infoWindow.open(map, marker);
+    infoWindow.open(map, editMarker);
+
+    google.maps.event.addListener(infoWindow, 'closeclick', () => {
+        editMarker.setMap(null);
+    });
 }
 
 /**
