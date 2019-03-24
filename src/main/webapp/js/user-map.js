@@ -13,6 +13,21 @@ function createMap(){
     map.addListener('click', (event) => {
         createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
     });
+
+    fetchMarkers();
+}
+
+/**
+ * Loads the markers
+ */
+function fetchMarkers(){
+    fetch('/user-markers').then((response) => {
+      return response.json();
+    }).then((markers) => {
+      markers.forEach((marker) => {
+        createMarkerForDisplay(marker.lat, marker.lng, marker.content)
+      });  
+    });
 }
 
 /**
@@ -53,6 +68,7 @@ function buildInfoWindowInput(lat, lng){
     button.appendChild(document.createTextNode('Submit'));
 
     button.onclick = () => {
+        postMarker(lat, lng, textBox.value);
         createMarkerForDisplay(lat, lng, textBox.value);
         editMarker.setMap(null);
     }
@@ -83,5 +99,23 @@ function buildInfoWindowInput(lat, lng){
 
     marker.addListener('click', () => {
       infoWindow.open(map, marker);
+    });
+  }
+
+  /**
+   * Post markers
+   * @param {*} lat latitude
+   * @param {*} lng longitude
+   * @param {*} content content
+   */
+  function postMarker(lat, lng, content){
+    const params = new URLSearchParams();
+    params.append('lat', lat);
+    params.append('lng', lng);
+    params.append('content', content);
+  
+    fetch('/user-markers', {
+      method: 'POST',
+      body: params
     });
   }
