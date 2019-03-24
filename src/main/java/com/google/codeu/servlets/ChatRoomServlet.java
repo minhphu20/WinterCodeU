@@ -36,9 +36,14 @@ public class ChatRoomServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+    UserService userService = UserServiceFactory.getUserService();
+    String sender = userService.getCurrentUser().getEmail();
+    System.out.println(sender);
+
     response.setContentType("application/json");
 
     String user = request.getParameter("user");
+    System.out.println(user); //user recipient
 
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
@@ -46,7 +51,7 @@ public class ChatRoomServlet extends HttpServlet {
       return;
     }
 
-    List<Message> messages = datastore.getMessages(user);
+    List<Message> messages = datastore.getMessages(user, sender);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
 
@@ -75,7 +80,7 @@ public class ChatRoomServlet extends HttpServlet {
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
     datastore.storeMessage(message);
 
-    response.sendRedirect("/user-page.html?user=" + recipient);
+    response.sendRedirect("/chatroom.html?user=" + recipient);
   }
 
   private float getSentimentScore(String text) throws IOException {

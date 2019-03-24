@@ -25,6 +25,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,6 +61,41 @@ public class Datastore {
     Query query =
         new Query("Message")
             .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
+            .addSort("timestamp", SortDirection.DESCENDING);
+
+    PreparedQuery results = datastore.prepare(query);
+
+    for(Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+        float sentimentScore = entity.getProperty("sentimentScore") == null
+                                  ? (float) 0.0
+                                  : ((Double) entity.getProperty("sentimentScore")).floatValue();
+
+        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
+        messages.add(message);
+      } catch(Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return messages;
+  }
+
+  public List<Message> getMessages(String recipient, String sender) {
+    List<Message> messages = new ArrayList<>();
+
+    Query query =
+        new Query("Message")
+            .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+              new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
+              new Query.FilterPredicate("user", FilterOperator.EQUAL, sender))))
             .addSort("timestamp", SortDirection.DESCENDING);
 
     PreparedQuery results = datastore.prepare(query);
