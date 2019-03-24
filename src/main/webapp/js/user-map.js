@@ -2,7 +2,7 @@ let map;
 let editMarker;
 
 /**
- * Create a map
+ * Creates a map
  */
 function createMap(){
     map = new google.maps.Map(document.getElementById('map'), {
@@ -11,13 +11,7 @@ function createMap(){
     });
 
     map.addListener('click', (event) => {
-    const clickLatLng = event.latLng;
-    console.log(clickLatLng.lat() + ', ' + clickLatLng.lng());
-    });
-
-    map.addListener('click', (event) => {
-        const clickLatLng = event.latLng
-        createMarkerForEdit(clickLatLng.lat(), clickLatLng.lng());
+        createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
     });
 }
 
@@ -38,23 +32,30 @@ function createMarkerForEdit(lat, lng){
     });  
             
     const infoWindow = new google.maps.InfoWindow({
-        content: buildInfoWindowInput()
+        content: buildInfoWindowInput(lat, lng)
     });
         
-    infoWindow.open(map, editMarker);
-
     google.maps.event.addListener(infoWindow, 'closeclick', () => {
         editMarker.setMap(null);
     });
+
+    infoWindow.open(map, editMarker);
 }
 
 /**
  * Builds a div that contains a textarea and a button.
+ * @param {*} map map
+ * @param {*} lat latitude
  */
-function buildInfoWindowInput(){
+function buildInfoWindowInput(lat, lng){
     const textBox = document.createElement('textarea');
     const button = document.createElement('button');
     button.appendChild(document.createTextNode('Submit'));
+
+    button.onclick = () => {
+        createMarkerForDisplay(lat, lng, textBox.value);
+        editMarker.setMap(null);
+    }
        
     const containerDiv = document.createElement('div');
     containerDiv.appendChild(textBox);
@@ -62,4 +63,25 @@ function buildInfoWindowInput(){
     containerDiv.appendChild(button);
        
     return containerDiv;
+  }
+
+  /**
+   * Adds the user's data to the map when they click the Submit button.
+   * @param {*} lat latitude
+   * @param {*} lng longitude
+   * @param {*} content user input form the textbox
+   */
+  function createMarkerForDisplay(lat, lng, content){
+    const marker = new google.maps.Marker({
+      position: {lat: lat, lng: lng},
+      map: map
+    });
+                
+    var infoWindow = new google.maps.InfoWindow({
+      content: content
+    });
+
+    marker.addListener('click', () => {
+      infoWindow.open(map, marker);
+    });
   }
