@@ -32,19 +32,19 @@ function setPageTitle() {
 /**
  * Shows the message form if the user is logged in and viewing their own page.
  */
-function showMessageFormIfViewingSelf() {
-  document.getElementById('about-me-form').classList.remove('hidden');
-
+function showMessageFormIfLoggedIn() {
   fetch('/login-status')
       .then((response) => {
         return response.json();
       })
       .then((loginStatus) => {
-        if (loginStatus.isLoggedIn &&
-            loginStatus.username == parameterUsername) {
+        if (loginStatus.isLoggedIn) {
           const messageForm = document.getElementById('message-form');
           messageForm.action = '/messages?recipient=' + parameterUsername;
           messageForm.classList.remove('hidden');
+          if (loginStatus.username == parameterUsername){
+            document.getElementById('about-me-form').classList.remove('hidden');
+          }
         }
       });
 }
@@ -127,9 +127,9 @@ function convertInput(input) {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  showMessageFormIfViewingSelf();
+  showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
   const config = {removePlugins: [ 'ImageUpload' ]};
-  ClassicEditor.create(document.getElementById('message-input'), config );
+  ClassicEditor.create(document.getElementById('message-input'), config);
 }
