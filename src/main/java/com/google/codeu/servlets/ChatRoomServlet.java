@@ -38,13 +38,10 @@ public class ChatRoomServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     String sender = userService.getCurrentUser().getEmail();
-    System.out.println(sender);
 
     response.setContentType("application/json");
 
     String user = request.getParameter("user");
-    System.out.println(user); //user recipient
-
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
       response.getWriter().println("[]");
