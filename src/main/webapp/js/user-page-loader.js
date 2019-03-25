@@ -29,6 +29,10 @@ function setPageTitle() {
   document.title = parameterUsername + ' - User Page';
 }
 
+function setChatRoom() {
+  document.getElementById('chat').setAttribute("href", "/chatroom.html?user="+parameterUsername)
+}
+
 /**
  * Shows the message form if the user is logged in.
  */
