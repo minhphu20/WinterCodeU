@@ -27,7 +27,7 @@ limitations under the License.
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
-  <body onload="buildUI();"> 
+  <body onload="buildUI();">
     <div class="box">
       <nav>
         <ul id="navigation">
@@ -41,26 +41,21 @@ limitations under the License.
       <h1 id="page-title" class="shadow">User Page</h1>
 
       <div id="about-me-container">Loading...</div>
-      <div id="about-me-form" class="hidden">
-        <form action="/about" method="POST">
-          <textarea name="about-me" placeholder="who u" rows=4 required></textarea>
+      <div id="about-me-form" action="/messages" method="POST" class="hidden">
+        <form action ="/about" id="message-form" class="hidden" method="POST" enctype="multipart/form-data">
+          Enter a new message:
+          <textarea name="about-me" placeholder="who u" id="message-input" rows=4 required></textarea>
+          <br/>
+          Add an image to your message:
+          <input type="file" name="image">
           <br/>
           <input type="submit" value="Submit" class="rounded">
+          <br/>
         </form>
       </div>
-      </br>
-
-      <form id="message-form" action="/messages" method="POST" class="hidden">
-        Enter a new message:
-        <br/>
-        <textarea name="text" id="message-input"></textarea>
-        <br/>
-        <input type="submit" value="Submit" class="rounded">
-      </form>
-      <hr/>
 
       <div id="message-container">Loading...</div>
-      
+
     </div>
   </body>
 </html>
