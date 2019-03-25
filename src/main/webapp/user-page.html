@@ -38,21 +38,29 @@ limitations under the License.
           <li><a href="/chart.html">Chart</a></li>
         </ul>
       </nav>
+
       <h1 id="page-title" class="shadow">User Page</h1>
 
       <div id="about-me-container">Loading...</div>
-      <div id="about-me-form" action="/messages" method="POST" class="hidden">
-        <form action ="/about" id="message-form" class="hidden" method="POST" enctype="multipart/form-data">
-          Enter a new message:
-          <textarea name="about-me" placeholder="who u" id="message-input" rows=4 required></textarea>
-          <br/>
-          Add an image to your message:
-          <input type="file" name="image">
+      <div id="about-me-form" class="hidden">
+        <form action="/about" method="POST">
+          <textarea name="about-me" placeholder="who u" rows=4 required></textarea>
           <br/>
           <input type="submit" value="Submit" class="rounded">
-          <br/>
         </form>
       </div>
+
+      <form id="message-form" method="POST" class="hidden" enctype="multipart/form-data">
+        Enter a new message:
+        <br/>
+        <textarea name="text" id="message-input"></textarea>
+        <br/>
+        <input type="file" name="image">
+        <br/>
+        <input type="hidden" value="" name="recipient" id="recipientInput">
+        <input type="submit" value="Submit" class="rounded">
+      </form>
+      <hr/>
 
       <div id="message-container">Loading...</div>
 
