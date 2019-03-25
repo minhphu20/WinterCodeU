@@ -1,7 +1,7 @@
 package com.google.codeu.data;
 
+/** Provide access to markers that users create. */
 public class UserMarker {
-
   private double lat;
   private double lng;
   private String content;
