@@ -8,4 +8,4 @@
 - Try posting a message, and see that the top chart changes according!
 
 ## Server Side Rendering:
-- User Page is now server-side rendered! The URL is for instance /users/Ada instead of /user-page.html?user=Ada! 
+- User Page is now server-side rendered! The URL is for instance `/users/Ada` instead of `/user-page.html?user=Ada`! 
