@@ -7,11 +7,11 @@
 
 <!DOCTYPE html>
 <%
-  String user = (String) request.getAttribute("user");
-  boolean isUserLoggedIn = (boolean) request.getAttribute("isLoggedIn");
-  if (user == null || user.equals("")) {
-    response.sendRedirect("/index.html");
-  }
+String user = (String) request.getAttribute("user");
+boolean isUserLoggedIn = (boolean) request.getAttribute("isLoggedIn");
+if (user == null || user.equals("")) {
+  response.sendRedirect("/index.html");
+}
 %>
 <html>
   <head>
@@ -23,9 +23,10 @@
     <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
+    <script src="/js/user-page-styler.js"></script>
     <script src="http://mvnrepository.com/artifact/com.google.code.gson/gson"></script>
   </head>
-  <body>
+  <body onload="styleUI();">
     <div class="box">
       <nav>
         <ul id="navigation">
@@ -39,14 +40,16 @@
       <h1 id="page-title" class="shadow"><%= user %></h1>
 
       <%
-        if (isUserLoggedIn) {
-          String aboutMe = (String) request.getAttribute("aboutMe");
-          if (aboutMe == "" || aboutMe == null) {
-            aboutMe = "This user has not entered any information yet.";
-          }
+      if (isUserLoggedIn) {
+        String aboutMe = (String) request.getAttribute("aboutMe");
+        if (aboutMe == "" || aboutMe == null) {
+          aboutMe = "This user has not entered any information yet.";
+        }
       %>
-          <div id="about-me-container"><%= aboutMe %></div>
-      <% } %>
+      <div id="about-me-container"><%= aboutMe %></div>
+      <% 
+      } 
+      %>
 
       <div id="about-me-form">
         <form action="/about" method="POST">
@@ -58,7 +61,9 @@
 
       </br>
 
-      <% if (isUserLoggedIn && user.equals((String) request.getAttribute("username"))) { %>
+      <% 
+      if (isUserLoggedIn && user.equals((String) request.getAttribute("username"))) { 
+      %>
         <form id="message-form" action=<%= "/messages?recipient=" + request.getAttribute("user") %> method="POST">
           Enter a new message:
           <br/>
@@ -67,16 +72,18 @@
           <input type="submit" value="Submit" class="rounded">
         </form>
         <hr/>
-      <% } %>
+      <% 
+      } 
+      %>
 
       <div id="message-container">
         <% 
-          String json = (String) request.getAttribute("messages");
-          if (json != null) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Message>>(){}.getType();
-            List<Message> messages = gson.fromJson(json, type);
-            for (Message message : messages) {
+        String json = (String) request.getAttribute("messages");
+        if (json != null) {
+          Gson gson = new Gson();
+          Type type = new TypeToken<List<Message>>(){}.getType();
+          List<Message> messages = gson.fromJson(json, type);
+          for (Message message : messages) {
         %>
             <div class="message-div">
               <div class="message-header">
@@ -88,6 +95,10 @@
             </div>             
         <% 
           }
+        } else {
+        %>
+          <p>This user has no posts yet.</p>
+        <% 
         } 
         %>
       </div>

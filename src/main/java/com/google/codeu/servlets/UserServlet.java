@@ -17,6 +17,11 @@ import com.google.codeu.data.User;
 import javax.servlet.ServletOutputStream;
 import java.lang.Exception;
 
+/**
+ * Handles fetching and server-side rendering User Page
+ * for any user.
+ * @param "/user/*"
+ */
 @WebServlet("/user/*")
 public class UserServlet extends HttpServlet {
 
@@ -45,13 +50,15 @@ public class UserServlet extends HttpServlet {
 
     if (!(user == null || user.equals(""))) {
       List<Message> messages = datastore.getMessages(user);
-      Gson gson = new Gson();
-      String json = gson.toJson(messages);
-      request.setAttribute("messages", json);     
+      if (messages != null && messages.size() != 0) {
+        Gson gson = new Gson();
+        String json = gson.toJson(messages);
+        request.setAttribute("messages", json);        
+      }
     }
     
     User userData = datastore.getUser(user);    
-    if (!(userData == null || userData.getAboutMe() == null)) {
+    if (userData != null && userData.getAboutMe() != null) {
       request.setAttribute("aboutMe", userData.getAboutMe());
     }
 
