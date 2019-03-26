@@ -1,7 +1,7 @@
 # CodeU Project
 
 ## Chart Page
-- Go to localhost:8080/chart.html (if on local)
+- Go to `localhost:8080/chart.html` (if on local)
 - You should see 2 charts:
   - Top one displays the number of messages posed each day
   - Bottom one shows the number of pet dogs per country for five countries with most dogs
