@@ -1,4 +1,4 @@
-# codeu-starter-project
+# CodeU Project
 
 ## Chart Page:
 - Go to http://localhost:8080/chart.html (if on local)
