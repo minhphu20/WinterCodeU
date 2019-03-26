@@ -35,7 +35,6 @@ public class UserServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws IOException, ServletException {
-
     String requestUrl = request.getRequestURI();
     String user = requestUrl.substring("/user/".length());
     request.setAttribute("user", user);

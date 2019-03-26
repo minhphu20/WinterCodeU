@@ -6,6 +6,7 @@
 <%@ page import="com.google.codeu.data.Message" %>
 
 <!DOCTYPE html>
+<%-- Check if the user is logged in. If not, redirect to homepage. --%>
 <%
 String user = (String) request.getAttribute("user");
 boolean isUserLoggedIn = (boolean) request.getAttribute("isLoggedIn");
@@ -39,6 +40,7 @@ if (user == null || user.equals("")) {
       </nav>
       <h1 id="page-title" class="shadow"><%= user %></h1>
 
+      <%-- Get AboutMe information --%>
       <%
       if (isUserLoggedIn) {
         String aboutMe = (String) request.getAttribute("aboutMe");
@@ -77,6 +79,7 @@ if (user == null || user.equals("")) {
       %>
 
       <div id="message-container">
+        <%-- Display messages of user --%>
         <% 
         String json = (String) request.getAttribute("messages");
         if (json != null) {
@@ -102,7 +105,7 @@ if (user == null || user.equals("")) {
         } 
         %>
       </div>
-      
+
     </div>
   </body>
 </html>
