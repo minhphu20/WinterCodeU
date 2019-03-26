@@ -77,7 +77,6 @@ function fetchMessages() {
  * @return {Element}
  */
 function buildMessageDiv(message) {
-  console.log(message);
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
