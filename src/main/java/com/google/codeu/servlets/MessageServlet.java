@@ -101,9 +101,10 @@ public class MessageServlet extends HttpServlet {
     String recipient = request.getParameter("recipient");
     float sentimentScore = this.getSentimentScore(userText);
 
+
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
 
-    if(blobKeys != null && !blobKeys.isEmpty()) {
+    if (blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
