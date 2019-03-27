@@ -27,7 +27,7 @@ limitations under the License.
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
-  <body onload="buildUI();">
+  <body onload="buildUI();"> 
     <div class="box">
       <nav>
         <ul id="navigation">
@@ -38,7 +38,6 @@ limitations under the License.
           <li><a href="/chart.html">Chart</a></li>
         </ul>
       </nav>
-
       <h1 id="page-title" class="shadow">User Page</h1>
 
       <div id="about-me-container">Loading...</div>
@@ -49,21 +48,19 @@ limitations under the License.
           <input type="submit" value="Submit" class="rounded">
         </form>
       </div>
+      </br>
 
-      <form id="message-form" method="POST" class="hidden" enctype="multipart/form-data">
+      <form id="message-form" action="/messages" method="POST" class="hidden">
         Enter a new message:
         <br/>
         <textarea name="text" id="message-input"></textarea>
         <br/>
-        <input type="file" name="image">
-        <br/>
-        <input type="hidden" value="" name="recipient" id="recipientInput">
         <input type="submit" value="Submit" class="rounded">
       </form>
       <hr/>
 
       <div id="message-container">Loading...</div>
-
+      
     </div>
   </body>
 </html>
