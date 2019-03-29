@@ -10,7 +10,7 @@
 ## Server Side Rendering
 - User Page is now server-side rendered! The URL is for instance `/users/Ada` instead of `/user-page.html?user=Ada`! 
 
-## Guided Project - Map
+## Map
 ### Part 1
 - Go to `http://localhost:8080/map.html` (on local)
 - Display a google map
