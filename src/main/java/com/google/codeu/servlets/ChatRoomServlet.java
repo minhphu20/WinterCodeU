@@ -47,11 +47,9 @@ public class ChatroomServlet extends HttpServlet {
       response.getWriter().println("[]");
       return;
     }
-
     List<Message> messages = datastore.getMessages(user, sender);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
-
     response.getWriter().println(json);
   }
 
@@ -73,8 +71,9 @@ public class ChatroomServlet extends HttpServlet {
     String textWithImagesReplaced = userText.replaceAll(regex, replacement);
     String recipient = request.getParameter("recipient");
     float sentimentScore = this.getSentimentScore(userText);
+    boolean isDirectMessage = true;
 
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
+    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, isDirectMessage);
     datastore.storeMessage(message);
 
     response.sendRedirect("/chatroom.html?user=" + recipient);

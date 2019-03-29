@@ -87,8 +87,9 @@ public class MessageServlet extends HttpServlet {
     String textWithImagesReplaced = userText.replaceAll(regex, replacement);
     String recipient = request.getParameter("recipient");
     float sentimentScore = this.getSentimentScore(userText);
+    boolean isDirectMessage = false;
 
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
+    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, isDirectMessage);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);

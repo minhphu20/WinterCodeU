@@ -29,7 +29,7 @@ function setPageTitle() {
   document.title = parameterUsername + ' - User Page';
 }
 
-function setChatRoom() {
+function setChatroom() {
   document.getElementById('chat').setAttribute("href", "/chatroom.html?user="+parameterUsername)
 }
 

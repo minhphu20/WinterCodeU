@@ -15,7 +15,6 @@ function fetchMessages() {
         return response.json();
       })
       .then((messages) => {
-        console.log(messages);
         const messagesContainer = document.getElementById('message-container');
         if (messages.length == 0) {
           messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';

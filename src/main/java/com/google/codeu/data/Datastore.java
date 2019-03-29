@@ -45,6 +45,7 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("recipient", message.getRecipient());
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
+    messageEntity.setProperty("isDirectMessage", message.getIsDirectMessage());
 
     datastore.put(messageEntity);
   }
@@ -61,19 +62,23 @@ public class Datastore {
      
     if (sender == ""){
       query =
-          new Query("Message")
-              .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
-              .addSort("timestamp", SortDirection.DESCENDING);
+        new Query("Message")
+            .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+              new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
+              new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, false))))
+            .addSort("timestamp", SortDirection.DESCENDING);
     }else{
       query =
         new Query("Message")
             .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, Arrays.asList(
               new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
                 new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
-                new Query.FilterPredicate("user", FilterOperator.EQUAL, sender))),
+                new Query.FilterPredicate("user", FilterOperator.EQUAL, sender),
+                new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true))),
               new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
                 new Query.FilterPredicate("recipient", FilterOperator.EQUAL, sender),
-                new Query.FilterPredicate("user", FilterOperator.EQUAL, recipient)
+                new Query.FilterPredicate("user", FilterOperator.EQUAL, recipient),
+                new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true)
               )))))
             .addSort("timestamp", SortDirection.DESCENDING);
     }
@@ -90,8 +95,8 @@ public class Datastore {
         float sentimentScore = entity.getProperty("sentimentScore") == null
                                   ? (float) 0.0
                                   : ((Double) entity.getProperty("sentimentScore")).floatValue();
-
-        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
+        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
+        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, isDirectMessage);
         messages.add(message);
       } catch(Exception e) {
         System.err.println("Error reading message.");
@@ -155,8 +160,9 @@ public class Datastore {
                 ? (float) 0.0
                 : ((Double) entity.getProperty("sentimentScore")).floatValue();
 
+        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
             // Added recipient argument
-            Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
+            Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, isDirectMessage);
             messages.add(message);
          } catch (Exception e) {
             System.err.println("Error reading message.");
