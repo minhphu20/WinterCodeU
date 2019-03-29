@@ -20,7 +20,7 @@ import org.jsoup.safety.Whitelist;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/chatroom")
-public class ChatroomServlet extends HttpServlet {
+public class ChatRoomServlet extends HttpServlet {
 
   private Datastore datastore;
 
