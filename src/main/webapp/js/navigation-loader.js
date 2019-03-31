@@ -46,6 +46,7 @@ function addNavigation() {
       })
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
+
           navigationElement.appendChild(
             createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Your Page')));
               

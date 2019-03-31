@@ -92,6 +92,7 @@ public class MessageServlet extends HttpServlet {
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, isDirectMessage);
     datastore.storeMessage(message);
 
+    // response.sendRedirect("/user/" + recipient);
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
 
