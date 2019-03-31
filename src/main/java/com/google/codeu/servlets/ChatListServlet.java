@@ -7,7 +7,7 @@ import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Chatroom;
+import com.google.codeu.data.Chat;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
@@ -19,8 +19,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /** Handles fetching and saving {@link Message} instances. */
-@WebServlet("/chatroom-list")
-public class ChatRoomListServlet extends HttpServlet {
+@WebServlet("/chat-list")
+public class ChatListServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -46,10 +46,10 @@ public class ChatRoomListServlet extends HttpServlet {
       response.getWriter().println("[]");
       return;
     }
-    List<Chatroom> chatrooms = datastore.getRecentPrivateMessages(user);
+    List<Chat> chats = datastore.getRecentPrivateMessages(user);
     
     Gson gson = new Gson();
-    String json = gson.toJson(chatrooms);
+    String json = gson.toJson(chats);
     response.getWriter().println(json);
   }
 }

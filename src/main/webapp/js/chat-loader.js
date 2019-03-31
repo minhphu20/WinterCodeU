@@ -15,7 +15,7 @@ function setPageTitle() {
 
 /** Fetches messages and add them to the page. **/
 function fetchMessages() {
-  const url = '/chatroom?user=' + parameterUsername;
+  const url = '/chat?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
         return response.json();
@@ -76,7 +76,7 @@ function buildUI() {
   setPageTitle();
   fetchMessages();
   const messageForm = document.getElementById('message-form');
-  messageForm.action = '/chatroom?recipient=' + parameterUsername;
+  messageForm.action = '/chat?recipient=' + parameterUsername;
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config);
 }

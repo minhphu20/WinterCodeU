@@ -112,8 +112,8 @@ public class Datastore {
     return messages;
   }
 
-  public List<Chatroom> getRecentPrivateMessages(String recipient) {
-    List<Chatroom> chatrooms = new ArrayList<>();
+  public List<Chat> getRecentPrivateMessages(String recipient) {
+    List<Chat> chats = new ArrayList<>();
     
     Query query = 
       new Query("Message")
@@ -142,30 +142,30 @@ public class Datastore {
         String recipientProperty = (String) entity.getProperty("recipient");
       
         if (!loggedInUser.equals(recipientProperty) && !users.contains(recipientProperty) || loggedInUser.equals(recipientProperty) && !users.contains(user)) {
-          Chatroom chatroom;
+          Chat chat;
           if (loggedInUser.equals(user) && loggedInUser.equals(recipientProperty)) {
             users.add(loggedInUser);
-            chatroom = new Chatroom(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
+            chat = new Chat(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
           }else if (loggedInUser.equals(user)) {
             users.add(recipientProperty);
-            chatroom = new Chatroom(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
+            chat = new Chat(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
           } else {
             users.add(user);
-            chatroom = new Chatroom(id, loggedInUser, user + ": " + text, timestamp, user);
+            chat = new Chat(id, loggedInUser, user + ": " + text, timestamp, user);
           }
-          chatrooms.add(chatroom);/* 
+          chats.add(chat);/* 
           System.out.println("loggedin " + loggedInUser);
           System.out.println("user " + user);
           System.out.println("recipient " + recipientProperty); */
         }
       } catch(Exception e) {
-        System.err.println("Error getting chatrooms.");
+        System.err.println("Error getting chats.");
         System.err.println(entity.toString());
         e.printStackTrace();
       }
     }
     
-    return chatrooms;
+    return chats;
   }
 
   /**

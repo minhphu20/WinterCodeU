@@ -19,8 +19,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /** Handles fetching and saving {@link Message} instances. */
-@WebServlet("/chatroom")
-public class ChatRoomServlet extends HttpServlet {
+@WebServlet("/chat")
+public class ChatServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -76,7 +76,7 @@ public class ChatRoomServlet extends HttpServlet {
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, isDirectMessage);
     datastore.storeMessage(message);
 
-    response.sendRedirect("/chatroom.html?user=" + recipient);
+    response.sendRedirect("/chat.html?user=" + recipient);
   }
 
   private float getSentimentScore(String text) throws IOException {
