@@ -7,6 +7,12 @@ if (!parameterUsername) {
   window.location.replace('/');
 }
 
+/** Sets the page title based on the URL parameter username. */
+function setPageTitle() {
+  document.getElementById('page-title').innerText = "Chat: "  + parameterUsername;
+  document.title = parameterUsername + ' - Chat';
+}
+
 /** Fetches messages and add them to the page. **/
 function fetchMessages() {
   const url = '/chatroom?user=' + parameterUsername;
@@ -67,6 +73,7 @@ function convertInput(input) {
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
+  setPageTitle();
   fetchMessages();
   const messageForm = document.getElementById('message-form');
   messageForm.action = '/chatroom?recipient=' + parameterUsername;

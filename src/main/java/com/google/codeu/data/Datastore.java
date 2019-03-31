@@ -143,10 +143,10 @@ public class Datastore {
       
         if (!loggedInUser.equals(recipientProperty) && !users.contains(recipientProperty) || loggedInUser.equals(recipientProperty) && !users.contains(user)) {
           Chatroom chatroom;
-          if (loggedInUser.equalsIgnoreCase(user) && loggedInUser.equalsIgnoreCase(recipientProperty)) {
+          if (loggedInUser.equals(user) && loggedInUser.equals(recipientProperty)) {
             users.add(loggedInUser);
             chatroom = new Chatroom(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
-          }else if (loggedInUser.equalsIgnoreCase(user)) {
+          }else if (loggedInUser.equals(user)) {
             users.add(recipientProperty);
             chatroom = new Chatroom(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
           } else {
