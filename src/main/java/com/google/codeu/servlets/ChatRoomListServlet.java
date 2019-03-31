@@ -19,8 +19,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /** Handles fetching and saving {@link Message} instances. */
-@WebServlet("/chatroom")
-public class ChatRoomServlet extends HttpServlet {
+@WebServlet("/chatroom-list")
+public class ChatRoomListServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -47,45 +47,10 @@ public class ChatRoomServlet extends HttpServlet {
       response.getWriter().println("[]");
       return;
     }
-    List<Message> messages = datastore.getMessages(user, sender);
+    List<Message> messages = datastore.getRecentPrivateMessages(user);
+    
     Gson gson = new Gson();
     String json = gson.toJson(messages);
     response.getWriter().println(json);
-  }
-
-  /** Stores a new {@link Message}. */
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
-      return;
-    }
-
-    String user = userService.getCurrentUser().getEmail();
-    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.relaxed());
-
-    String regex = "(https?://\\S+\\.(png|jpg))";
-    String replacement = "<img src=\"$1\" />";
-    String textWithImagesReplaced = userText.replaceAll(regex, replacement);
-    String recipient = request.getParameter("recipient");
-    float sentimentScore = this.getSentimentScore(userText);
-    boolean isDirectMessage = true;
-
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, isDirectMessage);
-    datastore.storeMessage(message);
-
-    response.sendRedirect("/chatroom.html?user=" + recipient);
-  }
-
-  private float getSentimentScore(String text) throws IOException {
-    Document doc = Document.newBuilder().setContent(text).setType(Type.PLAIN_TEXT).build();
-
-    LanguageServiceClient languageService = LanguageServiceClient.create();
-    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-    languageService.close();
-
-    return sentiment.getScore();
   }
 }

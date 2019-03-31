@@ -96,7 +96,8 @@ public class Datastore {
                                   ? (float) 0.0
                                   : ((Double) entity.getProperty("sentimentScore")).floatValue();
         boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
-        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, isDirectMessage);
+        String recipientProperty = (String) entity.getProperty("recipient");
+        Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, isDirectMessage);
         messages.add(message);
       } catch(Exception e) {
         System.err.println("Error reading message.");
@@ -105,6 +106,51 @@ public class Datastore {
       }
     }
 
+    return messages;
+  }
+
+  public List<Message> getRecentPrivateMessages(String recipient) {
+    List<Message> messages = new ArrayList<>();
+    Query query = 
+      new Query("Message")
+        .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, Arrays.asList(
+          new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+            new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
+            new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true))),
+          new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+            new Query.FilterPredicate("user", FilterOperator.EQUAL, recipient),
+            new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true)
+          )))))
+        .addSort("timestamp", SortDirection.DESCENDING);
+    
+    PreparedQuery results = datastore.prepare(query);
+    List<String> users = new ArrayList<>();
+    
+    for(Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+        String recipientProperty = (String) entity.getProperty("recipient");
+        float sentimentScore = entity.getProperty("sentimentScore") == null
+                                  ? (float) 0.0
+                                  : ((Double) entity.getProperty("sentimentScore")).floatValue();
+        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
+
+        if (!users.contains(user)) {
+          users.add(user);
+          Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, isDirectMessage);
+          messages.add(message);
+        }
+      } catch(Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    
     return messages;
   }
 
