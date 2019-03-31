@@ -20,6 +20,18 @@ function fetchChats() {
       });
 }
 
+function checkLoggedIn() {
+  fetch('/login-status')
+    .then((response) => {
+      return response.json();
+    })
+    .then((loginStatus) => {
+      if (!loginStatus.isLoggedIn) {
+        window.location.replace('/');
+      }
+    })
+}
+
 /**
  * Builds an element that displays the chat.
  * @param {Chat} chat
@@ -72,5 +84,6 @@ function convertInput(input) {
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
+  checkLoggedIn();
   fetchChats();
 }

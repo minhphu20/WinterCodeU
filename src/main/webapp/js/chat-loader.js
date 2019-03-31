@@ -13,6 +13,18 @@ function setPageTitle() {
   document.title = parameterUsername + ' - Chat';
 }
 
+function checkLoggedIn() {
+  fetch('/login-status')
+    .then((response) => {
+      return response.json();
+    })
+    .then((loginStatus) => {
+      if (!loginStatus.isLoggedIn) {
+        window.location.replace('/');
+      }
+    })
+}
+
 /** Fetches messages and add them to the page. **/
 function fetchMessages() {
   const url = '/chat?user=' + parameterUsername;
@@ -73,6 +85,7 @@ function convertInput(input) {
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
+  checkLoggedIn();
   setPageTitle();
   fetchMessages();
   const messageForm = document.getElementById('message-form');
