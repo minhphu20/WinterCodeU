@@ -66,6 +66,7 @@ public class AboutMeServlet extends HttpServlet {
     User user = new User(userEmail, aboutMe);
     datastore.storeUser(user);
   
+    // response.sendRedirect("/user/" + userEmail);
     response.sendRedirect("/user-page.html?user=" + userEmail);
   }
 }

@@ -26,7 +26,6 @@ public class Message {
   private String text;
   private long timestamp;
   private String recipient;
-  private String imageUrl;
   private float sentimentScore;
 
   /**
@@ -35,10 +34,6 @@ public class Message {
    */
   public Message(String user, String text, String recipient, float sentimentScore) {
     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
-  }
-
-  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl);
   }
 
   /**
@@ -52,20 +47,6 @@ public class Message {
     this.timestamp = timestamp;
     this.recipient = recipient;
     this.sentimentScore = sentimentScore;
-  }
-
-  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, String imageUrl) {
-    this.id = id;
-    this.user = user;
-    this.text = text;
-    this.timestamp = timestamp;
-    this.recipient = recipient;
-    this.sentimentScore = sentimentScore;
-    this.imageUrl = imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
   }
 
   public UUID getId() {
@@ -90,9 +71,5 @@ public class Message {
 
   public String getRecipient() {
     return recipient;
-  }
-
-  public String getImageUrl() {
-    return imageUrl;
   }
 }

@@ -40,11 +40,11 @@ function showMessageFormIfViewingSelf() {
         return response.json();
       })
       .then((loginStatus) => {
-        if (loginStatus.isLoggedIn && loginStatus.username == parameterUsername) {
-          fetchImageUploadUrlAndShowForm();
-          // const messageForm = document.getElementById('message-form');
-          // messageForm.action = '/messages?recipient=' + parameterUsername;
-          // messageForm.classList.remove('hidden');
+        if (loginStatus.isLoggedIn &&
+            loginStatus.username == parameterUsername) {
+          const messageForm = document.getElementById('message-form');
+          messageForm.action = '/messages?recipient=' + parameterUsername;
+          messageForm.classList.remove('hidden');
         }
       });
 }
@@ -57,6 +57,7 @@ function fetchMessages() {
         return response.json();
       })
       .then((messages) => {
+        console.log(messages);
         const messagesContainer = document.getElementById('message-container');
         if (messages.length == 0) {
           messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
@@ -92,11 +93,6 @@ function buildMessageDiv(message) {
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
 
-  if (message.imageUrl) {
-    bodyDiv.innerHTML += '<br/>';
-    bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
-  }
-
   return messageDiv;
 }
 
@@ -114,25 +110,6 @@ function fetchAboutMe() {
         }
 
         aboutMeContainer.innerHTML = convertInput(aboutMe);
-      });
-}
-
-/**
- * Fetches the login status of the user first.
- * When the image upload URL returns, it sets the action
- * attribute of the form and shows it.
- * @return {[type]} [description]
- */
-function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url')
-      .then((response) => {
-        return response.text();
-      })
-      .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('message-form');
-        messageForm.action = imageUploadUrl;
-        messageForm.classList.remove('hidden');
-        document.getElementById('recipientInput').value = parameterUsername;
       });
 }
 
