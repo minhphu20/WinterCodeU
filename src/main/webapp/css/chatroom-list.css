@@ -3,6 +3,7 @@
   border: thin solid black;
   border-radius: 5px;
   margin-top: 20px;
+  cursor: pointer;
 }
 
 /* Add a bottom border to the message header. */
@@ -21,7 +22,7 @@
 /* Give the message body a margin so the text
     isn't too close to the border. */
 .chatroom-body {
-  margin: 5px;
+  margin: 2px;
 }
 
 /* Use this to hide certain elements like forms if the
