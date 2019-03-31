@@ -16,6 +16,8 @@
 
 package com.google.codeu.data;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -24,6 +26,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -109,8 +112,9 @@ public class Datastore {
     return messages;
   }
 
-  public List<Message> getRecentPrivateMessages(String recipient) {
-    List<Message> messages = new ArrayList<>();
+  public List<Chatroom> getRecentPrivateMessages(String recipient) {
+    List<Chatroom> chatrooms = new ArrayList<>();
+    
     Query query = 
       new Query("Message")
         .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, Arrays.asList(
@@ -125,6 +129,8 @@ public class Datastore {
     
     PreparedQuery results = datastore.prepare(query);
     List<String> users = new ArrayList<>();
+    UserService userService = UserServiceFactory.getUserService();
+    String loggedInUser = userService.getCurrentUser().getEmail();
     
     for(Entity entity : results.asIterable()) {
       try {
@@ -134,24 +140,32 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         String recipientProperty = (String) entity.getProperty("recipient");
-        float sentimentScore = entity.getProperty("sentimentScore") == null
-                                  ? (float) 0.0
-                                  : ((Double) entity.getProperty("sentimentScore")).floatValue();
-        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
-
-        if (!users.contains(user)) {
-          users.add(user);
-          Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, isDirectMessage);
-          messages.add(message);
+      
+        if (!loggedInUser.equals(recipientProperty) && !users.contains(recipientProperty) || loggedInUser.equals(recipientProperty) && !users.contains(user)) {
+          Chatroom chatroom;
+          if (loggedInUser.equalsIgnoreCase(user) && loggedInUser.equalsIgnoreCase(recipientProperty)) {
+            users.add(loggedInUser);
+            chatroom = new Chatroom(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
+          }else if (loggedInUser.equalsIgnoreCase(user)) {
+            users.add(recipientProperty);
+            chatroom = new Chatroom(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
+          } else {
+            users.add(user);
+            chatroom = new Chatroom(id, loggedInUser, user + ": " + text, timestamp, user);
+          }
+          chatrooms.add(chatroom);/* 
+          System.out.println("loggedin " + loggedInUser);
+          System.out.println("user " + user);
+          System.out.println("recipient " + recipientProperty); */
         }
       } catch(Exception e) {
-        System.err.println("Error reading message.");
+        System.err.println("Error getting chatrooms.");
         System.err.println(entity.toString());
         e.printStackTrace();
       }
     }
     
-    return messages;
+    return chatrooms;
   }
 
   /**

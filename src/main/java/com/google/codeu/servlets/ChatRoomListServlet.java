@@ -7,7 +7,7 @@ import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Message;
+import com.google.codeu.data.Chatroom;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
@@ -37,20 +37,19 @@ public class ChatRoomListServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     UserService userService = UserServiceFactory.getUserService();
-    String sender = userService.getCurrentUser().getEmail();
+    String user = userService.getCurrentUser().getEmail();
 
     response.setContentType("application/json");
 
-    String user = request.getParameter("user");
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
       response.getWriter().println("[]");
       return;
     }
-    List<Message> messages = datastore.getRecentPrivateMessages(user);
+    List<Chatroom> chatrooms = datastore.getRecentPrivateMessages(user);
     
     Gson gson = new Gson();
-    String json = gson.toJson(messages);
+    String json = gson.toJson(chatrooms);
     response.getWriter().println(json);
   }
 }

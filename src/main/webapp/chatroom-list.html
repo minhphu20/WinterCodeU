@@ -4,7 +4,7 @@
     <title>Your Chatrooms</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/user-page.css">
+    <link rel="stylesheet" href="/css/chatroom-list.css">
     <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy" rel="stylesheet">
     <link rel="icon" href="images/doge.jpg">
     <script src="/js/chatroom-list-loader.js"></script>
@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
-  <body>
+  <body onload="buildUI();addLoginOrLogoutLinkToNavigation();">
     <div class="box">
       <nav>
         <ul id="navigation">

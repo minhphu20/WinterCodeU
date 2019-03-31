@@ -1,30 +1,20 @@
-// Get ?user=XYZ parameter value
-const urlParams = new URLSearchParams(window.location.search);
-const parameterUsername = urlParams.get('user');
-
-// URL must include ?user=XYZ parameter. If not, redirect to homepage.
-if (!parameterUsername) {
-  window.location.replace('/');
-}
-
 /** Fetches chatrooms and add them to the page. **/
 function fetchChatrooms() {
-  const url = '/chatroom-list?user=' + parameterUsername;
-  console.log(parameterUsername)
+  const url = '/chatroom-list';
   fetch(url)
       .then((response) => {
         return response.json();
       })
-      .then((messages) => {
+      .then((chatrooms) => {
         const chatroomContainer = document.getElementById('chatroom-container');
-        if (messages.length == 0) {
+        if (chatrooms.length == 0) {
           chatroomContainer.innerHTML = '<p>This user has no ongoing chats yet.</p>';
         } else {
           chatroomContainer.innerHTML = '';
         }
 
-        messages.forEach((message) => {
-          const chatroomDiv = buildChatroomDiv(message);
+        chatrooms.forEach((chatroom) => {
+          const chatroomDiv = buildChatroomDiv(chatroom);
           chatroomContainer.appendChild(chatroomDiv);
         })
       });
@@ -32,25 +22,27 @@ function fetchChatrooms() {
 
 /**
  * Builds an element that displays the message.
- * @param {Message} message
+ * @param {Chatroom} message
  * @return {Element}
  */
-function buildChatroomDiv(message) {
-  console.log(message.user);
+function buildChatroomDiv(chatroom) {
+  console.log("user" + chatroom.user);
+  console.log("recipient" + chatroom.recipient);
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('chatroom-header');
   headerDiv.appendChild(document.createTextNode(
-    message.user + ' - ' +
-    new Date(message.timestamp)));
+    chatroom.recipient + ' - ' +
+    new Date(chatroom.timestamp)));
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('chatroom-body');
-  bodyDiv.innerHTML = convertInput(message.text);
+  bodyDiv.innerHTML = convertInput(chatroom.text);
 
   const chatroomDiv = document.createElement('div');
   chatroomDiv.classList.add('chatroom-div');
   chatroomDiv.appendChild(headerDiv);
   chatroomDiv.appendChild(bodyDiv);
+  chatroomDiv.setAttribute('onclick', "location.href='/chatroom.html?user=" + chatroom.recipient + "'");
 
   return chatroomDiv;
 }
