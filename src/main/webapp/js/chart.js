@@ -4,7 +4,7 @@
  * Draw a map displaying number of pet dogs per country.
  * Data taken from http://www.irishdogs.ie/articles/countries-with-the-most-dogs-worldwide.html
  */
-function drawRegionChart(){
+function drawRegionChart() {
   // Create a DataTable to store data
   var data = google.visualization.arrayToDataTable([
     ['Country', 'Pet Dogs Population [Million, 2012]'],
@@ -25,7 +25,7 @@ function drawRegionChart(){
  * @param {DataTable} data
  * @param {String} divName
  */
-function drawBarChart(data, divName){
+function drawBarChart(data, divName) {
   var chart = new google.visualization.BarChart(document.getElementById(divName));
   var options = {width: 800, height: 400};
   chart.draw(data, options);

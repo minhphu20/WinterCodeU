@@ -52,7 +52,7 @@ if (user == null || user.equals("")) {
       <%
       }
       %>
-      
+
       <div id="about-me-form">
         <form action="/about" method="POST">
           <textarea name="about-me" placeholder="Who are you?" rows=4 required></textarea>
@@ -80,7 +80,6 @@ if (user == null || user.equals("")) {
 
       <div id="message-container">
         <%-- Display messages of user --%>
-        
         <%
         String json = (String) request.getAttribute("messages");
         if (json != null) {
@@ -96,7 +95,7 @@ if (user == null || user.equals("")) {
               <div class="message-body">
                 <p><%= message.getText() %></p>
               </div>
-            </div>             
+            </div>
         <%
           }
         } else {
