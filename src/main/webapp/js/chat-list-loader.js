@@ -26,13 +26,8 @@ function fetchChats() {
  * @return {Element}
  */
 function buildChatDiv(chat) {
-  console.log("user" + chat.user);
-  console.log("recipient" + chat.recipient);
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('chat-header');
-  headerDiv.appendChild(document.createTextNode(
-    chat.recipient + ' - ' +
-    new Date(chat.timestamp)));
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('chat-body');
@@ -42,8 +37,25 @@ function buildChatDiv(chat) {
   chatDiv.classList.add('chat-div');
   chatDiv.appendChild(headerDiv);
   chatDiv.appendChild(bodyDiv);
-  chatDiv.setAttribute('onclick', "location.href='/chat.html?user=" + chat.recipient + "'");
 
+  fetch('/login-status')
+    .then((response) => {
+      return response.json();
+    })
+    .then((loginStatus) => {
+      if (loginStatus.isLoggedIn) {
+        let recipient = "";
+        if (loginStatus.username === chat.user){
+          recipient = chat.recipient;
+        } else {
+          recipient = chat.user;
+        }
+        headerDiv.appendChild(document.createTextNode(
+          recipient + ' - ' +
+          new Date(chat.timestamp)));
+        chatDiv.setAttribute('onclick', "location.href='/chat.html?user=" + recipient + "'");
+      }
+    })
   return chatDiv;
 }
 

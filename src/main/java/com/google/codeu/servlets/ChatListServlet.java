@@ -7,7 +7,7 @@ import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Chat;
+import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
@@ -46,10 +46,10 @@ public class ChatListServlet extends HttpServlet {
       response.getWriter().println("[]");
       return;
     }
-    List<Chat> chats = datastore.getRecentPrivateMessages(user);
+    List<Message> recentChats = datastore.getRecentPrivateMessages(user);
     
     Gson gson = new Gson();
-    String json = gson.toJson(chats);
+    String json = gson.toJson(recentChats);
     response.getWriter().println(json);
   }
 }

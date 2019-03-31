@@ -112,8 +112,14 @@ public class Datastore {
     return messages;
   }
 
-  public List<Chat> getRecentPrivateMessages(String recipient) {
-    List<Chat> chats = new ArrayList<>();
+  /**
+   * Gets the most recent private messages that the user recieved from or had sent to another user.
+   *
+   * @return a list of private messages, or empty list if user has never recieved or sent a private
+   *     message. List is sorted by time descending.
+   */
+  public List<Message> getRecentPrivateMessages(String recipient) {
+    List<Message> recentChats = new ArrayList<>();
     
     Query query = 
       new Query("Message")
@@ -140,32 +146,28 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         String recipientProperty = (String) entity.getProperty("recipient");
-      
+        float sentimentScore = entity.getProperty("sentimentScore") == null
+                                ? (float) 0.0
+                                : ((Double) entity.getProperty("sentimentScore")).floatValue();
+        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
         if (!loggedInUser.equals(recipientProperty) && !users.contains(recipientProperty) || loggedInUser.equals(recipientProperty) && !users.contains(user)) {
-          Chat chat;
-          if (loggedInUser.equals(user) && loggedInUser.equals(recipientProperty)) {
-            users.add(loggedInUser);
-            chat = new Chat(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
-          }else if (loggedInUser.equals(user)) {
+          if ((loggedInUser.equals(user) && loggedInUser.equals(recipientProperty)) || loggedInUser.equals(user)) {
             users.add(recipientProperty);
-            chat = new Chat(id, loggedInUser, "You: " + text, timestamp, recipientProperty);
+            text = "You: " + text;
           } else {
             users.add(user);
-            chat = new Chat(id, loggedInUser, user + ": " + text, timestamp, user);
           }
-          chats.add(chat);/* 
-          System.out.println("loggedin " + loggedInUser);
-          System.out.println("user " + user);
-          System.out.println("recipient " + recipientProperty); */
+          Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, isDirectMessage);
+          recentChats.add(message);
         }
       } catch(Exception e) {
-        System.err.println("Error getting chats.");
+        System.err.println("Error getting private messages.");
         System.err.println(entity.toString());
         e.printStackTrace();
       }
     }
     
-    return chats;
+    return recentChats;
   }
 
   /**
@@ -221,9 +223,8 @@ public class Datastore {
                 : ((Double) entity.getProperty("sentimentScore")).floatValue();
 
         boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
-            // Added recipient argument
-            Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, isDirectMessage);
-            messages.add(message);
+        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, isDirectMessage);
+        messages.add(message);
          } catch (Exception e) {
             System.err.println("Error reading message.");
             System.err.println(entity.toString());
