@@ -25,6 +25,8 @@ import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
+
+import com.google.appengine.api.images.ImagesServiceFailureException;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -89,6 +91,20 @@ public class MessageServlet extends HttpServlet {
     float sentimentScore = this.getSentimentScore(userText);
 
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
+
+    if (blobKeys != null && !blobKeys.isEmpty()) {
+      BlobKey blobKey = blobKeys.get(0);
+      ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      try {
+        String imageUrl = imagesService.getServingUrl(options);
+        message.setImageUrl(imageUrl);
+        System.out.println(imageUrl);
+      } catch (ImagesServiceFailureException unused) {
+
+      }
+    }
+
     datastore.storeMessage(message);
 
     // response.sendRedirect("/user/" + recipient);
