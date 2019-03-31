@@ -29,10 +29,6 @@ function setPageTitle() {
   document.title = parameterUsername + ' - User Page';
 }
 
-function setChat() {
-  document.getElementById('chat').setAttribute("href", "/chat.html?user="+parameterUsername)
-}
-
 /**
  * Shows the message form if the user is logged in.
  */
@@ -46,6 +42,9 @@ function showMessageFormIfLoggedIn() {
           const messageForm = document.getElementById('message-form');
           messageForm.action = '/messages?recipient=' + parameterUsername;
           messageForm.classList.remove('hidden');
+          const chat = document.getElementById('chat');
+          chat.setAttribute("href", "/chat.html?user="+parameterUsername);
+          chat.classList.remove('hidden');
           if (loginStatus.username == parameterUsername){
             document.getElementById('about-me-form').classList.remove('hidden');
           }

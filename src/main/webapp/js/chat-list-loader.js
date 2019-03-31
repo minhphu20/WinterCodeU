@@ -20,6 +20,7 @@ function fetchChats() {
       });
 }
 
+/** Check that the user is logged in. If not, redirect to homepage. */
 function checkLoggedIn() {
   fetch('/login-status')
     .then((response) => {
