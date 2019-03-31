@@ -39,7 +39,7 @@ function buildMessageDiv(message) {
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = convertInput(message.text);
+  bodyDiv.appendChild(document.createTextNode(message.text));
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("message-div");
@@ -47,17 +47,6 @@ function buildMessageDiv(message) {
   messageDiv.appendChild(bodyDiv);
 
   return messageDiv;
-}
-
-/**
- * Converts user input with showdown markdown library.
- * @param {String} input
- * @return {Element}
- */
-function convertInput(input) {
-  let converter = new showdown.Converter(),
-  html = converter.makeHtml(input);
-  return html
 }
 
 /** Fetches data and populates the UI of the page. */
