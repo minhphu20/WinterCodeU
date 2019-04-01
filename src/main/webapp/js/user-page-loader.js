@@ -64,8 +64,8 @@ function fetchMessages() {
         } else {
           messagesContainer.innerHTML = '';
         }
-        messages.forEach((message) => {
-          const messageDiv = buildMessageDiv(message);
+        messages.forEach(async (message) => {
+          const messageDiv = await buildMessageDiv(message);
           messagesContainer.appendChild(messageDiv);
         });
       });
@@ -76,7 +76,7 @@ function fetchMessages() {
  * @param {Message} message
  * @return {Element}
  */
-function buildMessageDiv(message) {
+async function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
@@ -92,11 +92,56 @@ function buildMessageDiv(message) {
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
+  audio = await createAudioTag(message.text);
+  console.log(audio);
+  messageDiv.appendChild(audio);
 
   return messageDiv;
 }
 
-/**  Fetches about me data from user's input and adds it to the page. */
+/**
+  * Creates audio tag.
+  */
+async function createAudioTag(messageText) {
+  // if (messageText === "") {
+  //   console.log("empty messageText...")
+  //   return;
+  //   // Do nothing; consider showing a simple error to the user.
+  // }
+
+  // try {
+  //   let resp = await fetch("/a11y/tts", {
+  //     method: "POST",
+  //     body: messageText,
+  //     headers: {
+  //       "Content-Type": "text/plain"
+  //     },
+  //   })
+   
+  //   // let audio = await resp.blob();
+
+  //   var sound      = document.createElement('audio');
+  //   sound.controls = 'controls';
+  //   sound.src      = 'audio/output.mp3';
+  //   sound.type     = 'audio/mpeg';
+  //   console.log("got sound...")
+  //   return sound;    
+   
+  // } catch (err) {
+  //   console.log("error...")
+  //   throw new Error(`Unable to call the Text to Speech API: {err}`)
+  // }
+
+  var sound      = document.createElement('audio');
+  sound.controls = 'controls';
+  sound.src      = 'audio/output.mp3';
+  sound.type     = 'audio/mpeg';
+  return sound; 
+}
+
+/**
+  * Fetches about me data from user's input and adds it to the page. 
+  */
 function fetchAboutMe() {
   const url = '/about?user=' + parameterUsername;
   fetch(url)
@@ -132,4 +177,5 @@ function buildUI() {
   fetchAboutMe();
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config );
+  createAudioTag();
 }
