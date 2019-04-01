@@ -67,6 +67,19 @@ function buildMessageDiv(message) {
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
+  fetch('/login-status')
+    .then((response) => {
+      return response.json();
+    })
+    .then((loginStatus) => {
+      if (loginStatus.isLoggedIn) {
+        if (loginStatus.username === message.user){
+          messageDiv.classList.add('sender-message');
+        } else {
+          messageDiv.classList.add('recipient-message');
+        }
+      }
+    })
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
 
