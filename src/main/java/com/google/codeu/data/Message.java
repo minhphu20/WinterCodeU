@@ -47,6 +47,10 @@ public class Message {
     this.recipient = recipient;
   }
 
+  public void setText(String text) {
+    this.text = text;
+  }
+
   public UUID getId() {
     return id;
   }
