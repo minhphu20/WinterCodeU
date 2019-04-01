@@ -49,6 +49,23 @@ function showMessageFormIfViewingSelf() {
       });
 }
 
+/**
+ * Allow users to post messages on anybody's user page
+ */
+function showMessageFormIfLoggedIn() {
+  fetch('/login-status')
+      .then((response) => {
+        return response.json();
+      })
+      .then((loginStatus) => {
+        if (loginStatus.isLoggedIn) {
+          const messageForm = document.getElementById('message-form');
+          messageForm.action = '/messages?recipient=' + parameterUsername;
+          messageForm.classList.remove('hidden');
+        }
+      });
+}
+
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
@@ -115,6 +132,7 @@ function fetchAboutMe(){
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
 }
