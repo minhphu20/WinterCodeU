@@ -32,6 +32,9 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 
+import com.google.appengine.api.blobstore.BlobInfoFactory;
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -106,10 +109,16 @@ public class MessageServlet extends HttpServlet {
 
     if (blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
-      ImagesService imagesService = ImagesServiceFactory.getImagesService();
-      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      String imageUrl = imagesService.getServingUrl(options);
-      message.setImageUrl(imageUrl);
+      final BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
+      long size = blobInfo.getSize();
+      if(size > 0) {
+         ImagesService imagesService = ImagesServiceFactory.getImagesService();
+         ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+         String imageUrl = imagesService.getServingUrl(options);
+         message.setImageUrl(imageUrl);
+      } else {
+       blobstoreService.delete(blobKey);
+      }
     }
 
     datastore.storeMessage(message);
