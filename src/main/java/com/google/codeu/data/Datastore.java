@@ -83,7 +83,7 @@ public class Datastore {
                 new Query.FilterPredicate("user", FilterOperator.EQUAL, recipient),
                 new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true)
               )))))
-            .addSort("timestamp", SortDirection.DESCENDING);
+            .addSort("timestamp", SortDirection.ASCENDING);
     }
 
     PreparedQuery results = datastore.prepare(query);

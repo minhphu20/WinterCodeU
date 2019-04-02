@@ -54,12 +54,12 @@ function fetchMessages() {
  */
 function buildMessageDiv(message) {
   console.log(message);
-  const headerDiv = document.createElement('div');
+  const headerDiv = document.createElement('div');/* 
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
     message.user + ' - ' +
     new Date(message.timestamp) +
-    ' [' + message.sentimentScore + ']'));
+    ' [' + message.sentimentScore + ']')); */
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
@@ -80,7 +80,7 @@ function buildMessageDiv(message) {
         }
       }
     })
-  messageDiv.appendChild(headerDiv);
+  // messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
 
   return messageDiv;
@@ -102,6 +102,10 @@ function buildUI() {
   checkLoggedIn();
   setPageTitle();
   fetchMessages();
+  let box = document.getElementsByClassName('box')[0];
+  console.log(box.scrollHeight);
+  box.scrollTop = box.scrollHeight;
+  // box.scrollTo(0, box.scrollHeight);
   const messageForm = document.getElementById('message-form');
   messageForm.action = '/chat?recipient=' + parameterUsername;
   const config = {removePlugins: [ 'ImageUpload' ]};

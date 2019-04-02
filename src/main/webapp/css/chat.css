@@ -1,11 +1,4 @@
-/* Set the size of the message input to be 100 pixels high
-   and will fill the width of its parent element. */
-   #message-input {
-    height: 100px;
-    width: 100%;
-  }
-  
-  /* Restricting size of images */
+    /* Restricting size of images */
   .message-body img {
     display: block;
     margin-top: 25px;
@@ -59,4 +52,10 @@
   .hidden {
     display: none;
   }
-  
+
+  #message-form {
+    position: sticky;
+    background-color: white;
+    bottom: 0%;
+    width: 100%;
+  }
