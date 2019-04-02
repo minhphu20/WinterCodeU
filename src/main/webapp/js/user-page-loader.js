@@ -92,10 +92,8 @@ async function buildMessageDiv(message) {
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
-  audio = await createAudioTag(message.text);
-  console.log(audio);
-  messageDiv.appendChild(audio);
-
+//  audio = await createAudioTag(message.text);
+//  messageDiv.appendChild(audio);
   return messageDiv;
 }
 
@@ -169,6 +167,35 @@ function convertInput(input) {
   return html
 }
 
+async function sendAMessage(){
+   try {
+     let resp = await fetch("/a11y/tts", {
+       method: "POST",
+       body: "Hello you are pretty!",
+       headers: {
+         "Content-Type": "text/plain"
+       },
+     })
+
+     let audio = await resp.blob();
+
+     var objectURL = URL.createObjectURL(audio);
+     var sound      = document.createElement('audio');
+     sound.controls = 'controls';
+     sound.src      = objectURL;
+     sound.type     = 'audio/mpeg';
+
+     const messagesContainer = document.getElementById('audio-source');
+
+     messagesContainer.appendChild(sound);
+
+
+   } catch (err) {
+     console.log("error...")
+     throw new Error(`Unable to call the Text to Speech API: {err}`)
+   }
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
@@ -177,5 +204,5 @@ function buildUI() {
   fetchAboutMe();
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config );
-  createAudioTag();
+  sendAMessage();
 }
