@@ -57,7 +57,6 @@ function fetchMessages() {
         return response.json();
       })
       .then((messages) => {
-        console.log(messages);
         const messagesContainer = document.getElementById('message-container');
         if (messages.length == 0) {
           messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
@@ -92,8 +91,8 @@ async function buildMessageDiv(message) {
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
-//  audio = await createAudioTag(message.text);
-//  messageDiv.appendChild(audio);
+  audio = await createAudioTag(message.text);
+  messageDiv.appendChild(audio);
   return messageDiv;
 }
 
@@ -101,40 +100,34 @@ async function buildMessageDiv(message) {
   * Creates audio tag.
   */
 async function createAudioTag(messageText) {
-  // if (messageText === "") {
-  //   console.log("empty messageText...")
-  //   return;
-  //   // Do nothing; consider showing a simple error to the user.
-  // }
+   // Do nothing, can consider showing a simple error to the user.
+   if (messageText === "") {
+     return;
+   }
 
-  // try {
-  //   let resp = await fetch("/a11y/tts", {
-  //     method: "POST",
-  //     body: messageText,
-  //     headers: {
-  //       "Content-Type": "text/plain"
-  //     },
-  //   })
+   try {
+     let resp = await fetch("/a11y/tts", {
+       method: "POST",
+       body: messageText,
+       headers: {
+         "Content-Type": "text/plain"
+       },
+     })
    
-  //   // let audio = await resp.blob();
+     let audio = await resp.blob();
 
-  //   var sound      = document.createElement('audio');
-  //   sound.controls = 'controls';
-  //   sound.src      = 'audio/output.mp3';
-  //   sound.type     = 'audio/mpeg';
-  //   console.log("got sound...")
-  //   return sound;    
+     var objectURL = URL.createObjectURL(audio);
+
+     var sound      = document.createElement('audio');
+     sound.controls = 'controls';
+     sound.src      = objectURL;
+     sound.type     = 'audio/mpeg';
+
+     return sound;
    
-  // } catch (err) {
-  //   console.log("error...")
-  //   throw new Error(`Unable to call the Text to Speech API: {err}`)
-  // }
-
-  var sound      = document.createElement('audio');
-  sound.controls = 'controls';
-  sound.src      = 'audio/output.mp3';
-  sound.type     = 'audio/mpeg';
-  return sound; 
+   } catch (err) {
+     throw new Error(`Unable to call the Text to Speech API: {err}`)
+   }
 }
 
 /**
@@ -167,35 +160,6 @@ function convertInput(input) {
   return html
 }
 
-async function sendAMessage(){
-   try {
-     let resp = await fetch("/a11y/tts", {
-       method: "POST",
-       body: "Hello you are pretty!",
-       headers: {
-         "Content-Type": "text/plain"
-       },
-     })
-
-     let audio = await resp.blob();
-
-     var objectURL = URL.createObjectURL(audio);
-     var sound      = document.createElement('audio');
-     sound.controls = 'controls';
-     sound.src      = objectURL;
-     sound.type     = 'audio/mpeg';
-
-     const messagesContainer = document.getElementById('audio-source');
-
-     messagesContainer.appendChild(sound);
-
-
-   } catch (err) {
-     console.log("error...")
-     throw new Error(`Unable to call the Text to Speech API: {err}`)
-   }
-}
-
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
@@ -204,5 +168,4 @@ function buildUI() {
   fetchAboutMe();
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config );
-  sendAMessage();
 }
