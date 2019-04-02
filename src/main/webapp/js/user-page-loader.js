@@ -57,15 +57,14 @@ function fetchMessages() {
         return response.json();
       })
       .then((messages) => {
-        console.log(messages);
         const messagesContainer = document.getElementById('message-container');
         if (messages.length == 0) {
           messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
         } else {
           messagesContainer.innerHTML = '';
         }
-        messages.forEach((message) => {
-          const messageDiv = buildMessageDiv(message);
+        messages.forEach(async (message) => {
+          const messageDiv = await buildMessageDiv(message);
           messagesContainer.appendChild(messageDiv);
         });
       });
@@ -76,7 +75,7 @@ function fetchMessages() {
  * @param {Message} message
  * @return {Element}
  */
-function buildMessageDiv(message) {
+async function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
@@ -92,11 +91,48 @@ function buildMessageDiv(message) {
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
-
+  audio = await createAudioTag(message.text);
+  messageDiv.appendChild(audio);
   return messageDiv;
 }
 
-/**  Fetches about me data from user's input and adds it to the page. */
+/**
+  * Creates audio tag.
+  */
+async function createAudioTag(messageText) {
+   // Do nothing, can consider showing a simple error to the user.
+   if (messageText === "") {
+     return;
+   }
+
+   try {
+     let resp = await fetch("/a11y/tts", {
+       method: "POST",
+       body: messageText,
+       headers: {
+         "Content-Type": "text/plain"
+       },
+     })
+   
+     let audio = await resp.blob();
+
+     var objectURL = URL.createObjectURL(audio);
+
+     var sound      = document.createElement('audio');
+     sound.controls = 'controls';
+     sound.src      = objectURL;
+     sound.type     = 'audio/mpeg';
+
+     return sound;
+   
+   } catch (err) {
+     throw new Error(`Unable to call the Text to Speech API: {err}`)
+   }
+}
+
+/**
+  * Fetches about me data from user's input and adds it to the page. 
+  */
 function fetchAboutMe() {
   const url = '/about?user=' + parameterUsername;
   fetch(url)
