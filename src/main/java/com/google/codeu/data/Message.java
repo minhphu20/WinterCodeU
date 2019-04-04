@@ -28,19 +28,31 @@ public class Message {
   private String recipient;
   private float sentimentScore;
   private boolean isDirectMessage;
+  private String imageUrl;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content and {@code recipient}.
    * Generates a random ID and uses the current system time for the creation time.
    */
-  public Message(String user, String text, String recipient, float sentimentScore, boolean isDirectMessage) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, isDirectMessage);
+  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, boolean isDirectMessage) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl, isDirectMessage);
   }
 
   /**
    * Constructs a new {@link Message} posted by {@code id}, {@code user}, {@code text},
    * {@code timestamp} and {@code recipient}
    */
+  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, String imageUrl, boolean isDirectMessage) {
+    this.id = id;
+    this.user = user;
+    this.text = text;
+    this.timestamp = timestamp;
+    this.recipient = recipient;
+    this.sentimentScore = sentimentScore;
+    this.imageUrl = imageUrl;
+    this.isDirectMessage = isDirectMessage;
+  }
+  
   public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, boolean isDirectMessage) {
     this.id = id;
     this.user = user;
@@ -49,6 +61,10 @@ public class Message {
     this.recipient = recipient;
     this.sentimentScore = sentimentScore;
     this.isDirectMessage = isDirectMessage;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 
   public UUID getId() {
@@ -77,5 +93,8 @@ public class Message {
 
   public boolean getIsDirectMessage() {
     return isDirectMessage;
+  
+  public String getImageUrl() {
+    return imageUrl;
   }
 }

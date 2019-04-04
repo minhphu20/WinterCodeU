@@ -49,10 +49,10 @@ if (user == null || user.equals("")) {
         }
       %>
       <div id="about-me-container"><%= aboutMe %></div>
-      <% 
-      } 
+      <%
+      }
       %>
-
+      
       <div id="about-me-form">
         <form action="/about" method="POST">
           <textarea name="about-me" placeholder="Who are you?" rows=4 required></textarea>
@@ -63,8 +63,8 @@ if (user == null || user.equals("")) {
 
       </br>
 
-      <% 
-      if (isUserLoggedIn && user.equals((String) request.getAttribute("username"))) { 
+      <%
+      if (isUserLoggedIn && user.equals((String) request.getAttribute("username"))) {
       %>
         <form id="message-form" action=<%= "/messages?recipient=" + request.getAttribute("user") %> method="POST">
           Enter a new message:
@@ -74,13 +74,14 @@ if (user == null || user.equals("")) {
           <input type="submit" value="Submit" class="rounded">
         </form>
         <hr/>
-      <% 
-      } 
+      <%
+      }
       %>
 
       <div id="message-container">
         <%-- Display messages of user --%>
-        <% 
+        
+        <%
         String json = (String) request.getAttribute("messages");
         if (json != null) {
           Gson gson = new Gson();
@@ -96,13 +97,13 @@ if (user == null || user.equals("")) {
                 <p><%= message.getText() %></p>
               </div>
             </div>             
-        <% 
+        <%
           }
         } else {
         %>
           <p>This user has no posts yet.</p>
-        <% 
-        } 
+        <%
+        }
         %>
       </div>
 

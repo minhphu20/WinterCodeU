@@ -50,6 +50,10 @@ public class Datastore {
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
     messageEntity.setProperty("isDirectMessage", message.getIsDirectMessage());
 
+    if (message.getImageUrl() != null) {
+          messageEntity.setProperty("imageUrl", message.getImageUrl());
+    }
+
     datastore.put(messageEntity);
   }
 
@@ -95,12 +99,13 @@ public class Datastore {
         String user = (String) entity.getProperty("user");
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
+        String imageUrl = (String) entity.getProperty("imageUrl");
         float sentimentScore = entity.getProperty("sentimentScore") == null
                                   ? (float) 0.0
                                   : ((Double) entity.getProperty("sentimentScore")).floatValue();
         boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
         String recipientProperty = (String) entity.getProperty("recipient");
-        Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, isDirectMessage);
+        Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, imageUrl, isDirectMessage);
         messages.add(message);
       } catch(Exception e) {
         System.err.println("Error reading message.");
@@ -146,6 +151,7 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         String recipientProperty = (String) entity.getProperty("recipient");
+        String imageUrl = (String) entity.getProperty("imageUrl");
         float sentimentScore = entity.getProperty("sentimentScore") == null
                                 ? (float) 0.0
                                 : ((Double) entity.getProperty("sentimentScore")).floatValue();
@@ -157,7 +163,7 @@ public class Datastore {
           } else {
             users.add(user);
           }
-          Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, isDirectMessage);
+          Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, imageUrl, isDirectMessage);
           recentChats.add(message);
         }
       } catch(Exception e) {
@@ -261,7 +267,7 @@ public class Datastore {
     return user;
   }
 
-  public int getTotalMessageCount(){
+  public int getTotalMessageCount() {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
@@ -279,7 +285,7 @@ public class Datastore {
     for (Entity entity : results.asIterable()) {
       try {
         double lat = (double) entity.getProperty("lat");
-        double lng = (double) entity.getProperty("lng");    
+        double lng = (double) entity.getProperty("lng");
         String content = (String) entity.getProperty("content");
 
         UserMarker marker = new UserMarker(lat, lng, content);
