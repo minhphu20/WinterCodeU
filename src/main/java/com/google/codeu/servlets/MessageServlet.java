@@ -102,7 +102,6 @@ public class MessageServlet extends HttpServlet {
     float sentimentScore = this.getSentimentScore(userText);
     boolean isDirectMessage = false;
 
-
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, isDirectMessage);
 
     if (blobKeys != null && !blobKeys.isEmpty()) {

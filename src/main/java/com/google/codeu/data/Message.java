@@ -34,8 +34,8 @@ public class Message {
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content and {@code recipient}.
    * Generates a random ID and uses the current system time for the creation time.
    */
-  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, boolean isDirectMessage) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl, isDirectMessage);
+  public Message(String user, String text, String recipient, float sentimentScore, boolean isDirectMessage) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, isDirectMessage);
   }
 
   /**
@@ -93,6 +93,7 @@ public class Message {
 
   public boolean getIsDirectMessage() {
     return isDirectMessage;
+  }
   
   public String getImageUrl() {
     return imageUrl;

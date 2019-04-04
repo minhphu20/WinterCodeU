@@ -1,5 +1,11 @@
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.cloud.language.v1.Document;
@@ -9,8 +15,11 @@ import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
+
+import com.google.appengine.api.images.ImagesServiceFailureException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -63,6 +72,10 @@ public class ChatServlet extends HttpServlet {
       return;
     }
 
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.relaxed());
 
@@ -74,6 +87,20 @@ public class ChatServlet extends HttpServlet {
     boolean isDirectMessage = true;
 
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, isDirectMessage);
+
+    if (blobKeys != null && !blobKeys.isEmpty()) {
+      BlobKey blobKey = blobKeys.get(0);
+      ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      try {
+        String imageUrl = imagesService.getServingUrl(options);
+        message.setImageUrl(imageUrl);
+        System.out.println(imageUrl);
+      } catch (ImagesServiceFailureException unused) {
+
+      }
+    }
+    
     datastore.storeMessage(message);
 
     response.sendRedirect("/chat.html?user=" + recipient);
