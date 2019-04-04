@@ -63,7 +63,7 @@ public class Datastore {
     List<Message> messages = new ArrayList<>();
     Query query;
      
-    if (sender == ""){
+    if (sender == "") {
       query =
         new Query("Message")
             .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
