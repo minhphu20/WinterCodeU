@@ -25,12 +25,15 @@ limitations under the License.
     <link rel="icon" href="images/doge.jpg">
     <script src="/js/navigation-loader.js"></script>
     <style>
+        /* Title styling */
         h1 {
             font-family: 'Bradley Hand', cursive; 
             font-size: 50px;
             font-weight: bold;
             color: #eb68ce;
         }
+
+        /* User name styling */
         h2 {
             font-family: 'Blippo', fantasy; 
             font-size: 30px;
@@ -38,6 +41,8 @@ limitations under the License.
             color: #070707;
             margin: 30px;
         }
+
+        /* Profile image styling */
         .mainImage {
             border-radius: 8px;
             display: block;
@@ -45,11 +50,15 @@ limitations under the License.
             margin-right: auto;
             width: 100%;
         }
+
+        /* Button image styling */
         .buttonImage {
             width: 100%;
             margin-left: auto;
             margin-right: auto;
         }
+
+        /* Left button align left*/
         .alignleft {
             float: left;
             width: 10%;
@@ -59,6 +68,8 @@ limitations under the License.
             cursor:pointer;
             overflow: hidden;  
         }
+
+        /* Right button align right*/
         .alignright {
             float: right;
             width: 10%;
@@ -68,6 +79,8 @@ limitations under the License.
             cursor:pointer;
             overflow: hidden;  
         }
+
+        /* div for button */
         .buttonbox {
             clear: both;
             margin: 50px;
@@ -76,7 +89,7 @@ limitations under the License.
   </head>
   <body onload="buildUI();">
     <div class="box">
-      <h1>Pupawrazzi</h1>
+      <h1 id="username">Pupawrazzi</h1>
       <img id="lazyboi" src="images/profEample.jpg" class="mainImage"/>
       <h2>User Name</h2>
       <div class="buttonbox">
