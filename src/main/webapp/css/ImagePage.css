@@ -1,0 +1,47 @@
+h1 {
+    font-family: 'Bradley Hand', cursive; 
+    font-size: 50px;
+    font-weight: bold;
+    color: #eb68ce;
+}
+h2 {
+    font-family: 'Blippo', fantasy; 
+    font-size: 30px;
+    font-weight: bold;
+    color: #070707;
+    margin: 30px;
+}
+.mainImage {
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+.buttonImage {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.alignleft {
+    float: left;
+    width: 10%;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;  
+}
+.alignright {
+    float: right;
+    width: 10%;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;  
+}
+.buttonbox {
+    clear: both;
+    margin: 50px;
+}
