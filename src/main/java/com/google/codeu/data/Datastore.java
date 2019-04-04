@@ -70,7 +70,7 @@ public class Datastore {
               new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
               new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, false))))
             .addSort("timestamp", SortDirection.DESCENDING);
-    }else{
+    } else {
       query =
         new Query("Message")
             .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, Arrays.asList(
