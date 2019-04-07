@@ -183,6 +183,35 @@ public class Datastore {
     return user;
   }
 
+  /**
+   * Gets a list of all users.
+   */
+  public List<User> getAllUsers() {
+    System.out.println("Get all users running...");
+    // Get messages from the datastore
+    Query query = new Query("User");
+    query.addSort("email", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    // Construct the user lists from the query result
+    List<User> users = new ArrayList<>();
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String email = (String) entity.getProperty("email");
+        String aboutMe = (String) entity.getProperty("aboutMe");
+        System.out.println (aboutMe);
+        User user = new User(email, aboutMe);
+        users.add(user);
+      } catch (Exception e) {
+        System.err.println("Error reading user.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return users;
+  }
+
   public int getTotalMessageCount() {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
