@@ -28,6 +28,7 @@ public class Message {
   private String recipient;
   private float sentimentScore;
   private String imageUrl;
+  private String imageLabels;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content and {@code recipient}.
@@ -37,8 +38,8 @@ public class Message {
     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
   }
 
-  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl);
+  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, String imageLabels) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl, imageLabels);
   }
 
   /**
@@ -54,7 +55,7 @@ public class Message {
     this.sentimentScore = sentimentScore;
   }
 
-  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, String imageUrl) {
+  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, String imageUrl, String imageLabels) {
     this.id = id;
     this.user = user;
     this.text = text;
@@ -62,10 +63,15 @@ public class Message {
     this.recipient = recipient;
     this.sentimentScore = sentimentScore;
     this.imageUrl = imageUrl;
+    this.imageLabels = imageLabels;
   }
 
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
+  }
+
+  public void setImageLabels(String imageLabel) {
+    this.imageLabels = imageLabel;
   }
 
   public UUID getId() {
@@ -95,4 +101,9 @@ public class Message {
   public String getImageUrl() {
     return imageUrl;
   }
+
+  public String getImageLabels() {
+    return imageLabels;
+  }
+
 }
