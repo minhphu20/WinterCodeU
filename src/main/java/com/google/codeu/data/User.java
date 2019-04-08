@@ -36,7 +36,7 @@ public class User {
   }
 
   public void addLike(String user) {
-    System.out.println("Inside adding likes");
+    System.out.println("Inside adding likes..." + user);
     if (this.likes == null) {
       this.likes = new HashSet<String>();
     }
@@ -52,5 +52,4 @@ public class User {
   }
 
   //TODO: add check such as can't add a user into both likes and notLikes
-
 }

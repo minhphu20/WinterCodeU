@@ -60,8 +60,6 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String recipient) {
-    List<Message> messages = new ArrayList<>();
-
     Query query =
         new Query("Message")
             .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
@@ -69,28 +67,7 @@ public class Datastore {
 
     PreparedQuery results = datastore.prepare(query);
 
-    for(Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String user = (String) entity.getProperty("user");
-        String text = (String)entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-        String imageUrl = (String) entity.getProperty("imageUrl");
-        float sentimentScore = entity.getProperty("sentimentScore") == null
-                                  ? (float) 0.0
-                                  : ((Double) entity.getProperty("sentimentScore")).floatValue();
-
-        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, imageUrl);
-        messages.add(message);
-      } catch(Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    }
-
-    return messages;
+    return getMessagesFromQuery(results);
   }
 
   /**
@@ -111,7 +88,7 @@ public class Datastore {
 
     PreparedQuery results = datastore.prepare(query);
 
-    return getMessages(results);
+    return getMessagesFromQuery(results);
   }
 
   /**
@@ -129,7 +106,7 @@ public class Datastore {
    *
    * @return a list of messages inside PreparedQuery results.
    */
-  private List<Message> getMessages(PreparedQuery results) {
+  private List<Message> getMessagesFromQuery(PreparedQuery results) {
     List<Message> messages = new ArrayList<>();
 
     for (Entity entity : results.asIterable()) {
@@ -154,9 +131,15 @@ public class Datastore {
             e.printStackTrace();
          }
       }
+
     return messages;
   }
 
+  /**
+   * Gets total message count.
+   *
+   * @return the total number of messages posted by all users.
+   */
   public int getTotalMessageCount() {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
@@ -164,7 +147,7 @@ public class Datastore {
   }
 
   /**
-   * Get markers that user adds
+   * Get markers that user adds.
    */
   public List<UserMarker> getMarkers() {
     List<UserMarker> markers = new ArrayList<>();
@@ -190,7 +173,7 @@ public class Datastore {
   }
 
   /**
-   * Store markers to datastore
+   * Store markers to datastore.
    */
   public void storeMarker(UserMarker marker) {
     Entity markerEntity = new Entity("UserMarker");
@@ -200,7 +183,9 @@ public class Datastore {
     datastore.put(markerEntity);
   }
 
-  /** Stores the User in Datastore. */
+  /**
+   * Stores the User in datastore.
+   */
   public void storeUser(User user) {
     Entity userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("email", user.getEmail());
@@ -219,62 +204,58 @@ public class Datastore {
             .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
     PreparedQuery results = datastore.prepare(query);
     Entity userEntity = results.asSingleEntity();
-    if(userEntity == null) {
+    if (userEntity == null) {
       return null;
     }
-    String aboutMe = (String) userEntity.getProperty("aboutMe");
-    HashSet<String> likes = new HashSet<String>();
-    HashSet<String> notLikes = new HashSet<String>();
-    if (userEntity.getProperty("likes") != null) {
-//          System.out.print(entity.getProperty("likes").getClass());
-//          String like = entity.getProperty("likes").toString();
-//          System.out.println (email + " : " + aboutMe + " : " + like);
-      likes = new HashSet<String>((ArrayList<String>) userEntity.getProperty("likes"));
-    }
-    if (userEntity.getProperty("notLikes") != null) {
-      notLikes = new HashSet<String>((ArrayList<String>) userEntity.getProperty("notLikes"));
-    }
-    User user = new User(email, aboutMe, likes, notLikes);
-    return user;
+    return this.getUserFromEntity(userEntity);
   }
 
   /**
    * Gets a list of all users.
    */
   public List<User> getAllUsers() {
-    System.out.println("Get all users running...");
-    // Get messages from the datastore
     Query query = new Query("User");
     query.addSort("email", SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    // Construct the user lists from the query result
     List<User> users = new ArrayList<>();
 
     for (Entity entity : results.asIterable()) {
-      try {
-        String email = (String) entity.getProperty("email");
-        String aboutMe = (String) entity.getProperty("aboutMe");
-        System.out.println("User: " + email);
-        HashSet<String> likes = new HashSet<String>();
-        HashSet<String> notLikes = new HashSet<String>();
-        if (entity.getProperty("likes") != null) {
-//          System.out.print(entity.getProperty("likes").getClass());
-//          String like = entity.getProperty("likes").toString();
-//          System.out.println (email + " : " + aboutMe + " : " + like);
-          likes = new HashSet<String>((ArrayList<String>) entity.getProperty("likes"));
-        }
-        if (entity.getProperty("notLikes") != null) {
-          notLikes = new HashSet<String>((ArrayList<String>) entity.getProperty("notLikes"));
-        }
-        User user = new User(email, aboutMe, likes, notLikes);
+      User user = this.getUserFromEntity(entity);
+      if (user != null) {
         users.add(user);
-      } catch (Exception e) {
-        System.err.println("Error reading user.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
       }
     }
     return users;
   }
+
+  /**
+   * Gets the user inside the entity.
+   * @param entity
+   * @return User from the entity. In case of error, returns null.
+   */
+  private User getUserFromEntity(Entity entity) {
+    User user = null;
+    try {
+      String email = (String) entity.getProperty("email");
+      String aboutMe = (String) entity.getProperty("aboutMe");
+      System.out.println("User: " + email);
+      HashSet<String> likes = new HashSet<String>();
+      HashSet<String> notLikes = new HashSet<String>();
+      if (entity.getProperty("likes") != null) {
+        likes = new HashSet<String>((ArrayList<String>) entity.getProperty("likes"));
+      }
+      if (entity.getProperty("notLikes") != null) {
+        notLikes = new HashSet<String>((ArrayList<String>) entity.getProperty("notLikes"));
+      }
+      user = new User(email, aboutMe, likes, notLikes);
+    } catch (Exception e) {
+      System.err.println("Error reading user.");
+      System.err.println(entity.toString());
+      e.printStackTrace();
+    }
+    return user;
+  }
 }
+
+

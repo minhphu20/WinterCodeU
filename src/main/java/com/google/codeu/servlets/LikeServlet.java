@@ -73,30 +73,25 @@ public class LikeServlet extends HttpServlet {
     // The user must log in to swipe
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
+      System.out.println("User is not logged in!");
       response.sendRedirect("/index.html");
       return;
     }
-    // Get who the user like
-    String targetEmail = "haha";//request.getParameter("email");
+    // Get who the user likes
+    String targetEmail = request.getParameter("email");
     // Get the current user and add the target user
     if (userService.getCurrentUser() != null) {
       System.out.println("Current user is not null");
     }
-
     String userEmail = userService.getCurrentUser().getEmail();
-    System.out.println("Email of current: " + userEmail);
-    // TODO: sometimes the current user is not stored in the datastore!
+    // Note: sometimes the current user is not stored in the datastore!
     User user = datastore.getUser(userEmail);
     if (user == null) {
-      System.out.println("user is null");
+      System.out.println("Add the current user to datastore...");
       user = new User(userEmail, null, new HashSet<String>(), new HashSet<String>());
     }
-    System.out.println("User is: " + user.toString());
-    // The user must be not null!
     user.addLike(targetEmail);
-    System.out.println("done adding like");
     datastore.storeUser(user);
-    System.out.println("done storing user");
     // after store like, should do check to see if the other person also like
     // if the other person also like, then allow chat
     // if not, display the next user

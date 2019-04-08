@@ -94,7 +94,8 @@ limitations under the License.
       function postLike() {
         console.log("liking...");
         let targetEmail = "Hannah.com";
-        fetch("/like", { method: "POST" });
+        fetch("/like?email=" + targetEmail, { method: "POST" })
+           .then((response) => {return response.text();});
       }
     </script>
   </head>
