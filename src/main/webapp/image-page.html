@@ -90,14 +90,30 @@ limitations under the License.
             margin: 50px;
         }
     </style>
+    <script>
+      function postLike() {
+        console.log("liking...");
+        let targetEmail = "Hannah.com";
+        fetch("/like", { method: "POST" });
+      }
+    </script>
   </head>
-  <body onload="buildUI();">
+  <body>
     <div class="box">
+      <nav>
+        <ul id="navigation">
+          <li><a href="/">Home</a></li>
+          <li><a href="/stats.html">Stats</a></li>
+          <li><a href="/map.html">Map</a></li>
+          <li><a href="/feed.html">Feed</a></li>
+          <li><a href="/chart.html">Chart</a></li>
+        </ul>
+      </nav>
       <h1 id="username">Pupawrazzi</h1>
       <img id="lazyboi" src="images/profEample.jpg" class="mainImage"/>
       <h2>User Name</h2>
       <div class="buttonbox">
-        <button type="submit" class="alignleft">
+        <button type="submit" class="alignleft" onclick="postLike();">
             <img src="images/like.png" class="buttonImage"/>
         </button>
         <button type="submit" class="alignright">

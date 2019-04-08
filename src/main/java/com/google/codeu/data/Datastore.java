@@ -222,10 +222,18 @@ public class Datastore {
     if(userEntity == null) {
       return null;
     }
-
     String aboutMe = (String) userEntity.getProperty("aboutMe");
-    HashSet<String> likes = (HashSet<String>) userEntity.getProperty("likes");
-    HashSet<String> notLikes = (HashSet<String>) userEntity.getProperty("notLikes");
+    HashSet<String> likes = new HashSet<String>();
+    HashSet<String> notLikes = new HashSet<String>();
+    if (userEntity.getProperty("likes") != null) {
+//          System.out.print(entity.getProperty("likes").getClass());
+//          String like = entity.getProperty("likes").toString();
+//          System.out.println (email + " : " + aboutMe + " : " + like);
+      likes = new HashSet<String>((ArrayList<String>) userEntity.getProperty("likes"));
+    }
+    if (userEntity.getProperty("notLikes") != null) {
+      notLikes = new HashSet<String>((ArrayList<String>) userEntity.getProperty("notLikes"));
+    }
     User user = new User(email, aboutMe, likes, notLikes);
     return user;
   }

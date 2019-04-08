@@ -36,11 +36,18 @@ public class User {
   }
 
   public void addLike(String user) {
-    System.out.println("Liking..." + user);
+    System.out.println("Inside adding likes");
+    if (this.likes == null) {
+      this.likes = new HashSet<String>();
+    }
     this.likes.add(user);
+    System.out.println("Finish inside adding likes");
   }
 
   public void addNotLike(String user) {
+    if (this.notLikes == null) {
+      this.notLikes = new HashSet<String>();
+    }
     this.notLikes.add(user);
   }
 
