@@ -17,6 +17,7 @@ import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import com.google.appengine.api.images.ImagesServiceFailureException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletContext;
@@ -56,7 +57,12 @@ public class LikeServlet extends HttpServlet {
     ServletContext context = getServletContext( );
     context.log(user.getAboutMe());
 
+    User a_new = new User("aladin.com", "I am Jasmine's fan", new HashSet<String>(), new HashSet<String>());
+    a_new.addLike("rihana"); //TODO: check that can only add like of a real user
+    datastore.storeUser(a_new);
+
     List<User> users = datastore.getAllUsers();
     context.log("Size of list: " + Integer.toString(users.size()));
+    context.log("Likes of first users: " + users.get(2).getLikes());
   }
 }
