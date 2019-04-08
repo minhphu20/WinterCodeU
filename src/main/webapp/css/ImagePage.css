@@ -1,9 +1,16 @@
+/* Title styling */
 h1 {
-    font-family: 'Bradley Hand', cursive; 
+    font-family: 'Playfair Display', serif; 
     font-size: 50px;
-    font-weight: bold;
-    color: #eb68ce;
+    color: #20b2aa;
+    text-shadow:
+    -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
+
+/* User name styling */
 h2 {
     font-family: 'Blippo', fantasy; 
     font-size: 30px;
@@ -11,6 +18,8 @@ h2 {
     color: #070707;
     margin: 30px;
 }
+
+/* Profile image styling */
 .mainImage {
     border-radius: 8px;
     display: block;
@@ -18,29 +27,37 @@ h2 {
     margin-right: auto;
     width: 100%;
 }
+
+/* Button image styling */
 .buttonImage {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
+
+/* Left button align left*/
 .alignleft {
     float: left;
-    width: 10%;
+    width: 15%;
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
     cursor:pointer;
-    overflow: hidden;  
+    overflow: hidden; 
 }
+
+/* Right button align right*/
 .alignright {
     float: right;
-    width: 10%;
+    width: 15%;
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
     cursor:pointer;
     overflow: hidden;  
 }
+
+/* div for button */
 .buttonbox {
     clear: both;
     margin: 50px;
