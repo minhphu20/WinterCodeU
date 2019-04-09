@@ -1,23 +1,6 @@
-<!--
-Copyright 2019 Google Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
 <!DOCTYPE html>
 <html>
   <head>
-    <title>User Page</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
@@ -28,7 +11,7 @@ limitations under the License.
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
-  <body onload="buildUI();addNavigation();"> 
+  <body onload="addNavigation();"> 
     <div class="box">
       <nav>
         <ul id="navigation">
@@ -46,7 +29,7 @@ limitations under the License.
         </form>
       </div>
 
-      <form id="message-form" action="/messages" method="POST" class="hidden" enctype="multipart/form-data">
+      <form id="profile-form" action="/profile" method="POST" class="hidden" enctype="multipart/form-data">
         Enter a new message:
         <br/>
         <textarea name="text" id="message-input"></textarea>
@@ -56,10 +39,6 @@ limitations under the License.
         <input type="hidden" value="" name="recipient" id="recipientInput">
         <input type="submit" value="Submit" class="rounded">
       </form>
-      <hr/>
-
-      <div id="message-container">Loading...</div>
-
     </div>
   </body>
 </html>
