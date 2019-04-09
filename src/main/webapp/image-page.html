@@ -91,15 +91,27 @@ limitations under the License.
         }
     </style>
     <script>
+
+      function setUserTitle() {
+         const urlParams = new URLSearchParams(window.location.search);
+         const parameterUsername = urlParams.get('user');
+
+         // URL must include ?user=XYZ parameter. If not, redirect to homepage.
+         if (!parameterUsername) {
+           window.location.replace('/');
+         }
+         document.getElementById('username').innerText = parameterUsername;
+      }
+
       function postLike() {
         console.log("liking...");
-        let targetEmail = "Hannah.com";
+        let targetEmail = document.getElementById('username').innerHTML;
         fetch("/like?email=" + targetEmail, { method: "POST" })
            .then((response) => {return response.text();});
       }
     </script>
   </head>
-  <body>
+  <body onload="setUserTitle();">
     <div class="box">
       <nav>
         <ul id="navigation">

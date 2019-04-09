@@ -256,6 +256,39 @@ public class Datastore {
     }
     return user;
   }
+
+  /**
+   * Checks if userA is liked by userB.
+   */
+  public Boolean isLiked(User userA, User userB) {
+    String userAEmail = userA.getEmail();
+    System.out.println(userAEmail);
+    System.out.println(userB);
+    HashSet<String> likedByB = userB.getLikes();
+    System.out.println("gettting liked by B done");
+    if (likedByB == null) {
+      return false;
+    }
+    System.out.println("Done checking is liked.");
+    return likedByB.contains(userAEmail);
+  }
+
+  /**
+   * Returns a list of users who have not been liked or not liked by user.
+   */
+  public HashSet<User> notSeenBy(User user){
+    List<User> allUsers = this.getAllUsers();
+    HashSet<String> liked = user.getLikes();
+    HashSet<String> notLiked = user.getLikes();
+    HashSet<User> notSeen = new HashSet<User>();
+    for (User target : allUsers) {
+      if (user.getEmail() != target.getEmail() && !liked.contains(target.getEmail()) && !notLiked.contains(target.getEmail())) {
+        notSeen.add(target);
+      }
+    }
+    return notSeen;
+  }
+
 }
 
 
