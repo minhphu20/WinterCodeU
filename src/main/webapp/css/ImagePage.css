@@ -40,9 +40,8 @@ h2 {
     float: left;
     width: 15%;
     background-color: Transparent;
-    background-repeat:no-repeat;
     border: none;
-    cursor:pointer;
+    cursor: pointer;
     overflow: hidden; 
 }
 
@@ -51,9 +50,8 @@ h2 {
     float: right;
     width: 15%;
     background-color: Transparent;
-    background-repeat:no-repeat;
     border: none;
-    cursor:pointer;
+    cursor: pointer;
     overflow: hidden;  
 }
 
