@@ -19,7 +19,7 @@ import org.jsoup.safety.Whitelist;
 /**
  * Handles fetching and saving user data.
  */
-@WebServlet("/user-profile")
+@WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
 
   private Datastore datastore;
@@ -68,16 +68,16 @@ public class ProfileServlet extends HttpServlet {
     }
   
     String userEmail = userService.getCurrentUser().getEmail();
-    String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.relaxed());
+    /* String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.relaxed());
     String name = Jsoup.clean(request.getParameter("name"), Whitelist.relaxed());
     String breed = Jsoup.clean(request.getParameter("breed"), Whitelist.relaxed());
     String gender = Jsoup.clean(request.getParameter("gender"), Whitelist.relaxed());
     String birthday = Jsoup.clean(request.getParameter("birthday"), Whitelist.relaxed());
-    String weight = Jsoup.clean(request.getParameter("weight"), Whitelist.relaxed());
-
-    User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight);
+    String weight = Jsoup.clean(request.getParameter("weight"), Whitelist.relaxed()); */
+    User user = new User(userEmail, "aboutMe", "name", "breed", "gender", "birthday", "weight");
+    //User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight);
     datastore.storeUser(user);
   
-    response.sendRedirect("/user-profile");
+    response.sendRedirect("/user-profile.html");
   }
 }
