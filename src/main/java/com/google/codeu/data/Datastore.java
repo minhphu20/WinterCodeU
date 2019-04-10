@@ -245,6 +245,11 @@ public class Datastore {
     Entity userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
+    userEntity.setProperty("name", user.getName());
+    userEntity.setProperty("breed", user.getBreed());
+    userEntity.setProperty("gender", user.getGender());
+    userEntity.setProperty("birthday", user.getBirthday());
+    userEntity.setProperty("weight", user.getWeight());
     datastore.put(userEntity);
   }
 
@@ -262,7 +267,12 @@ public class Datastore {
     }
 
     String aboutMe = (String) userEntity.getProperty("aboutMe");
-    User user = new User(email, aboutMe);
+    String name = (String) userEntity.getProperty("name");
+    String breed = (String) userEntity.getProperty("breed");
+    String gender = (String) userEntity.getProperty("gender");
+    String birthday = (String) userEntity.getProperty("birthday");
+    String weight = (String) userEntity.getProperty("weight");
+    User user = new User(email, aboutMe, name, breed, gender, birthday, weight);
 
     return user;
   }
