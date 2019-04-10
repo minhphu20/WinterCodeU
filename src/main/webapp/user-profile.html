@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/user-page.css">
+    <link rel="stylesheet" href="/css/user-profile.css">
     <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy|Heebo" rel="stylesheet">
     <link rel="icon" href="images/doge.jpg">
-    <script src="/js/user-page-loader.js"></script>
     <script src="/js/navigation-loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
@@ -17,11 +16,9 @@
         <ul id="navigation">
         </ul>
       </nav>
-      <h1 id="page-title" class="shadow">User Page</h1>
-      <a href="#" id="chat" class="hidden">Chat!</a>
+      <h1 id="page-title" class="shadow">Your Profile</h1>
 
-      <div id="about-me-container">Loading...</div>
-      <div id="about-me-form" class="hidden">
+      <div id="about-me-form">
         <form action="/about" method="POST">
           <textarea name="about-me" placeholder="who u" rows=4 required></textarea>
           <br/>
@@ -29,7 +26,23 @@
         </form>
       </div>
 
-      <form id="profile-form" action="/profile" method="POST" class="hidden" enctype="multipart/form-data">
+      <form id="profile-form" action="/profile" method="POST" enctype="multipart/form-data">
+        Name
+        <br />
+        <input type="text" name="name" placeholder="Dog's name">
+        <br />
+        Breed
+        <br />
+        <input type="text" name="breed" placeholder="Dog's breed">
+        <br />
+        City
+        <br />
+        <input type="text" name="city" placeholder="City">
+        <br /> 
+        Birthday
+        <br />
+        <input type="text" name="birthday" placeholder="MM/DD/YYYY">
+        <br />
         Enter a new message:
         <br/>
         <textarea name="text" id="message-input"></textarea>

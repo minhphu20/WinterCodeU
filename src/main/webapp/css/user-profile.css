@@ -1,0 +1,13 @@
+#user-profile-link {
+  color: #20b2aa;
+}
+
+#home-link {
+  color: #2d4ebd;
+}
+
+.rounded {
+  border: thin solid black;
+  border-radius: 5px;
+  overflow: hidden;
+}
