@@ -1,25 +1,25 @@
 package com.google.codeu.servlets;
 
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.cloud.language.v1.Document;
-import com.google.cloud.language.v1.Document.Type;
-import com.google.cloud.language.v1.LanguageServiceClient;
-import com.google.cloud.language.v1.Sentiment;
-import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Message;
-import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Datastore;
+import com.google.codeu.data.User;
+import com.google.gson.Gson;
+
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
-/** Handles fetching and saving {@link Message} instances. */
-@WebServlet("/profile-page")
+/**
+ * Handles fetching and saving user data.
+ */
+@WebServlet("/user-profile")
 public class ProfileServlet extends HttpServlet {
 
   private Datastore datastore;
@@ -28,43 +28,52 @@ public class ProfileServlet extends HttpServlet {
   public void init() {
     datastore = new Datastore();
   }
-
-  /**
-   * Responds with a JSON representation of {@link Message} data for a specific user. Responds with
-   * an empty array if the user is not provided.
-   */
+ 
+ /**
+  * Responds with a JSON representation of {@link User} data for a specific user. Responds with
+  * an empty array if the user is not provided.
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+  
     UserService userService = UserServiceFactory.getUserService();
     String user = userService.getCurrentUser().getEmail();
 
     response.setContentType("application/json");
-
+  
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
       response.getWriter().println("[]");
       return;
     }
-    List<Message> recentChats = datastore.getRecentPrivateMessages(user);
     
+    User userData = datastore.getUser(user);
+  
+    if (userData == null) {
+      return;
+    }
+
     Gson gson = new Gson();
-    String json = gson.toJson(recentChats);
+    String json = gson.toJson(userData);
     response.getWriter().println(json);
   }
-
-  /** Stores a new {@link Message}. */
+ 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    UserService userService = UserServiceFactory.getUserService();
+    UserService userService = UserServiceFactory.getUserService();  
     if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
       return;
     }
+  
+    String userEmail = userService.getCurrentUser().getEmail();
+    String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.relaxed());
 
-    
+    User user = new User(userEmail, aboutMe);
+    datastore.storeUser(user);
+  
+    // response.sendRedirect("/user/" + userEmail);
+    response.sendRedirect("/user-page.html?user=" + userEmail);
   }
 }
-
-
