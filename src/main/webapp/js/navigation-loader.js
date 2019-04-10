@@ -15,28 +15,47 @@
  */
 
 /**
- * Adds a login or logout link to the page, depending on whether the user is
+ * Adds all links to the page, with some links depending on whether the user is
  * already logged in.
  */
-function addLoginOrLogoutLinkToNavigation() {
+function addNavigation() {
   const navigationElement = document.getElementById('navigation');
   if (!navigationElement) {
     console.warn('Navigation element not found!');
     return;
   }
 
+  navigationElement.appendChild(
+    createListItem(createLink('/', 'Home')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/stats.html', 'Stats')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/map.html', 'Map')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/feed.html', 'Feed')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/chart.html', 'Chart')));
+  
   fetch('/login-status')
       .then((response) => {
         return response.json();
       })
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
-          navigationElement.appendChild(createListItem(createLink(
-              '/user-page.html?user=' + loginStatus.username, 'Your Page')));
-          // navigationElement.appendChild(createListItem(createLink(
-          //     '/user/' + loginStatus.username, 'Your Page')));
+
+          navigationElement.appendChild(
+            createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Your Page')));
+              
+          navigationElement.appendChild(
+            createListItem(createLink('/chat-list.html', 'Your Chats')));
+
           navigationElement.appendChild(
               createListItem(createLink('/logout', 'Logout')));
+
         } else {
           navigationElement.appendChild(
               createListItem(createLink('/login', 'Login')));

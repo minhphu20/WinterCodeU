@@ -6,7 +6,7 @@ public class User {
   private String aboutMe;
 
   public User(String email, String aboutMe) {
-    this.email = email;
+    this.email = email.trim();
     this.aboutMe = aboutMe;
   }
 

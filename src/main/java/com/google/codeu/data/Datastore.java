@@ -16,6 +16,8 @@
 
 package com.google.codeu.data;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -24,7 +26,9 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,6 +48,7 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("recipient", message.getRecipient());
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
+    messageEntity.setProperty("isDirectMessage", message.getIsDirectMessage());
 
     if (message.getImageUrl() != null) {
           messageEntity.setProperty("imageUrl", message.getImageUrl());
@@ -58,13 +63,32 @@ public class Datastore {
    * @return a list of messages posted by the user, or empty list if user has never posted a
    *     message. List is sorted by time descending.
    */
-  public List<Message> getMessages(String recipient) {
+  public List<Message> getMessages(String recipient, String sender) {
     List<Message> messages = new ArrayList<>();
-
-    Query query =
+    Query query;
+     
+    if (sender == "") {
+      query =
         new Query("Message")
-            .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
+            .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+              new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
+              new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, false))))
             .addSort("timestamp", SortDirection.DESCENDING);
+    } else {
+      query =
+        new Query("Message")
+            .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, Arrays.asList(
+              new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+                new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
+                new Query.FilterPredicate("user", FilterOperator.EQUAL, sender),
+                new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true))),
+              new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+                new Query.FilterPredicate("recipient", FilterOperator.EQUAL, sender),
+                new Query.FilterPredicate("user", FilterOperator.EQUAL, recipient),
+                new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true)
+              )))))
+            .addSort("timestamp", SortDirection.ASCENDING);
+    }
 
     PreparedQuery results = datastore.prepare(query);
 
@@ -73,14 +97,15 @@ public class Datastore {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
         String user = (String) entity.getProperty("user");
-        String text = (String)entity.getProperty("text");
+        String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         String imageUrl = (String) entity.getProperty("imageUrl");
         float sentimentScore = entity.getProperty("sentimentScore") == null
                                   ? (float) 0.0
                                   : ((Double) entity.getProperty("sentimentScore")).floatValue();
-
-        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, imageUrl);
+        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
+        String recipientProperty = (String) entity.getProperty("recipient");
+        Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, imageUrl, isDirectMessage);
         messages.add(message);
       } catch(Exception e) {
         System.err.println("Error reading message.");
@@ -90,6 +115,65 @@ public class Datastore {
     }
 
     return messages;
+  }
+
+  /**
+   * Gets the most recent private messages that the user recieved from or had sent to another user.
+   *
+   * @return a list of private messages, or empty list if user has never recieved or sent a private
+   *     message. List is sorted by time descending.
+   */
+  public List<Message> getRecentPrivateMessages(String recipient) {
+    List<Message> recentChats = new ArrayList<>();
+    
+    Query query = 
+      new Query("Message")
+        .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, Arrays.asList(
+          new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+            new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient),
+            new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true))),
+          new Query.CompositeFilter(Query.CompositeFilterOperator.AND, Arrays.asList(
+            new Query.FilterPredicate("user", FilterOperator.EQUAL, recipient),
+            new Query.FilterPredicate("isDirectMessage", FilterOperator.EQUAL, true)
+          )))))
+        .addSort("timestamp", SortDirection.DESCENDING);
+    
+    PreparedQuery results = datastore.prepare(query);
+    List<String> users = new ArrayList<>();
+    UserService userService = UserServiceFactory.getUserService();
+    String loggedInUser = userService.getCurrentUser().getEmail();
+    
+    for(Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+        String recipientProperty = (String) entity.getProperty("recipient");
+        String imageUrl = (String) entity.getProperty("imageUrl");
+        float sentimentScore = entity.getProperty("sentimentScore") == null
+                                ? (float) 0.0
+                                : ((Double) entity.getProperty("sentimentScore")).floatValue();
+        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
+        if (!loggedInUser.equals(recipientProperty) && !users.contains(recipientProperty) || loggedInUser.equals(recipientProperty) && !users.contains(user)) {
+          if ((loggedInUser.equals(user) && loggedInUser.equals(recipientProperty)) || loggedInUser.equals(user)) {
+            users.add(recipientProperty);
+            text = "You: " + text;
+          } else {
+            users.add(user);
+          }
+          Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, imageUrl, isDirectMessage);
+          recentChats.add(message);
+        }
+      } catch(Exception e) {
+        System.err.println("Error getting private messages.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    
+    return recentChats;
   }
 
   /**
@@ -144,9 +228,9 @@ public class Datastore {
                 ? (float) 0.0
                 : ((Double) entity.getProperty("sentimentScore")).floatValue();
 
-            // Added recipient argument
-            Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
-            messages.add(message);
+        boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
+        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, isDirectMessage);
+        messages.add(message);
          } catch (Exception e) {
             System.err.println("Error reading message.");
             System.err.println(entity.toString());

@@ -1,0 +1,61 @@
+    /* Restricting size of images */
+  .message-body img {
+    display: block;
+    margin-top: 25px;
+    max-width: 75%;
+  }
+  
+  /* Give each message a rounded border. */
+  .message-div {
+    border: thin solid black;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+
+  .sender-message {
+    margin-left: 60%;
+  }
+
+  .recipient-message {
+    margin-right: 60%;
+  }
+  
+  input[type=submit] {
+    background-color: #f5be6c;
+    color: rgb(61, 43, 43);
+    height: 5%;
+    width: 10%;
+    font-size: 12pt;
+  }
+  
+  /* Add a bottom border to the message header. */
+  .message-header {
+    border-bottom: thin solid black;
+    background-color: #b5cbf3;
+    padding: 5px;
+  }
+  
+  .rounded {
+    border: thin solid black;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  /* Give the message body a margin so the text
+     isn't too close to the border. */
+  .message-body {
+    margin: 5px;
+  }
+  
+  /* Use this to hide certain elements like forms if the
+     user is not logged in or viewing their own page. */
+  .hidden {
+    display: none;
+  }
+
+  #message-form {
+    position: sticky;
+    background-color: white;
+    bottom: 0%;
+    width: 100%;
+  }
