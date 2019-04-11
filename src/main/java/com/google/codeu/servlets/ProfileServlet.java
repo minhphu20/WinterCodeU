@@ -2,12 +2,21 @@ package com.google.codeu.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ImagesServiceFailureException;
+import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
@@ -79,7 +88,25 @@ public class ProfileServlet extends HttpServlet {
     address.add(request.getParameter("city"));
     address.add(request.getParameter("state"));
     address.add(request.getParameter("zip"));
-    User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight, address);
+
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+    String imageUrl = request.getParameter("image");
+
+    if (blobKeys != null && !blobKeys.isEmpty()) {
+      BlobKey blobKey = blobKeys.get(0);
+      ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      try {
+        imageUrl = imagesService.getServingUrl(options);
+        System.out.println(imageUrl);
+      } catch (ImagesServiceFailureException unused) {
+
+      }
+    }
+
+    User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight, address, imageUrl);
     datastore.storeUser(user);
   
     response.sendRedirect("/user-profile.html");

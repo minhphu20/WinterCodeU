@@ -250,6 +250,7 @@ public class Datastore {
     userEntity.setProperty("gender", user.getGender());
     userEntity.setProperty("birthday", user.getBirthday());
     userEntity.setProperty("weight", user.getWeight());
+    userEntity.setProperty("imgUrl", user.getImgUrl());
     userEntity.setProperty("city", user.getAddress().get(0));
     userEntity.setProperty("state", user.getAddress().get(1));
     userEntity.setProperty("zip", user.getAddress().get(2));
@@ -275,11 +276,12 @@ public class Datastore {
     String gender = (String) userEntity.getProperty("gender");
     String birthday = (String) userEntity.getProperty("birthday");
     String weight = (String) userEntity.getProperty("weight");
+    String imgUrl = (String) userEntity.getProperty("imgUrl");
     ArrayList<String> address = new ArrayList<String>();
     address.add((String) userEntity.getProperty("city"));
     address.add((String) userEntity.getProperty("state"));
     address.add((String) userEntity.getProperty("zip"));
-    User user = new User(email, aboutMe, name, breed, gender, birthday, weight, address);
+    User user = new User(email, aboutMe, name, breed, gender, birthday, weight, address, imgUrl);
 
     return user;
   }

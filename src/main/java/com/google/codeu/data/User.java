@@ -12,8 +12,9 @@ public class User {
   private String aboutMe;
   private ArrayList<String> address;
   private String weight;
+  private String imgUrl;
 
-  public User(String email, String aboutMe, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address) {
+  public User(String email, String aboutMe, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl) {
     this.email = email.trim();
     this.aboutMe = aboutMe;
     this.name = name;
@@ -22,6 +23,7 @@ public class User {
     this.birthday = birthday;
     this.weight = weight;
     this.address = address;
+    this.imgUrl = imgUrl;
   }
 
   public String getEmail() {
@@ -54,5 +56,9 @@ public class User {
 
   public ArrayList<String> getAddress() {
     return address;
+  }
+
+  public String getImgUrl() {
+    return imgUrl;
   }
 }
