@@ -1,6 +1,7 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -74,8 +75,11 @@ public class ProfileServlet extends HttpServlet {
     String gender = Jsoup.clean(request.getParameter("gender"), Whitelist.relaxed());
     String birthday = Jsoup.clean(request.getParameter("birthday"), Whitelist.relaxed());
     String weight = Jsoup.clean(request.getParameter("weight"), Whitelist.relaxed());
-    
-    User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight);
+    ArrayList<String> address = new ArrayList<String>();
+    address.add(request.getParameter("city"));
+    address.add(request.getParameter("state"));
+    address.add(request.getParameter("zip"));
+    User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight, address);
     datastore.storeUser(user);
   
     response.sendRedirect("/user-profile.html");

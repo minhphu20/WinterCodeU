@@ -1,5 +1,7 @@
 package com.google.codeu.data;
 
+import java.util.ArrayList;
+
 public class User {
 
   private String email;
@@ -8,9 +10,10 @@ public class User {
   private String gender;
   private String birthday;
   private String aboutMe;
+  private ArrayList<String> address;
   private String weight;
 
-  public User(String email, String aboutMe, String name, String breed, String gender, String birthday, String weight) {
+  public User(String email, String aboutMe, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address) {
     this.email = email.trim();
     this.aboutMe = aboutMe;
     this.name = name;
@@ -18,6 +21,7 @@ public class User {
     this.gender = gender;
     this.birthday = birthday;
     this.weight = weight;
+    this.address = address;
   }
 
   public String getEmail() {
@@ -46,5 +50,9 @@ public class User {
 
   public String getWeight() {
     return weight;
+  }
+
+  public ArrayList<String> getAddress() {
+    return address;
   }
 }

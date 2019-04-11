@@ -6,12 +6,15 @@ function fetchProfile() {
         return response.json();
       })
       .then((user) => {
-        const profileForm = document.getElementById('profile-form');
-        /* if (user.length == 0) {
-          chatContainer.innerHTML = '<p>This user has no ongoing chats yet.</p>';
-        } else {
-          chatContainer.innerHTML = '';
-        } */
+        document.getElementById('name').value = user.name;
+        document.getElementById('breed').value = user.breed;
+        document.getElementById('bday').value = user.birthday;
+        document.getElementById('city').value = user.address[0];
+        document.getElementById('state').value = user.address[1];
+        document.getElementById('zip').value = user.address[2];
+        document.getElementById('weight').value = user.weight;
+        document.getElementById('about-me').value = user.aboutMe;
+        document.getElementById('gender').value = user.gender;
         console.log(user);
       });
 }

@@ -11,3 +11,27 @@
   border-radius: 5px;
   overflow: hidden;
 }
+
+#profile-img {
+  width: 50%;
+  height: auto;
+}
+
+#col-1 {
+  float: left;
+  width: 30%;
+  height: 30%;
+}
+
+#col-2 {
+  float: left;
+}
+
+#col-3 {
+  margin-left: 7%; 
+  float: left;
+}
+
+input {
+  margin: 3%;
+}
