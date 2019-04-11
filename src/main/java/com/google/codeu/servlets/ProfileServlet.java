@@ -74,7 +74,7 @@ public class ProfileServlet extends HttpServlet {
     String gender = Jsoup.clean(request.getParameter("gender"), Whitelist.relaxed());
     String birthday = Jsoup.clean(request.getParameter("birthday"), Whitelist.relaxed());
     String weight = Jsoup.clean(request.getParameter("weight"), Whitelist.relaxed());
-    //User user = new User(userEmail, "aboutMe", name, "breed", "gender", "birthday", "weight");
+    
     User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight);
     datastore.storeUser(user);
   
