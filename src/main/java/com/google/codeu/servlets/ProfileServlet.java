@@ -92,7 +92,12 @@ public class ProfileServlet extends HttpServlet {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
-    String imageUrl = request.getParameter("image");
+
+    String imageUrl = "";
+    User user = datastore.getUser(userEmail);
+    if (user != null) {
+      imageUrl = user.getImgUrl();
+    }
 
     if (blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
@@ -106,7 +111,7 @@ public class ProfileServlet extends HttpServlet {
       }
     }
 
-    User user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight, address, imageUrl);
+    user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight, address, imageUrl);
     datastore.storeUser(user);
   
     response.sendRedirect("/user-profile.html");
