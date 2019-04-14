@@ -17,26 +17,30 @@ limitations under the License.
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Pupawrazzi</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/ImagePage.css">
-    <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy" rel="stylesheet">
-    <link rel="icon" href="images/doge.jpg">
-    <script src="/js/navigation-loader.js"></script>
+      <meta charset="UTF-8">
+      <title>Pupawrazzi</title>
+      <link rel="stylesheet" href="/css/main.css">
+      <link rel="stylesheet" href="/css/ImagePage.css">
+      <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy" rel="stylesheet">
+      <link rel="icon" href="images/doge.jpg">
+      <script src="/js/navigation-loader.js"></script>
   </head>
-  <body onload="buildUI();">
+  <body onload="addNavigation();">
     <div class="box">
+        <nav>
+            <ul id="navigation">
+            </ul>
+        </nav>
       <h1 id="username">Pupawrazzi</h1>
       <img id="lazyboi" src="images/profEample.jpg" class="mainImage"/>
       <h2>User Name</h2>
       <div class="buttonbox">
-        <button type="submit" class="alignleft">
-            <img src="images/like.png" class="buttonImage"/>
-        </button>
-        <button type="submit" class="alignright">
-            <img src="images/cross.png" class="buttonImage"/>
-        </button>  
+          <button type="submit" class="alignleft">
+              <img src="images/like.png" class="buttonImage"/>
+          </button>
+          <button type="submit" class="alignright">
+              <img src="images/cross.png" class="buttonImage"/>
+          </button>
       </div>
     </div>
   </body>
