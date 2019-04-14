@@ -14,6 +14,7 @@ function showMessageFormIfLoggedIn() {
 }
 
 /** Fetches a prospect and add their info (name, image, aboutMe) to the page. */
+// NOTE: right now it is a place holder
 function fetchProspect() {
     const url = '/messages?user=' + 'test@example.com';
     fetch(url)
