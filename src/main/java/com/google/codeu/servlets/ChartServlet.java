@@ -14,39 +14,43 @@
  * limitations under the License.
  */
 
-
 package com.google.codeu.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Datastore;
+import com.google.codeu.data.Message;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
-/**
- * Redirects the user to the Google login page or their page if they're already logged in.
- */
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+/** Handles fetching and saving {@link Message} instances. */
+@WebServlet("/messagechart")
+public class ChartServlet extends HttpServlet {
+
+  private Datastore datastore;
 
   @Override
+  public void init() {
+    datastore = new Datastore();
+  }
+
+  /**
+   * Responds with a JSON representation of {@link Message} data for all users.
+   * Messages are sorted time ascending.
+   */
+  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    UserService userService = UserServiceFactory.getUserService();
-
-    // If the user is already logged in, redirect to their page
-    if (userService.isUserLoggedIn()) {
-      String user = userService.getCurrentUser().getEmail();
-      // response.sendRedirect("/user/" + user);
-      response.sendRedirect("/user-page.html?user=" + user);
-      return;
-    }
-
-    // Redirect to Google login page. That page will then redirect back to /login,
-    // which will be handled by the above if statement.
-    String googleLoginUrl = userService.createLoginURL("/login");
-    response.sendRedirect(googleLoginUrl);
+    response.setContentType("application/json");
+    List<Message> msgList = datastore.getAllMessages(true);
+    Gson gson = new Gson();
+    String json = gson.toJson(msgList);
+    response.getWriter().println(json);
   }
 }

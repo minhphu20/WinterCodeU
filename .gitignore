@@ -5,3 +5,7 @@ target
 .idea
 *.iml
 .DS_Store
+.factorypath
+.vscode/
+bin/
+node_modules/

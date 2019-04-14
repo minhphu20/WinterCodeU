@@ -30,21 +30,19 @@ function setPageTitle() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Shows the message form if the user is logged in.
  */
-function showMessageFormIfViewingSelf() {
-  document.getElementById('about-me-form').classList.remove('hidden');
-
+function showMessageFormIfLoggedIn() {
   fetch('/login-status')
       .then((response) => {
         return response.json();
       })
       .then((loginStatus) => {
-        if (loginStatus.isLoggedIn &&
-            loginStatus.username == parameterUsername) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.action = '/messages?recipient=' + parameterUsername;
-          messageForm.classList.remove('hidden');
+        if (loginStatus.isLoggedIn) {
+          fetchImageUploadUrlAndShowForm();
+          if (loginStatus.username == parameterUsername){
+            document.getElementById('about-me-form').classList.remove('hidden');
+          }
         }
       });
 }
@@ -101,22 +99,29 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
+    message.user + ' - ' +
+    new Date(message.timestamp) +
+    ' [' + message.sentimentScore + ']'));
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = message.text;
+  bodyDiv.innerHTML = convertInput(message.text);
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
 
+  if (message.imageUrl) {
+     bodyDiv.innerHTML += '<br/>';
+     bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+   }
+
   return messageDiv;
 }
 
 /**  Fetches about me data from user's input and adds it to the page. */
-function fetchAboutMe(){
+function fetchAboutMe() {
   const url = '/about?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
@@ -128,8 +133,40 @@ function fetchAboutMe(){
           aboutMe = 'This user has not entered any information yet.';
         }
 
-        aboutMeContainer.innerHTML = aboutMe;
+        aboutMeContainer.innerHTML = convertInput(aboutMe);
+      });
+}
 
+/**
+ * Converts user input with showdown markdown library.
+ * @param {String} input
+ * @return {Element}
+ */
+function convertInput(input) {
+  let converter = new showdown.Converter(),
+  html = converter.makeHtml(input);
+  return html
+}
+
+/**
+ * Fetches the login status of the user first.
+ * When the image upload URL returns, it sets the action
+ * attribute of the form and shows it.
+ * @return {[type]} [description]
+ */
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('message-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+        document.getElementById('recipientInput').value = parameterUsername;
+        const chat = document.getElementById('chat');
+        chat.setAttribute("href", "/chat.html?user="+parameterUsername);
+        chat.classList.remove('hidden');
       });
 }
 
@@ -159,4 +196,6 @@ function buildUI() {
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
+  const config = {removePlugins: [ 'ImageUpload' ]};
+  ClassicEditor.create(document.getElementById('message-input'), config);
 }
