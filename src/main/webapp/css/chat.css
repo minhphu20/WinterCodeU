@@ -12,6 +12,10 @@
     margin-top: 20px;
   }
 
+  #home-link {
+    color: #2d4ebd;
+  }
+
   .sender-message {
     margin-left: 60%;
   }

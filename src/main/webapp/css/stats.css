@@ -8,3 +8,11 @@ p {
   font-size: 30px;
   font-weight: bold;
 }
+
+#stats-link {
+  color: #20b2aa;
+}
+
+#home-link {
+  color: #2d4ebd;
+}

@@ -46,6 +46,7 @@ public class ChatListServlet extends HttpServlet {
       response.getWriter().println("[]");
       return;
     }
+    
     List<Message> recentChats = datastore.getRecentPrivateMessages(user);
     
     Gson gson = new Gson();

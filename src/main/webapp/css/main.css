@@ -16,7 +16,7 @@
 
 /* Prevent the page from becoming too wide. */
 body {
-  font-family: 'Crete Round', serif;
+  font-family: 'Heebo';
   background-image: url("../images/dachshund_pattern.png");
   background-repeat: repeat;
   max-width: 600px;
@@ -58,6 +58,7 @@ p {
 }
 
 nav {
+  font-family: 'Crete Round', serif;
   font-size: 25px;
   position: sticky;
   top: 0%;
@@ -75,6 +76,10 @@ a:hover {
   color: #20b2aa;
 }
 
+#home-link {
+  color: #20b2aa;
+}
+
 /* Remove bullet points from navigation bar. */
 nav ul {
   list-style-type: none;
@@ -84,7 +89,7 @@ nav ul {
 /* Keep navigation menu on one line. */
 nav li {
   display: inline-block;
-  margin-right: 10px
+  margin-right: 15px;
 }
 
 #lazyboi {

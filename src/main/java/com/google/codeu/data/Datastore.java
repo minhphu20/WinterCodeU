@@ -245,6 +245,15 @@ public class Datastore {
     Entity userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
+    userEntity.setProperty("name", user.getName());
+    userEntity.setProperty("breed", user.getBreed());
+    userEntity.setProperty("gender", user.getGender());
+    userEntity.setProperty("birthday", user.getBirthday());
+    userEntity.setProperty("weight", user.getWeight());
+    userEntity.setProperty("imgUrl", user.getImgUrl());
+    userEntity.setProperty("city", user.getAddress().get(0));
+    userEntity.setProperty("state", user.getAddress().get(1));
+    userEntity.setProperty("zip", user.getAddress().get(2));
     datastore.put(userEntity);
   }
 
@@ -262,7 +271,17 @@ public class Datastore {
     }
 
     String aboutMe = (String) userEntity.getProperty("aboutMe");
-    User user = new User(email, aboutMe);
+    String name = (String) userEntity.getProperty("name");
+    String breed = (String) userEntity.getProperty("breed");
+    String gender = (String) userEntity.getProperty("gender");
+    String birthday = (String) userEntity.getProperty("birthday");
+    String weight = (String) userEntity.getProperty("weight");
+    String imgUrl = (String) userEntity.getProperty("imgUrl");
+    ArrayList<String> address = new ArrayList<String>();
+    address.add((String) userEntity.getProperty("city"));
+    address.add((String) userEntity.getProperty("state"));
+    address.add((String) userEntity.getProperty("zip"));
+    User user = new User(email, aboutMe, name, breed, gender, birthday, weight, address, imgUrl);
 
     return user;
   }

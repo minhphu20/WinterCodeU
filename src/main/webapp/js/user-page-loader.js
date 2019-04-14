@@ -40,9 +40,6 @@ function showMessageFormIfLoggedIn() {
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
           fetchImageUploadUrlAndShowForm();
-          if (loginStatus.username == parameterUsername){
-            document.getElementById('about-me-form').classList.remove('hidden');
-          }
         }
       });
 }
@@ -98,23 +95,6 @@ function buildMessageDiv(message) {
   return messageDiv;
 }
 
-/**  Fetches about me data from user's input and adds it to the page. */
-function fetchAboutMe() {
-  const url = '/about?user=' + parameterUsername;
-  fetch(url)
-      .then((response) => {
-        return response.text();
-      })
-      .then((aboutMe) => {
-        const aboutMeContainer = document.getElementById('about-me-container');
-        if (aboutMe == '') {
-          aboutMe = 'This user has not entered any information yet.';
-        }
-
-        aboutMeContainer.innerHTML = convertInput(aboutMe);
-      });
-}
-
 /**
  * Converts user input with showdown markdown library.
  * @param {String} input
@@ -153,7 +133,6 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
-  fetchAboutMe();
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config);
 }

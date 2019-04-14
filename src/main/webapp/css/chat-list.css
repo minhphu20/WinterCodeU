@@ -10,6 +10,14 @@
   background-color: #c1f7f4;
 }
 
+#chat-list-link {
+  color: #20b2aa;
+}
+
+#home-link {
+  color: #2d4ebd;
+}
+
 /* Add a bottom border to the message header. */
 .chat-header {
   border-bottom: thin solid black;
