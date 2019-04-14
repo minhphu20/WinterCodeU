@@ -49,7 +49,10 @@ function addNavigation() {
 
           navigationElement.appendChild(
             createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Your Page')));
-              
+
+          navigationElement.appendChild(
+            createListItem(createLink('/image-page.html', 'Swipe')));
+
           navigationElement.appendChild(
             createListItem(createLink('/chat-list.html', 'Your Chats')));
 
