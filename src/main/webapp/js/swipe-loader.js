@@ -54,12 +54,6 @@ function postLike() {
             console.log("answer is: ", answer);
             if (answer === "yes") {
                 // Hey Cindy, you can open chat page here.
-                //
-                // Right now this check answer === "yes"
-                // will returns false all the time
-                // because answer is a promise...
-                // Please look into that (async, then may help) :) Thanks!
-                // Otherwise, everything should be working.
                 console.log("Chat page should open!");
             } else {
                 console.log("No chat page!");

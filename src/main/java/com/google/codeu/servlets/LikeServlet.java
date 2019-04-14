@@ -73,10 +73,10 @@ public class LikeServlet extends HttpServlet {
         if (("like".equals(status)) && (datastore.isLiked(user, prospectiveMatch))) {
             System.out.println("It's a match! We will start chatting...");
             response.setContentType("text/html");
-            response.getWriter().println("yes");
+            response.getWriter().print("yes");
         } else {
             response.setContentType("text/html");
-            response.getWriter().println("no");
+            response.getWriter().print("no");
         }
     }
 }
