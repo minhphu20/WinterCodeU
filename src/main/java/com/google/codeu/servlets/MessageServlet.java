@@ -16,6 +16,11 @@
 
 package com.google.codeu.servlets;
 
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.Translate.TranslateOption;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
+
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -71,7 +76,13 @@ public class MessageServlet extends HttpServlet {
       return;
     }
 
-    List<Message> messages = datastore.getMessages(user, "");
+    List<Message> messages = datastore.getMessages(user);
+
+    String targetLanguageCode = request.getParameter("language");
+    if(targetLanguageCode != null) {
+      translateMessages(messages, targetLanguageCode);
+    }
+    
     Gson gson = new Gson();
     String json = gson.toJson(messages);
 
@@ -131,5 +142,19 @@ public class MessageServlet extends HttpServlet {
     languageService.close();
 
     return sentiment.getScore();
+  }
+
+  private void translateMessages(List<Message> messages, String targetLanguageCode) {
+    Translate translate = TranslateOptions.getDefaultInstance().getService();
+
+    for(Message message : messages) {
+      String originalText = message.getText();
+
+      Translation translation =
+          translate.translate(originalText, TranslateOption.targetLanguage(targetLanguageCode));
+      String translatedText = translation.getTranslatedText();
+        
+      message.setText(translatedText);
+    }    
   }
 }

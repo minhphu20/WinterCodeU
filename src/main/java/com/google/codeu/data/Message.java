@@ -67,6 +67,10 @@ public class Message {
     this.imageUrl = imageUrl;
   }
 
+  public void setText(String text) {
+    this.text = text;
+  }
+
   public UUID getId() {
     return id;
   }
