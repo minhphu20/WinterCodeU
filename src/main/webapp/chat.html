@@ -12,7 +12,17 @@
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
-  <body onload="buildUI();addNavigation();"> 
+
+  <script>
+    $(function() {
+       $('#nav li a').click(function() {
+          $('#nav li').removeClass();
+          $($(this).attr('href')).addClass('active');
+       });
+    });
+ </script>
+ 
+  <body onload="buildUI();addNavigation();">
     <div class="box">
       <nav>
         <ul id="navigation">

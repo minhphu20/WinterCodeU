@@ -21,6 +21,7 @@ body {
   background-repeat: repeat;
   max-width: 600px;
   width: 50%;
+  margin: 0px;
   text-align: center;
 }
 
@@ -37,9 +38,9 @@ p {
   text-align: center;
   border: 2px solid black;
   background-color: white;
-  padding: 0% 5% 0% 5%;
+  padding: 0% 0% 0% 0%;
   opacity: 0.98;
-  width: 65%;
+  width: 75%;
   height: 90%;
   overflow: scroll;
   word-wrap: break-word;
@@ -47,49 +48,62 @@ p {
 
 /* Add heading styling. */
 .shadow {
-  font-family: 'Playfair Display', serif; 
+  font-family: 'Playfair Display', serif;
   font-size: 75px;
   color: #20b2aa;
   text-shadow:
-   -1px -1px 0 #000,  
+   -1px -1px 0 #000,
    1px -1px 0 #000,
    -1px 1px 0 #000,
    1px 1px 0 #000;
 }
 
+a:link {
+  text-decoration: none !important;
+}
+
+li a:focus {
+  background-color: gray !important;
+}
+
 nav {
-  font-family: 'Crete Round', serif;
-  font-size: 25px;
+  font-family: 'Open Sans'
+  font-size: 24px;
   position: sticky;
   top: 0%;
+  float: left;
   padding: 0.5%;
   width: 100%;
-  background-color: white;
-}
-
-a {
-  text-decoration: none;
-  color: #2d4ebd;
-}
-
-a:hover {
-  color: #20b2aa;
-}
-
-#home-link {
-  color: #20b2aa;
+  background-color: #333333;
 }
 
 /* Remove bullet points from navigation bar. */
 nav ul {
   list-style-type: none;
   padding-left: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /* Keep navigation menu on one line. */
 nav li {
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 26px;
+}
+
+nav ul li a {
+  font-family: 'Heebo';
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  margin: 0px;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  background-color: #111;
+  color: #20b2aa;
 }
 
 #lazyboi {

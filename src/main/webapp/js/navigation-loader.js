@@ -38,7 +38,7 @@ function addNavigation() {
     createListItem(createLink('/feed.html', 'Feed', 'feed-link')));
 
   navigationElement.appendChild(
-    createListItem(createLink('/chart.html', 'Chart', 'chart-link')));  
+    createListItem(createLink('/chart.html', 'Chart', 'chart-link')));
 
   fetch('/login-status')
       .then((response) => {
@@ -48,14 +48,14 @@ function addNavigation() {
         if (loginStatus.isLoggedIn) {
 
           navigationElement.appendChild(
-            createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Your Page', 'user-page-link')));
-              
+            createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Page', 'user-page-link')));
+
           navigationElement.appendChild(
-            createListItem(createLink('/chat-list.html', 'Your Chats', 'chat-list-link')));
-          
+            createListItem(createLink('/chat-list.html', 'Chats', 'chat-list-link')));
+
           navigationElement.appendChild(
-            createListItem(createLink('/user-profile.html', 'Your Profile', 'user-profile-link')));
-            
+            createListItem(createLink('/user-profile.html', 'Profile', 'user-profile-link')));
+
           navigationElement.appendChild(
               createListItem(createLink('/logout', 'Logout', 'logout-link')));
 
