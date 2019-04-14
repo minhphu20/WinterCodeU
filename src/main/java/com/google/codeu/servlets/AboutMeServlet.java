@@ -14,6 +14,7 @@ import com.google.codeu.data.User;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import java.util.HashSet;
 
 /**
  * Handles fetching and saving user data.
@@ -63,7 +64,13 @@ public class AboutMeServlet extends HttpServlet {
     String userEmail = userService.getCurrentUser().getEmail();
     String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.relaxed());
 
-    User user = new User(userEmail, aboutMe);
+    // get the user and update only the new field
+      User user = datastore.getUser(userEmail);
+      if (user == null) {
+          user = new User(userEmail, aboutMe, new HashSet<String>(), new HashSet<String>());
+      } else {
+          user.setAboutMe(aboutMe);
+      }
     datastore.storeUser(user);
   
     // response.sendRedirect("/user/" + userEmail);

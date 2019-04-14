@@ -125,7 +125,6 @@ public class Datastore {
      *     ever posted a message. List is sorted by time ascending if ascending is
      *     set to true, else it is sorted by time descending.
      */
-
     public List<Message> getAllMessages(boolean ascending) {
         List<Message> messages = new ArrayList<>();
         Query query;
@@ -237,6 +236,9 @@ public class Datastore {
         return recentChats;
     }
 
+    /**
+     * Get total message counts
+     */
   public int getTotalMessageCount() {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
