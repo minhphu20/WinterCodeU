@@ -47,31 +47,9 @@ function showMessageFormIfLoggedIn() {
       });
 }
 
-/**
- * Allow users to post messages on anybody's user page
- */
-function showMessageFormIfLoggedIn() {
-  fetch('/login-status')
-      .then((response) => {
-        return response.json();
-      })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.action = '/messages?recipient=' + parameterUsername;
-          messageForm.classList.remove('hidden');
-        }
-      });
-}
-
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
-  // const url = '/messages?user=' + parameterUsername;
-  const parameterLanguage = urlParams.get('language');
-  let url = '/messages?user=' + parameterUsername;
-  if(parameterLanguage) {
-    url += '&language=' + parameterLanguage;
-  }
+  const url = '/messages?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
         return response.json();
@@ -170,29 +148,9 @@ function fetchImageUploadUrlAndShowForm() {
       });
 }
 
-/**
- * Add translation options to the message page.
- */
-function buildLanguageLinks(){
-  const userPageUrl = '/user-page.html?user=' + parameterUsername;
-  const languagesListElement  = document.getElementById('languages');
-  languagesListElement.appendChild(createListItem(createLink(
-       userPageUrl + '&language=en', 'English')));
-  languagesListElement.appendChild(createListItem(createLink(
-      userPageUrl + '&language=zh', 'Chinese')));
-  languagesListElement.appendChild(createListItem(createLink(
-      userPageUrl + '&language=hi', 'Hindi')));
-  languagesListElement.appendChild(createListItem(createLink(
-      userPageUrl + '&language=es', 'Spanish')));
-  languagesListElement.appendChild(createListItem(createLink(
-      userPageUrl + '&language=ar', 'Arabic')));
-}
-
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  buildLanguageLinks();
-  showMessageFormIfViewingSelf();
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
