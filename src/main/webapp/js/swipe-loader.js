@@ -14,7 +14,6 @@ function showMessageFormIfLoggedIn() {
 }
 
 /** Fetches a prospect and add their info (name, image, aboutMe) to the page. */
-// NOTE: right now it is a place holder
 function fetchProspect() {
     const url = '/prospect';
     fetch(url)
@@ -36,12 +35,15 @@ function fetchProspect() {
             } else {
                 // TODO: add hidden class to properly hide things
                 document.getElementById('prospect_name').innerText = "You have seen all users."
-                                document.getElementById('prospect_image').src = "images/profEample.jpg";
-                                document.getElementById('prospect_aboutMe').innerText = "";
+                document.getElementById('prospect_image').src = "images/profEample.jpg";
+                document.getElementById('prospect_aboutMe').innerText = "";
                 document.getElementById('buttons').innerText = "";
             }
         })
 }
 
-showMessageFormIfLoggedIn();
-fetchProspect();
+/** Load the image page with image fetched from /prospect. */
+function loadProspect() {
+    showMessageFormIfLoggedIn();
+    fetchProspect();
+}
