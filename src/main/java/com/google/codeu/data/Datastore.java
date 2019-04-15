@@ -53,6 +53,7 @@ public class Datastore {
     if (message.getImageUrl() != null) {
           messageEntity.setProperty("imageUrl", message.getImageUrl());
     }
+    messageEntity.setProperty("imageLabels", message.getImageLabels());
 
     datastore.put(messageEntity);
   }
@@ -100,12 +101,13 @@ public class Datastore {
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
         String imageUrl = (String) entity.getProperty("imageUrl");
+        String imageLabels = (String) entity.getProperty("imageLabels");
         float sentimentScore = entity.getProperty("sentimentScore") == null
                                   ? (float) 0.0
                                   : ((Double) entity.getProperty("sentimentScore")).floatValue();
         boolean isDirectMessage = (boolean) entity.getProperty("isDirectMessage");
         String recipientProperty = (String) entity.getProperty("recipient");
-        Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, imageUrl, isDirectMessage);
+        Message message = new Message(id, user, text, timestamp, recipientProperty, sentimentScore, imageUrl, imageLabels, isDirectMessage);
         messages.add(message);
       } catch(Exception e) {
         System.err.println("Error reading message.");
