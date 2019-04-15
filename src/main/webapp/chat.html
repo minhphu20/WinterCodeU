@@ -13,15 +13,6 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
 
-  <script>
-    $(function() {
-       $('#nav li a').click(function() {
-          $('#nav li').removeClass();
-          $($(this).attr('href')).addClass('active');
-       });
-    });
- </script>
-
   <body onload="buildUI();addNavigation();">
     <div class="box">
       <nav>
