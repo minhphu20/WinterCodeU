@@ -30,21 +30,16 @@ function setPageTitle() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Shows the message form if the user is logged in.
  */
-function showMessageFormIfViewingSelf() {
-  document.getElementById('about-me-form').classList.remove('hidden');
-
+function showMessageFormIfLoggedIn() {
   fetch('/login-status')
       .then((response) => {
         return response.json();
       })
       .then((loginStatus) => {
-        if (loginStatus.isLoggedIn && loginStatus.username == parameterUsername) {
+        if (loginStatus.isLoggedIn) {
           fetchImageUploadUrlAndShowForm();
-          // const messageForm = document.getElementById('message-form');
-          // messageForm.action = '/messages?recipient=' + parameterUsername;
-          // messageForm.classList.remove('hidden');
         }
       });
 }
@@ -105,23 +100,6 @@ function buildMessageDiv(message) {
   return messageDiv;
 }
 
-/**  Fetches about me data from user's input and adds it to the page. */
-function fetchAboutMe() {
-  const url = '/about?user=' + parameterUsername;
-  fetch(url)
-      .then((response) => {
-        return response.text();
-      })
-      .then((aboutMe) => {
-        const aboutMeContainer = document.getElementById('about-me-container');
-        if (aboutMe == '') {
-          aboutMe = 'This user has not entered any information yet.';
-        }
-
-        aboutMeContainer.innerHTML = convertInput(aboutMe);
-      });
-}
-
 /**
  * Converts user input with showdown markdown library.
  * @param {String} input
@@ -149,15 +127,17 @@ function fetchImageUploadUrlAndShowForm() {
         messageForm.action = imageUploadUrl;
         messageForm.classList.remove('hidden');
         document.getElementById('recipientInput').value = parameterUsername;
+        const chat = document.getElementById('chat');
+        chat.setAttribute("href", "/chat.html?user="+parameterUsername);
+        chat.classList.remove('hidden');
       });
 }
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  showMessageFormIfViewingSelf();
+  showMessageFormIfLoggedIn();
   fetchMessages();
-  fetchAboutMe();
   const config = {removePlugins: [ 'ImageUpload' ]};
-  ClassicEditor.create(document.getElementById('message-input'), config );
+  ClassicEditor.create(document.getElementById('message-input'), config);
 }

@@ -48,7 +48,7 @@ public class UserServlet extends HttpServlet {
     }
 
     if (!(user == null || user.equals(""))) {
-      List<Message> messages = datastore.getMessages(user);
+      List<Message> messages = datastore.getMessages(user, "");
       if (messages != null && messages.size() != 0) {
         Gson gson = new Gson();
         String json = gson.toJson(messages);

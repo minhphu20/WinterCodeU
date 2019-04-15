@@ -50,10 +50,18 @@ input[type=submit] {
   padding: 5px;
 }
 
+#home-link {
+  color: #2d4ebd;
+}
+
 .rounded {
   border: thin solid black;
   border-radius: 5px;
   overflow: hidden;
+}
+
+#user-page-link {
+  color: #20b2aa;
 }
 
 /* Give the message body a margin so the text

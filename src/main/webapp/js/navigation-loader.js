@@ -15,15 +15,30 @@
  */
 
 /**
- * Adds a login or logout link to the page, depending on whether the user is
+ * Adds all links to the page, with some links depending on whether the user is
  * already logged in.
  */
-function addLoginOrLogoutLinkToNavigation() {
+function addNavigation() {
   const navigationElement = document.getElementById('navigation');
   if (!navigationElement) {
     console.warn('Navigation element not found!');
     return;
   }
+
+  navigationElement.appendChild(
+    createListItem(createLink('/', 'Home', 'home-link')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/stats.html', 'Stats', 'stats-link')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/map.html', 'Map', 'map-link')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/feed.html', 'Feed', 'feed-link')));
+
+  navigationElement.appendChild(
+    createListItem(createLink('/chart.html', 'Chart', 'chart-link')));  
 
   fetch('/login-status')
       .then((response) => {
@@ -31,15 +46,22 @@ function addLoginOrLogoutLinkToNavigation() {
       })
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
-          navigationElement.appendChild(createListItem(createLink(
-              '/user-page.html?user=' + loginStatus.username, 'Your Page')));
-          // navigationElement.appendChild(createListItem(createLink(
-          //     '/user/' + loginStatus.username, 'Your Page')));
+
           navigationElement.appendChild(
-              createListItem(createLink('/logout', 'Logout')));
+            createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Your Page', 'user-page-link')));
+              
+          navigationElement.appendChild(
+            createListItem(createLink('/chat-list.html', 'Your Chats', 'chat-list-link')));
+          
+          navigationElement.appendChild(
+            createListItem(createLink('/user-profile.html', 'Your Profile', 'user-profile-link')));
+            
+          navigationElement.appendChild(
+              createListItem(createLink('/logout', 'Logout', 'logout-link')));
+
         } else {
           navigationElement.appendChild(
-              createListItem(createLink('/login', 'Login')));
+              createListItem(createLink('/login', 'Login', 'login-link')));
         }
       });
 }
@@ -61,8 +83,9 @@ function createListItem(childElement) {
  * @param {string} text
  * @return {Element} Anchor element
  */
-function createLink(url, text) {
+function createLink(url, text, id) {
   const linkElement = document.createElement('a');
+  linkElement.setAttribute("id", id);
   linkElement.appendChild(document.createTextNode(text));
   linkElement.href = url;
   return linkElement;

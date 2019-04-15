@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Your Chats</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/chat-list.css">
+    <link href="https://fonts.googleapis.com/css?family=Crete+Round|Playfair+Display|Satisfy|Heebo" rel="stylesheet">
+    <link rel="icon" href="images/doge.jpg">
+    <script src="/js/chat-list-loader.js"></script>
+    <script src="/js/navigation-loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
+  </head>
+  <body onload="buildUI();addNavigation();">
+    <div class="box">
+      <nav>
+        <ul id="navigation">
+        </ul>
+      </nav>
+      <h1 id="page-title" class="shadow">Your Chats</h1>
+      <div id="chat-container">Loading...</div>
+    </div>
+  </body>
+</html>
