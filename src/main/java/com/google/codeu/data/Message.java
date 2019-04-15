@@ -36,22 +36,33 @@ public class Message {
    * Generates a random ID and uses the current system time for the creation time.
    */
 
-  public Message(String user, String text, String recipient, float sentimentScore) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
+  public Message(String user, String text, String recipient, float sentimentScore, boolean isDirectMessage) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, isDirectMessage);
+  }
+
+  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, boolean isDirectMessage) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl, isDirectMessage);
   }
 
   public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, String imageLabels, boolean isDirectMessage) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl, imageLabels);
-
-  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, boolean isDirectMessage) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, isDirectMessage);
-
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl, imageLabels, isDirectMessage);
   }
 
   /**
    * Constructs a new {@link Message} posted by {@code id}, {@code user}, {@code text},
    * {@code timestamp} and {@code recipient}
    */
+
+  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, boolean isDirectMessage) {
+    this.id = id;
+    this.user = user;
+    this.text = text;
+    this.timestamp = timestamp;
+    this.recipient = recipient;
+    this.sentimentScore = sentimentScore;
+    this.isDirectMessage = isDirectMessage;
+  }
+
   public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, String imageUrl, boolean isDirectMessage) {
     this.id = id;
     this.user = user;
@@ -110,7 +121,7 @@ public class Message {
   public boolean getIsDirectMessage() {
     return isDirectMessage;
   }
-  
+
   public String getImageUrl() {
     return imageUrl;
   }
