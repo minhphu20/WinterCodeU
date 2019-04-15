@@ -29,13 +29,23 @@ public class Message {
   private float sentimentScore;
   private boolean isDirectMessage;
   private String imageUrl;
+  private String imageLabels;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content and {@code recipient}.
    * Generates a random ID and uses the current system time for the creation time.
    */
-  public Message(String user, String text, String recipient, float sentimentScore, boolean isDirectMessage) {
+
+  public Message(String user, String text, String recipient, float sentimentScore) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
+  }
+
+  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, String imageLabels, boolean isDirectMessage) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl, imageLabels);
+
+  public Message(String user, String text, String recipient, float sentimentScore, String imageUrl, boolean isDirectMessage) {
     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, isDirectMessage);
+
   }
 
   /**
@@ -52,19 +62,25 @@ public class Message {
     this.imageUrl = imageUrl;
     this.isDirectMessage = isDirectMessage;
   }
-  
-  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, boolean isDirectMessage) {
+
+  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, String imageUrl, String imageLabels, boolean isDirectMessage) {
     this.id = id;
     this.user = user;
     this.text = text;
     this.timestamp = timestamp;
     this.recipient = recipient;
     this.sentimentScore = sentimentScore;
+    this.imageUrl = imageUrl;
+    this.imageLabels = imageLabels;
     this.isDirectMessage = isDirectMessage;
   }
 
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
+  }
+
+  public void setImageLabels(String imageLabel) {
+    this.imageLabels = imageLabel;
   }
 
   public UUID getId() {
@@ -98,4 +114,9 @@ public class Message {
   public String getImageUrl() {
     return imageUrl;
   }
+
+  public String getImageLabels() {
+    return imageLabels;
+  }
+
 }
