@@ -26,7 +26,7 @@ public class User {
     this.imgUrl = imgUrl;
   }
 
-  public String getEmail() {
+public String getEmail() {
     return email;
   }
 

@@ -46,15 +46,19 @@ function addNavigation() {
       })
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
-
           navigationElement.appendChild(
-            createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Page', 'user-page-link')));
-
-          navigationElement.appendChild(
-            createListItem(createLink('/chat-list.html', 'Chats', 'chat-list-link')));
-
-          navigationElement.appendChild(
-            createListItem(createLink('/user-profile.html', 'Profile', 'user-profile-link')));
+              createListItem(createLink('/user-profile.html', 'Profile', 'user-profile-link')));
+          
+          if (loginStatus.filledForm) {
+            navigationElement.appendChild(
+              createListItem(createLink('/chat-list.html', 'Chats', 'chat-list-link')));
+            
+            navigationElement.appendChild(
+              createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Page', 'user-page-link')));
+    
+            /* navigationElement.appendChild(
+                createListItem(createLink('/swipe.html', 'Swipe', 'swipe-link'))); */
+          }
 
           navigationElement.appendChild(
               createListItem(createLink('/logout', 'Logout', 'logout-link')));
@@ -81,6 +85,7 @@ function createListItem(childElement) {
  * Creates an anchor element.
  * @param {string} url
  * @param {string} text
+ * @param {string} id
  * @return {Element} Anchor element
  */
 function createLink(url, text, id) {

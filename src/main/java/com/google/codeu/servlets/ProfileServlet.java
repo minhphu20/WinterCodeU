@@ -60,7 +60,12 @@ public class ProfileServlet extends HttpServlet {
     User userData = datastore.getUser(user);
   
     if (userData == null) {
-      return;
+      ArrayList<String> address = new ArrayList<String>();
+      address.add("");
+      address.add("");
+      address.add("");
+      userData = new User(user, "", "", "", "", "", "", address, "../images/cooldoge.png");
+      datastore.storeUser(userData);
     }
 
     Gson gson = new Gson();
