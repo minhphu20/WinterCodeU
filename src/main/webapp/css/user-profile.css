@@ -35,3 +35,10 @@
 input {
   margin: 3%;
 }
+
+#map{
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  border: thin solid black;
+}
