@@ -52,8 +52,7 @@ public class LoginServlet extends HttpServlet {
       if (userData == null) {
         response.sendRedirect("/user-profile.html");
       } else {
-        // response.sendRedirect("/user/" + user);
-        response.sendRedirect("/user-page.html?user=" + user);
+        response.sendRedirect("/chat-list.html");
       }
       return;
     }
