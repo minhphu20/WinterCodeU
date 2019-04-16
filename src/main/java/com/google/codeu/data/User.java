@@ -1,6 +1,7 @@
 package com.google.codeu.data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class User {
 
@@ -13,8 +14,10 @@ public class User {
   private ArrayList<String> address;
   private String weight;
   private String imgUrl;
+  private HashSet<String> likes;
+  private HashSet<String> notLikes;
 
-  public User(String email, String aboutMe, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl) {
+  public User(String email, String aboutMe, HashSet<String> likes, HashSet<String> notLikes, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl) {
     this.email = email.trim();
     this.aboutMe = aboutMe;
     this.name = name;
@@ -24,6 +27,8 @@ public class User {
     this.weight = weight;
     this.address = address;
     this.imgUrl = imgUrl;
+    this.likes = likes;
+    this.notLikes = notLikes;
   }
 
   public String getEmail() {
@@ -65,4 +70,29 @@ public class User {
   public void setImgUrl(String imgUrl) {
     this.imgUrl = imgUrl;
   }
+
+  public HashSet<String> getLikes() {
+    return likes;
+  }
+
+  public HashSet<String> getNotLikes() {
+    return notLikes;
+  }
+
+  public void addLike(String user) {
+    System.out.println("Inside adding likes..." + user);
+    if (this.likes == null) {
+      this.likes = new HashSet<String>();
+    }
+    this.likes.add(user);
+    System.out.println("Finish inside adding likes");
+  }
+
+  public void addNotLike(String user) {
+    if (this.notLikes == null) {
+      this.notLikes = new HashSet<String>();
+    }
+    this.notLikes.add(user);
+  }
+
 }

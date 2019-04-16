@@ -5,6 +5,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +39,7 @@ public class ProspectServlet extends HttpServlet {
 
         if (user == null) {
             System.out.println("The current user is not in Datastore. Adding them...");
-            user = new User(userEmail, null, new HashSet<String>(), new HashSet<String>());
+            user = new User(userEmail, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "");
             datastore.storeUser(user);
         }
 
@@ -56,4 +57,4 @@ public class ProspectServlet extends HttpServlet {
             System.out.println("You have seen everyone...");
         }
     }
-} 
+}
