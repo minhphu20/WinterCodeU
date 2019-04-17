@@ -53,8 +53,14 @@ function postLike() {
         .then((answer) => {
             console.log("answer is: ", answer);
             if (answer === "yes") {
-                window.location.replace("chat.html?user=" + targetEmail);
                 console.log("Chat page should open!");
+                
+                // A confirm window for opening the chatroom pops up
+                var startChat = confirm("Start a chat with " + targetEmail)
+                if(startChat === true) {
+                    window.location.replace("chat.html?user=" + targetEmail);
+                }
+                                
             } else {
                 console.log("No chat page!");
                 fetchProspect();
