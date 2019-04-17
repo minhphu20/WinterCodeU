@@ -241,6 +241,7 @@ public class Datastore {
 
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
+    System.out.println("enter storing user...");
     Entity userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
@@ -250,10 +251,22 @@ public class Datastore {
     userEntity.setProperty("birthday", user.getBirthday());
     userEntity.setProperty("weight", user.getWeight());
     userEntity.setProperty("imgUrl", user.getImgUrl());
-    userEntity.setProperty("city", user.getAddress().get(0));
-    userEntity.setProperty("state", user.getAddress().get(1));
-    userEntity.setProperty("zip", user.getAddress().get(2));
+    System.out.println("done till uploading images in user...");
+    if (user.getAddress() != null && user.getAddress().size() == 3) {
+      System.out.println("setting address...");
+      System.out.println(user.getAddress().toString());
+      userEntity.setProperty("city", user.getAddress().get(0));
+      userEntity.setProperty("state", user.getAddress().get(1));
+      userEntity.setProperty("zip", user.getAddress().get(2));
+    } else {
+      userEntity.setProperty("city", "");
+      userEntity.setProperty("state", "");
+      userEntity.setProperty("zip", "");
+    }
+    userEntity.setProperty("likes", user.getLikes());
+    userEntity.setProperty("notLikes", user.getNotLikes());
     datastore.put(userEntity);
+    System.out.println("done storing user...");
   }
 
   public int getTotalMessageCount() {
@@ -391,6 +404,7 @@ public class Datastore {
    * Returns a list of users who have not been liked or not liked by user.
    */
   public HashSet<User> notSeenBy(User user){
+    System.out.println("in not seen by user...");
     List<User> allUsers = this.getAllUsers();
     HashSet<String> liked = user.getLikes();
     HashSet<String> notLiked = user.getLikes();
