@@ -53,7 +53,7 @@ function postLike() {
         .then((answer) => {
             console.log("answer is: ", answer);
             if (answer === "yes") {
-                // Hey Cindy, you can open chat page here.
+                window.location.replace("chat.html?user=" + targetEmail);
                 console.log("Chat page should open!");
             } else {
                 console.log("No chat page!");

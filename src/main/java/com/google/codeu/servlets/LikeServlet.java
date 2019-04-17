@@ -68,6 +68,7 @@ public class LikeServlet extends HttpServlet {
             System.out.println("It's a match! We will start chatting...");
             response.setContentType("text/html");
             response.getWriter().print("yes");
+            
         } else {
             response.setContentType("text/html");
             response.getWriter().print("no");
