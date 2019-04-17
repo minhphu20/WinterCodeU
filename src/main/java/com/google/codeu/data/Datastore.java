@@ -27,10 +27,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -196,7 +193,7 @@ public class Datastore {
 
     PreparedQuery results = datastore.prepare(query);
 
-    return getMessages(results);
+    return getMessages_(results);
   }
 
   /**
@@ -214,7 +211,7 @@ public class Datastore {
    *
    * @return a list of messages inside PreparedQuery results.
    */
-  private List<Message> getMessages(PreparedQuery results) {
+  private List<Message> getMessages_(PreparedQuery results) {
     List<Message> messages = new ArrayList<>();
 
     for (Entity entity : results.asIterable()) {
@@ -244,6 +241,7 @@ public class Datastore {
 
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
+    System.out.println("enter storing user...");
     Entity userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
@@ -253,39 +251,22 @@ public class Datastore {
     userEntity.setProperty("birthday", user.getBirthday());
     userEntity.setProperty("weight", user.getWeight());
     userEntity.setProperty("imgUrl", user.getImgUrl());
-    userEntity.setProperty("city", user.getAddress().get(0));
-    userEntity.setProperty("state", user.getAddress().get(1));
-    userEntity.setProperty("zip", user.getAddress().get(2));
-    datastore.put(userEntity);
-  }
-
-  /**
-    * Returns the User owned by the email address, or
-    * null if no matching User was found.
-    */
-  public User getUser(String email) {
-    Query query = new Query("User")
-      .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
-    PreparedQuery results = datastore.prepare(query);
-    Entity userEntity = results.asSingleEntity();
-    if(userEntity == null) {
-      return null;
+    System.out.println("done till uploading images in user...");
+    if (user.getAddress() != null && user.getAddress().size() == 3) {
+      System.out.println("setting address...");
+      System.out.println(user.getAddress().toString());
+      userEntity.setProperty("city", user.getAddress().get(0));
+      userEntity.setProperty("state", user.getAddress().get(1));
+      userEntity.setProperty("zip", user.getAddress().get(2));
+    } else {
+      userEntity.setProperty("city", "");
+      userEntity.setProperty("state", "");
+      userEntity.setProperty("zip", "");
     }
-
-    String aboutMe = (String) userEntity.getProperty("aboutMe");
-    String name = (String) userEntity.getProperty("name");
-    String breed = (String) userEntity.getProperty("breed");
-    String gender = (String) userEntity.getProperty("gender");
-    String birthday = (String) userEntity.getProperty("birthday");
-    String weight = (String) userEntity.getProperty("weight");
-    String imgUrl = (String) userEntity.getProperty("imgUrl");
-    ArrayList<String> address = new ArrayList<String>();
-    address.add((String) userEntity.getProperty("city"));
-    address.add((String) userEntity.getProperty("state"));
-    address.add((String) userEntity.getProperty("zip"));
-    User user = new User(email, aboutMe, name, breed, gender, birthday, weight, address, imgUrl);
-
-    return user;
+    userEntity.setProperty("likes", user.getLikes());
+    userEntity.setProperty("notLikes", user.getNotLikes());
+    datastore.put(userEntity);
+    System.out.println("done storing user...");
   }
 
   public int getTotalMessageCount() {
@@ -329,5 +310,110 @@ public class Datastore {
     markerEntity.setProperty("lng", marker.getLng());
     markerEntity.setProperty("content", marker.getContent());
     datastore.put(markerEntity);
+  }
+
+  /**
+   * Returns the User owned by the email address, or
+   * null if no matching User was found.
+   */
+  public User getUser(String email) {
+    Query query = new Query("User")
+            .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
+    PreparedQuery results = datastore.prepare(query);
+    Entity userEntity = results.asSingleEntity();
+    if (userEntity == null) {
+      return null;
+    }
+    return this.getUserFromEntity(userEntity);
+  }
+
+  /**
+   * Gets a list of all users.
+   */
+  public List<User> getAllUsers() {
+    Query query = new Query("User");
+    query.addSort("email", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    List<User> users = new ArrayList<>();
+
+    for (Entity entity : results.asIterable()) {
+      User user = this.getUserFromEntity(entity);
+      if (user != null) {
+        users.add(user);
+      }
+    }
+    return users;
+  }
+
+  /**
+   * Gets the user inside the entity.
+   * @param userEntity
+   * @return User from the entity. In case of error, returns null.
+   */
+  private User getUserFromEntity(Entity userEntity) {
+    User user = null;
+    try {
+      String email = (String) userEntity.getProperty("email");
+      HashSet<String> likes = new HashSet<String>();
+      HashSet<String> notLikes = new HashSet<String>();
+      if (userEntity.getProperty("likes") != null) {
+        likes = new HashSet<String>((ArrayList<String>) userEntity.getProperty("likes"));
+      }
+      if (userEntity.getProperty("notLikes") != null) {
+        notLikes = new HashSet<String>((ArrayList<String>) userEntity.getProperty("notLikes"));
+      }
+      String aboutMe = (String) userEntity.getProperty("aboutMe");
+      String name = (String) userEntity.getProperty("name");
+      String breed = (String) userEntity.getProperty("breed");
+      String gender = (String) userEntity.getProperty("gender");
+      String birthday = (String) userEntity.getProperty("birthday");
+      String weight = (String) userEntity.getProperty("weight");
+      String imgUrl = (String) userEntity.getProperty("imgUrl");
+      ArrayList<String> address = new ArrayList<String>();
+      address.add((String) userEntity.getProperty("city"));
+      address.add((String) userEntity.getProperty("state"));
+      address.add((String) userEntity.getProperty("zip"));
+
+      user = new User(email, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imgUrl);
+    } catch (Exception e) {
+      System.err.println("Error reading user.");
+      System.err.println(userEntity.toString());
+      e.printStackTrace();
+    }
+    return user;
+  }
+
+  /**
+   * Checks if userA is liked by userB.
+   */
+  public Boolean isLiked(User userA, User userB) {
+    String userAEmail = userA.getEmail();
+    System.out.println(userAEmail);
+    System.out.println(userB);
+    HashSet<String> likedByB = userB.getLikes();
+    System.out.println("gettting liked by B done");
+    if (likedByB == null) {
+      return false;
+    }
+    System.out.println("Done checking is liked.");
+    return likedByB.contains(userAEmail);
+  }
+
+  /**
+   * Returns a list of users who have not been liked or not liked by user.
+   */
+  public HashSet<User> notSeenBy(User user){
+    System.out.println("in not seen by user...");
+    List<User> allUsers = this.getAllUsers();
+    HashSet<String> liked = user.getLikes();
+    HashSet<String> notLiked = user.getLikes();
+    HashSet<User> notSeen = new HashSet<User>();
+    for (User target : allUsers) {
+      if (user.getEmail() != target.getEmail() && !liked.contains(target.getEmail()) && !notLiked.contains(target.getEmail())) {
+        notSeen.add(target);
+      }
+    }
+    return notSeen;
   }
 }

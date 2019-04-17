@@ -48,7 +48,10 @@ function addNavigation() {
         if (loginStatus.isLoggedIn) {
 
           navigationElement.appendChild(
+
             createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Page', 'user-page-link')));
+          navigationElement.appendChild(
+            createListItem(createLink('/image-page.html', 'Swipe')));
 
           navigationElement.appendChild(
             createListItem(createLink('/chat-list.html', 'Chats', 'chat-list-link')));
