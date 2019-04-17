@@ -47,7 +47,7 @@ function addNavigation() {
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
 
-          navigationElement.appendChild(
+            navigationElement.appendChild(
               createListItem(createLink('/user-profile.html', 'Profile', 'user-profile-link')));
           
           if (loginStatus.filledForm) {
@@ -59,9 +59,8 @@ function addNavigation() {
     
             navigationElement.appendChild(
                 createListItem(createLink('/image-page.html', 'Swipe', 'swipe-link')));
-          }
 
-          navigationElement.appendChild(
+            navigationElement.appendChild(
               createListItem(createLink('/logout', 'Logout', 'logout-link')));
 
         } else {
