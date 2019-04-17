@@ -41,10 +41,14 @@ public class ProspectServlet extends HttpServlet {
             System.out.println("The current user is not in Datastore. Adding them...");
             user = new User(userEmail, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "");
             datastore.storeUser(user);
+            System.out.println("done adding " + userEmail);
         }
+
+        System.out.println("About to get not seen by...");
 
         HashSet<User> notSeen = datastore.notSeenBy(user);
         Object[] arrayItem = notSeen.toArray();
+        System.out.println("passing through get not seen by user...");
         if (notSeen != null && notSeen.size() > 0) {
             response.setContentType("application/json");
             Gson gson = new Gson();
