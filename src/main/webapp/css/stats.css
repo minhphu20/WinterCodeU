@@ -4,15 +4,10 @@
   font-size: 75px;
 }
 
-p {
-  font-size: 30px;
-  font-weight: bold;
+nav {
+  font-family: 'Open Sans';
 }
 
 #stats-link {
   color: #20b2aa;
-}
-
-#home-link {
-  color: #2d4ebd;
 }
