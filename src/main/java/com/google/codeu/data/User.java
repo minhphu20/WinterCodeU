@@ -31,7 +31,7 @@ public class User {
     this.notLikes = notLikes;
   }
 
-  public String getEmail() {
+public String getEmail() {
     return email;
   }
 
