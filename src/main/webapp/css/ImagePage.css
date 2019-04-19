@@ -65,8 +65,9 @@ h2 {
 }
 
 
+
 /* div for button */
 .buttonbox {
     clear: both;
-    margin: 1 0px;
+    margin: 10px;
 }
