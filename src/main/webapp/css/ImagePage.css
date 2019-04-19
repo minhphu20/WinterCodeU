@@ -1,10 +1,10 @@
 /* Title styling */
 h1 {
-    font-family: 'Playfair Display', serif; 
+    font-family: 'Playfair Display', serif;
     font-size: 50px;
     color: #20b2aa;
     text-shadow:
-    -1px -1px 0 #000,  
+    -1px -1px 0 #000,
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000;
@@ -12,11 +12,20 @@ h1 {
 
 /* User name styling */
 h2 {
-    font-family: 'Blippo', fantasy; 
+    font-family: 'Blippo', fantasy;
     font-size: 30px;
     font-weight: bold;
     color: #070707;
     margin: 30px;
+}
+
+/* Profile image styling */
+.mainImage {
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
 }
 
 /* Profile image styling */
@@ -30,7 +39,7 @@ h2 {
 
 /* Button image styling */
 .buttonImage {
-    width: 100%;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -42,7 +51,7 @@ h2 {
     background-color: Transparent;
     border: none;
     cursor: pointer;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 /* Right button align right*/
@@ -52,15 +61,16 @@ h2 {
     background-color: Transparent;
     border: none;
     cursor: pointer;
-    overflow: hidden;  
+    overflow: hidden;
 }
 
 #swipe-link {
     color: #20b2aa;
 }
 
+
 /* div for button */
 .buttonbox {
     clear: both;
-    margin: 50px;
+    margin: 10px;
 }
