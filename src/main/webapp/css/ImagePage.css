@@ -29,15 +29,6 @@ h2 {
     width: 30%;
 }
 
-/* Profile image styling */
-.mainImage {
-    border-radius: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-}
-
 /* Button image styling */
 .buttonImage {
     width: 70%;
