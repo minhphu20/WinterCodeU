@@ -239,6 +239,13 @@ public class Datastore {
     return messages;
   }
 
+  /**
+   * Get the chatrooms that the current user opened
+   */
+   public List<Message> getChatrooms(String recipient) {
+     // *************** Working on here Cindy *************
+   }
+
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
     System.out.println("enter storing user...");
@@ -417,3 +424,4 @@ public class Datastore {
     return notSeen;
   }
 }
+
