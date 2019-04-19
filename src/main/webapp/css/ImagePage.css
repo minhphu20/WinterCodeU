@@ -1,13 +1,14 @@
 /* Title styling */
 h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 50px;
-    color: #20b2aa;
-    text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
+  padding-top: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 50px;
+  color: #20b2aa;
+  text-shadow:
+  -1px -1px 0 #000,
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000;
 }
 
 /* User name styling */
@@ -63,8 +64,6 @@ h2 {
     cursor: pointer;
     overflow: hidden;
 }
-
-
 
 /* div for button */
 .buttonbox {
