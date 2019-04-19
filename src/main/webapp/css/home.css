@@ -5,6 +5,7 @@
 .column {
   float: left;
   width: 33.33%;
+  padding: 30px 0 30px 0;
 }
 
 .our-team .team-row {
@@ -78,35 +79,4 @@
 
 .team-img:hover .overlay {
   opacity: 1;
-}
-
-.socials a {
-  display: inline-block;
-  width: 37px;
-  height: 37px;
-  background-color: transparent;
-}
-
-.socials i {
-  line-height: 37px;
-  color: #616161;
-  font-size: 14px;
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  text-align: center;
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  -ms-transition: all 0.2s linear;
-  transition: all 0.2s linear;
-}
-
-.team-details .socials i {
-	color: #fff;
-}
-
-.socials a:hover i {
-  color: #fff;
-  background-color: #355c7d;
 }
