@@ -35,9 +35,6 @@ function addNavigation() {
     createListItem(createLink('/map.html', 'Map', 'map-link')));
 
   navigationElement.appendChild(
-    createListItem(createLink('/feed.html', 'Feed', 'feed-link')));
-
-  navigationElement.appendChild(
     createListItem(createLink('/chart.html', 'Chart', 'chart-link')));
 
   fetch('/login-status')
@@ -49,21 +46,21 @@ function addNavigation() {
 
             navigationElement.appendChild(
               createListItem(createLink('/user-profile.html', 'Profile', 'user-profile-link')));
-          
+
           if (loginStatus.filledForm) {
             navigationElement.appendChild(
               createListItem(createLink('/chat-list.html', 'Chats', 'chat-list-link')));
-            
+
             navigationElement.appendChild(
               createListItem(createLink('/user-page.html?user=' + loginStatus.username, 'Page', 'user-page-link')));
-    
+
             navigationElement.appendChild(
                 createListItem(createLink('/image-page.html', 'Swipe', 'swipe-link')));
 
             navigationElement.appendChild(
               createListItem(createLink('/logout', 'Logout', 'logout-link')));
           }
-          
+
         } else {
           navigationElement.appendChild(
               createListItem(createLink('/login', 'Login', 'login-link')));
