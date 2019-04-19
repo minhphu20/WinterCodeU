@@ -4,11 +4,6 @@ let map;
  * Build the map
  */
 function createMap(){
-    // map = new google.maps.Map(document.getElementById('map'), {
-    //   center: {lat: 37.422, lng: -122.084},
-    //   zoom: 16
-    // });
-
     // Locate the user to its current location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -40,11 +35,11 @@ function createMap(){
     }
 
     // Add a marker at Googleplex
-    // addMarker('Stan the T-Rex', 37.421903, -122.084674, null, 'This is Stan, the T-Rex statue.', map);
+    addMarker('Stan the T-Rex', 37.421903, -122.084674, null, 'This is Stan, the T-Rex statue.', map);
 
     // Add a marker for the dog park
     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-    // addMarker('Stan the T-Rex', 37.428352, -122.077574, image, 'This is a park for dogs.', map);
+    addMarker('Stan the T-Rex', 37.428352, -122.077574, image, 'This is a park for dogs.', map);
 }
 
 /**

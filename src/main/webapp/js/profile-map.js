@@ -5,11 +5,6 @@ let editMarker;
  * Build the map
  */
 function createMap(){
-    // map = new google.maps.Map(document.getElementById('map'), {
-    //   center: {lat: 37.422, lng: -122.084},
-    //   zoom: 16
-    // });
-
     // Locate the user to its current location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -47,18 +42,13 @@ function createMap(){
       // Browser doesn't support Geolocation
       handleLocationError(false, infoWindow, map.getCenter());
 
+      // Users have to add location themselves
       map.addListener('click', (event) => {
         createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
       });
 
       fetchMarkers();
     }
-
-    // map.addListener('click', (event) => {
-    //     createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
-    // });
-
-    // fetchMarkers();
 }
 
 /**
