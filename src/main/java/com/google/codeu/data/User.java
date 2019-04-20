@@ -16,6 +16,8 @@ public class User {
   private String imgUrl;
   private HashSet<String> likes;
   private HashSet<String> notLikes;
+  private boolean hasUnRead;
+  private boolean hasUnopenedCR;
 
   public User(String email, String aboutMe, HashSet<String> likes, HashSet<String> notLikes, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl) {
     this.email = email.trim();
@@ -29,6 +31,14 @@ public class User {
     this.imgUrl = imgUrl;
     this.likes = likes;
     this.notLikes = notLikes;
+  }
+
+  public void setHasUnread(boolean hasUnRead) {
+    this.hasUnRead = hasUnRead;
+  }
+
+  public void setHasUnopenedCR(boolean hasUnopenedCR) {
+    this.hasUnopenedCR = hasUnopenedCR;
   }
 
   public String getEmail() {
@@ -93,6 +103,14 @@ public class User {
       this.notLikes = new HashSet<String>();
     }
     this.notLikes.add(user);
+  }
+
+  public void getHasUnread() {
+    return hasUnRead;
+  }
+
+  public void getHasUnopenedCR() {
+    return hasUnopenedCR;
   }
 
 }

@@ -30,6 +30,7 @@ public class Message {
   private boolean isDirectMessage;
   private String imageUrl;
   private String imageLabels;
+  private boolean isRead;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content and {@code recipient}.
@@ -94,6 +95,10 @@ public class Message {
     this.imageLabels = imageLabel;
   }
 
+  public void setIsRead(boolean isRead) {
+    this.isRead = isRead;
+  }
+
   public UUID getId() {
     return id;
   }
@@ -128,6 +133,10 @@ public class Message {
 
   public String getImageLabels() {
     return imageLabels;
+  }
+
+  public boolean getIsRead() {
+    return isRead;
   }
 
 }

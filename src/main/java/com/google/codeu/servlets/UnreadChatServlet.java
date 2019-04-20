@@ -20,8 +20,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /** Handles fetching and saving {@link Message} instances. */
-@WebServlet("/chat")
-public class ChatServlet extends HttpServlet {
+@WebServlet("/unread-chat")
+public class UnreadChatServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -48,45 +48,22 @@ public class ChatServlet extends HttpServlet {
       response.getWriter().println("[]");
       return;
     }
-    List<Message> messages = datastore.getMessages(user, sender);
+
+    if(!user.getHasUnread()) {
+        System.out.println(user + " doesn't have unreadMessage");
+        response.sendRedirect("/chat-list.html?user=" + user);
+    }
+
+    System.out.println(user + " has unreadMessage");
+    System.out.println("getUnreadMessage " + user);
+
+    List<Message> messages = datastore.getUnreadMessage(user);
+
+    for(Message m : messages) {
+        m.setIsRead(true);
+    }
     Gson gson = new Gson();
     String json = gson.toJson(messages);
     response.getWriter().println(json);
-  }
-
-  /** Stores a new {@link Message}. */
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
-      return;
-    }
-
-    String user = userService.getCurrentUser().getEmail();
-    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.relaxed());
-    String recipient = request.getParameter("recipient");
-    float sentimentScore = this.getSentimentScore(userText);
-    boolean isDirectMessage = true;
-
-    Message message = new Message(user, userText, recipient, sentimentScore, isDirectMessage);
-
-    datastore.storeMessage(message);
-
-    user.setHasUnopenedCR(true);
-    user.setHasUnread(true);
-
-    response.sendRedirect("/chat.html?user=" + recipient);
-  }
-
-  private float getSentimentScore(String text) throws IOException {
-    Document doc = Document.newBuilder().setContent(text).setType(Type.PLAIN_TEXT).build();
-
-    LanguageServiceClient languageService = LanguageServiceClient.create();
-    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-    languageService.close();
-
-    return sentiment.getScore();
   }
 }

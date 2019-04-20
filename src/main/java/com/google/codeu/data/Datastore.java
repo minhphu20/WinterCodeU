@@ -242,8 +242,15 @@ public class Datastore {
   /**
    * Get the chatrooms that the current user opened
    */
-   public List<Message> getChatrooms(String recipient) {
-     // *************** Working on here Cindy *************
+   public List<Message> getUnreadMessage(String targetUser) {
+    List<Message> unreadMessage = new ArrayList<>();
+    List<Message> allMessages = getRecentPrivateMessages(targetUser);
+    for(Message m : allMessages) {
+      if(!m.isRead()) {
+        unreadMessage.add(m);
+      }
+    }
+    return unreadMessage;
    }
 
   /** Stores the User in Datastore. */

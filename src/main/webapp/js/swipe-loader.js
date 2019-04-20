@@ -51,7 +51,7 @@ function postLike() {
             return response.text();
         })
         .then((answer) => {
-            console.log("answer is: ", answer);
+            console.log("answer is: ", answer);     
             if (answer === "yes") {
                 console.log("Chat page should open!");
                 
@@ -59,6 +59,8 @@ function postLike() {
                 var startChat = confirm("Start a chat with " + targetEmail)
                 if(startChat === true) {
                     window.location.replace("chat.html?user=" + targetEmail);
+                } else {
+                    fetchProspect();
                 }
                                 
             } else {

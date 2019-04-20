@@ -26,6 +26,27 @@ function checkLoggedIn() {
     })
 }
 
+/** Fetches unread messages and notificates the user */
+function fetchUnreadMessages() {
+  const url = '/unread-chat?user=' + parameterUsername;
+  fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((messages) => {
+        const messagesContainer = document.getElementById('message-container');
+        if (messages.length == 0) {
+          messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
+        } else {
+          messagesContainer.innerHTML = '';
+        }
+
+        messages.forEach((message) => {
+          alert("You have a new message" + message);
+        });
+      });  
+}
+
 /** Fetches messages and add them to the page. **/
 function fetchMessages() {
   const url = '/chat?user=' + parameterUsername;
@@ -40,6 +61,7 @@ function fetchMessages() {
         } else {
           messagesContainer.innerHTML = '';
         }
+
         messages.forEach((message) => {
           const messageDiv = buildMessageDiv(message);
           messagesContainer.appendChild(messageDiv);
@@ -101,6 +123,9 @@ function convertInput(input) {
 function buildUI() {
   checkLoggedIn();
   setPageTitle();
+  if(parameterUsername.getHasUnread()) {
+    fetchUnreadMessages();
+  }
   fetchMessages();
   let box = document.getElementsByClassName('box')[0];
   console.log(box.scrollHeight);
