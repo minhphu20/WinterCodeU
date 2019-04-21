@@ -8,10 +8,12 @@
     <link rel="icon" href="images/doge.jpg">
     <script src="/js/navigation-loader.js"></script>
     <script src="/js/user-profile-loader.js"></script>
+    <script src="/js/profile-map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx9EGUv8okQHzVkHhin7xAKw32gIJ3998"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
-  <body onload="addNavigation();buildUI();"> 
+  <body onload="addNavigation();buildUI();createMap();"> 
     <div class="box">
       <nav>
         <ul id="navigation">
@@ -25,6 +27,8 @@
             <strong id="dog-name">Dog's Name</strong>
             <br />
             <input type="file" id="profile-file" name="image">
+            <br/>
+            <div id="map"></div>
         </div>
         <div id="col-2">
           Name

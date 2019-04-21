@@ -4,10 +4,35 @@ let map;
  * Build the map
  */
 function createMap(){
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 37.422, lng: -122.084},
-      zoom: 16
-    });
+    // Locate the user to its current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: pos.lat, lng: pos.lng},
+          zoom: 16
+        });
+
+        addMarker('location', pos.lat, pos.lng, null, 'I\'m here', map);
+
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, infoWindow, map.getCenter());
+      });
+    } else {
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 37.422, lng: -122.084},
+        zoom: 16
+      });
+
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
 
     // Add a marker at Googleplex
     addMarker('Stan the T-Rex', 37.421903, -122.084674, null, 'This is Stan, the T-Rex statue.', map);
