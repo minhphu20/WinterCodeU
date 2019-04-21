@@ -433,7 +433,7 @@ public class Datastore {
     HashSet<String> notLiked = user.getLikes();
     HashSet<User> notSeen = new HashSet<User>();
     for (User target : allUsers) {
-      if (user.getEmail() != target.getEmail() && !liked.contains(target.getEmail()) && !notLiked.contains(target.getEmail())) {
+      if (!user.getEmail().equals(target.getEmail()) && !liked.contains(target.getEmail()) && !notLiked.contains(target.getEmail())) {
         notSeen.add(target);
       }
     }
