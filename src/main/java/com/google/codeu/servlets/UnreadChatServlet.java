@@ -9,6 +9,7 @@ import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
+import com.google.codeu.data.User;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +50,9 @@ public class UnreadChatServlet extends HttpServlet {
       return;
     }
 
-    if(!user.getHasUnread()) {
+    User userObject = datastore.getUser(user);
+
+    if(!userObject.getHasUnread()) {
         System.out.println(user + " doesn't have unreadMessage");
         response.sendRedirect("/chat-list.html?user=" + user);
     }

@@ -105,11 +105,11 @@ public class User {
     this.notLikes.add(user);
   }
 
-  public void getHasUnread() {
+  public boolean getHasUnread() {
     return hasUnRead;
   }
 
-  public void getHasUnopenedCR() {
+  public boolean getHasUnopenedCR() {
     return hasUnopenedCR;
   }
 

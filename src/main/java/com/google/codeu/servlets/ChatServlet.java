@@ -9,6 +9,7 @@ import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
+import com.google.codeu.data.User;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,8 +75,11 @@ public class ChatServlet extends HttpServlet {
 
     datastore.storeMessage(message);
 
-    user.setHasUnopenedCR(true);
-    user.setHasUnread(true);
+    User recipientObject = datastore.getUser(recipient);
+
+    recipientObject.setHasUnopenedCR(true);
+    recipientObject.setHasUnread(true);
+    message.setIsRead(false);
 
     response.sendRedirect("/chat.html?user=" + recipient);
   }

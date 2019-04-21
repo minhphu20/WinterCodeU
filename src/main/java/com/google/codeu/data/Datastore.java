@@ -246,7 +246,7 @@ public class Datastore {
     List<Message> unreadMessage = new ArrayList<>();
     List<Message> allMessages = getRecentPrivateMessages(targetUser);
     for(Message m : allMessages) {
-      if(!m.isRead()) {
+      if(!m.getIsRead()) {
         unreadMessage.add(m);
       }
     }
