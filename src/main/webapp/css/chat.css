@@ -4,16 +4,12 @@
     margin-top: 25px;
     max-width: 75%;
   }
-  
+
   /* Give each message a rounded border. */
   .message-div {
     border: thin solid black;
     border-radius: 5px;
     margin-top: 20px;
-  }
-
-  #home-link {
-    color: #2d4ebd;
   }
 
   .sender-message {
@@ -23,7 +19,7 @@
   .recipient-message {
     margin-right: 60%;
   }
-  
+
   input[type=submit] {
     background-color: #f5be6c;
     color: rgb(61, 43, 43);
@@ -31,26 +27,26 @@
     width: 10%;
     font-size: 12pt;
   }
-  
+
   /* Add a bottom border to the message header. */
   .message-header {
     border-bottom: thin solid black;
     background-color: #b5cbf3;
     padding: 5px;
   }
-  
+
   .rounded {
     border: thin solid black;
     border-radius: 5px;
     overflow: hidden;
   }
-  
+
   /* Give the message body a margin so the text
      isn't too close to the border. */
   .message-body {
     margin: 5px;
   }
-  
+
   /* Use this to hide certain elements like forms if the
      user is not logged in or viewing their own page. */
   .hidden {

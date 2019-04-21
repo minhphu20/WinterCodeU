@@ -2,6 +2,7 @@ package com.google.codeu.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,12 @@ public class ProfileServlet extends HttpServlet {
     User userData = datastore.getUser(user);
   
     if (userData == null) {
-      return;
+      ArrayList<String> address = new ArrayList<String>();
+      address.add("");
+      address.add("");
+      address.add("");
+      userData = new User(user, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", address, "../images/cooldoge.png");
+      datastore.storeUser(userData);
     }
 
     Gson gson = new Gson();
@@ -76,7 +82,7 @@ public class ProfileServlet extends HttpServlet {
       response.sendRedirect("/index.html");
       return;
     }
-  
+
     String userEmail = userService.getCurrentUser().getEmail();
     String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.relaxed());
     String name = Jsoup.clean(request.getParameter("name"), Whitelist.relaxed());
@@ -94,9 +100,13 @@ public class ProfileServlet extends HttpServlet {
     List<BlobKey> blobKeys = blobs.get("image");
 
     String imageUrl = "";
+    HashSet<String> likes = new HashSet<String>();
+    HashSet<String> notLikes = new HashSet<String>();
     User user = datastore.getUser(userEmail);
     if (user != null) {
       imageUrl = user.getImgUrl();
+      likes = user.getLikes();
+      notLikes = user.getNotLikes();
     }
 
     if (blobKeys != null && !blobKeys.isEmpty()) {
@@ -111,7 +121,7 @@ public class ProfileServlet extends HttpServlet {
       }
     }
 
-    user = new User(userEmail, aboutMe, name, breed, gender, birthday, weight, address, imageUrl);
+    user = new User(userEmail, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imageUrl);
     datastore.storeUser(user);
   
     response.sendRedirect("/user-profile.html");
