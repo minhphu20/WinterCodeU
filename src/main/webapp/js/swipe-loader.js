@@ -21,9 +21,12 @@ function fetchProspect() {
         .then((user) => {
             if (user['email']) {
                 document.getElementById('prospect_email').innerText = user['email'];
-                // TODO: add image profile of user -> waiting on Jenny to make profile picture compulsory
-                // Right now we have a very cute placeholder for the image
-                document.getElementById('prospect_image').src = "images/doge.jpg";
+                if (user['imgUrl']) {
+                    document.getElementById('prospect_image').src = user['imgUrl'];
+                } else {
+                    // We have a very cute placeholder for the image if the user has not uploaded an image.
+                    document.getElementById('prospect_image').src = "images/doge.jpg";
+                }
                 if (user['aboutMe']) {
                     document.getElementById('prospect_aboutMe').innerText = user['aboutMe'];
                 } else {
