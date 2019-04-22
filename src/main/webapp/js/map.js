@@ -36,16 +36,13 @@ function createMap(){
 
         map.setCenter(pos);
       });
-      // , function() {
-      //   handleLocationError(true, infoWindow, map.getCenter());
-      // });
     }
 }
 
 /**
  * Add markers to the map
  * @param {*} title title of the marker
- * @param {*} lat latitude of th marker
+ * @param {*} lat latitude of th marker 
  * @param {*} lng longitude of the marker
  * @param {*} image image of the marker, null for default image
  * @param {*} content content of the slide info window
