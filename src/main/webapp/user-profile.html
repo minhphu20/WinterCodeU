@@ -22,7 +22,7 @@
       <h1 id="page-title" class="shadow">Your Profile</h1>
       <form id="profile-form" action="/profile" method="POST" enctype="multipart/form-data">
         <div id="col-1">
-            <img id="profile-img" name="profile-img" src="images/lazy_boi.gif"/>
+            <img id="profile-img" name="profile-img"/>
             <br />
             <strong id="dog-name">Dog's Name</strong>
             <br />
@@ -33,32 +33,32 @@
         <div id="col-2">
           Name
           <br />
-          <input type="text" name="name" id="name" placeholder="Dog's name">
+          <input type="text" name="name" id="name" placeholder="Dog's name" required>
           <br />
           Breed
           <br />
-          <input type="text" name="breed" id="breed" placeholder="Dog's breed">
+          <input type="text" name="breed" id="breed" placeholder="Dog's breed" required>
           <br />
           City
           <br />
-          <input type="text" name="city" id="city" placeholder="City">
+          <input type="text" name="city" id="city" placeholder="City" required>
           <br /> 
         </div>
         <div id="col-3">
           Gender
           <br />
-          <select name="gender" id="gender">
+          <select name="gender" id="gender" required>
               <option value="Male" selected="selected">Male</option>
               <option value="Female">Female</option>
           </select>
           <br />
           Birthday
           <br />
-          <input type="date" id="bday" name="birthday" placeholder="MM/DD/YYYY">
+          <input type="date" id="bday" name="birthday" placeholder="MM/DD/YYYY" required>
           <br />
           State
           <br />
-          <select name="state" id="state">
+          <select name="state" id="state" required>
             <option value="" selected="selected">Select a State</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -115,11 +115,11 @@
           <br />
           Zip Code
           <br />
-          <input type="number" id="zip" name="zip" placeholder="12345">
+          <input type="number" id="zip" name="zip" placeholder="12345" required>
           <br />
           Weight
           <br />
-          <input type="text" id="weight" name="weight" placeholder="Dog's weight (lbs)">
+          <input type="text" id="weight" name="weight" placeholder="Dog's weight (lbs)" required>
           <br />
         </div>
         About Your Pup
