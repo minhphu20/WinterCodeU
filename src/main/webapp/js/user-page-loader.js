@@ -44,6 +44,25 @@ function showMessageFormIfLoggedIn() {
       });
 }
 
+function fetchOngoing() {
+  const url = '/ongoing?user=' + parameterUsername;
+  fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((ongoingChats) => {
+        
+        if(!ongoingChats.length == 0) {
+          ongoingChats.forEach((ongoing) => {
+            alert("You have a new opened chat!");
+          });        
+        }
+        else {
+          console.log("there is no opened chat");
+        }
+      });
+}
+
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
@@ -137,6 +156,7 @@ function fetchImageUploadUrlAndShowForm() {
 function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
+  fetchOngoing();
   fetchMessages();
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config);

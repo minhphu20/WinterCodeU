@@ -66,6 +66,9 @@ public class LikeServlet extends HttpServlet {
         // yes means 2 users like each other, no means 1 of them does not like the other.
         if (("like".equals(status)) && (datastore.isLiked(user, prospectiveMatch))) {
             System.out.println("It's a match! We will start chatting...");
+            prospectiveMatch.addChats(userEmail);
+            System.out.println("Add " + userEmail + " to " + prospectiveMatch + prospectiveMatch.getName());
+
             response.setContentType("text/html");
             response.getWriter().print("yes");
             

@@ -17,7 +17,7 @@ public class User {
   private HashSet<String> likes;
   private HashSet<String> notLikes;
   private boolean hasUnRead;
-  private boolean hasUnopenedCR;
+  private ArrayList<String> ongoingChats;
 
   public User(String email, String aboutMe, HashSet<String> likes, HashSet<String> notLikes, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl) {
     this.email = email.trim();
@@ -37,8 +37,20 @@ public class User {
     this.hasUnRead = hasUnRead;
   }
 
-  public void setHasUnopenedCR(boolean hasUnopenedCR) {
-    this.hasUnopenedCR = hasUnopenedCR;
+  public void addChats(String recipient) {
+    if(ongoingChats == null) {
+      ongoingChats = new ArrayList<String>();
+    }
+    System.out.println("Add to chats" + recipient);
+    ongoingChats.add(recipient);
+  }
+
+  public ArrayList<String> getOngoing() {
+    if(ongoingChats == null) {
+      return new ArrayList<String>();
+    }
+    System.out.println("Get ongoing...");
+    return ongoingChats;
   }
 
   public String getEmail() {
@@ -110,7 +122,7 @@ public class User {
   }
 
   public boolean getHasUnopenedCR() {
-    return hasUnopenedCR;
+    return getOngoing() != null;
   }
 
 }

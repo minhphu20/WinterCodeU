@@ -13,6 +13,7 @@ import com.google.codeu.data.User;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /** Handles fetching and saving {@link Message} instances. */
-@WebServlet("/unread-chat")
-public class UnreadChatServlet extends HttpServlet {
+@WebServlet("/ongoing")
+public class OngoingServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -38,8 +39,8 @@ public class UnreadChatServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    UserService userService = UserServiceFactory.getUserService();
-    String sender = userService.getCurrentUser().getEmail();
+    // UserService userService = UserServiceFactory.getUserService();
+    // String sender = userService.getCurrentUser().getEmail();
 
     response.setContentType("application/json");
 
@@ -51,15 +52,22 @@ public class UnreadChatServlet extends HttpServlet {
     }
 
     User userObject = datastore.getUser(user);
-
-    List<Message> messages = datastore.getUnreadMessage(user);
-    // List<Message> messages = datastore.getRecentPrivateMessages(user);
-    for(Message m : messages) {
-        m.setIsRead(true);
-        System.out.println(m.getText());
+    if(userObject == null) {
+        System.out.println("The user is not in the datastore");
+    } else {
+        System.out.println("Has user");
+        System.out.println(userObject + userObject.getName());
     }
+    
+    ArrayList<String> ongoingChats = datastore.openedChats(userObject);
+    if(ongoingChats == null || ongoingChats.size() == 0) {
+      System.out.println("no ongoing " + userObject.getName());
+      response.getWriter().println("[]");
+      return;
+    }
+
     Gson gson = new Gson();
-    String json = gson.toJson(messages);
+    String json = gson.toJson(ongoingChats);
     response.getWriter().println(json);
   }
 }

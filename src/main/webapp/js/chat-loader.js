@@ -28,22 +28,22 @@ function checkLoggedIn() {
 
 /** Fetches unread messages and notificates the user */
 function fetchUnreadMessages() {
+  console.log("Unread message fetching");
   const url = '/unread-chat?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((messages) => {
-        const messagesContainer = document.getElementById('message-container');
         if (messages.length == 0) {
-          messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
+          // alert("You don't have any new messagees");   
+          console.log("You don't have any new messagees");
         } else {
-          messagesContainer.innerHTML = '';
+          messages.forEach((message) => {
+            alert("You have a new message");
+          });
         }
 
-        messages.forEach((message) => {
-          alert("You have a new message" + message);
-        });
       });  
 }
 
@@ -123,9 +123,7 @@ function convertInput(input) {
 function buildUI() {
   checkLoggedIn();
   setPageTitle();
-  if(parameterUsername.getHasUnread()) {
-    fetchUnreadMessages();
-  }
+  // fetchUnreadMessages();
   fetchMessages();
   let box = document.getElementsByClassName('box')[0];
   console.log(box.scrollHeight);

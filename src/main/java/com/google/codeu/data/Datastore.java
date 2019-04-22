@@ -430,5 +430,12 @@ public class Datastore {
     }
     return notSeen;
   }
+
+  public ArrayList<String> openedChats(User user) {
+    for(String s : user.getOngoing()) {
+      System.out.println(s);
+    }
+    return user.getOngoing();
+  }
 }
 

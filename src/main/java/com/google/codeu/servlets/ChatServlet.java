@@ -72,14 +72,18 @@ public class ChatServlet extends HttpServlet {
     boolean isDirectMessage = true;
 
     Message message = new Message(user, userText, recipient, sentimentScore, isDirectMessage);
-
+    
+    System.out.println("new message " + user);
     datastore.storeMessage(message);
 
     User recipientObject = datastore.getUser(recipient);
+    System.out.println("recipient " + recipient);
 
-    recipientObject.setHasUnopenedCR(true);
     recipientObject.setHasUnread(true);
+    System.out.println("recipient " + recipientObject.getHasUnread());
     message.setIsRead(false);
+    System.out.println("mesage status " + message.getIsRead());
+
 
     response.sendRedirect("/chat.html?user=" + recipient);
   }
