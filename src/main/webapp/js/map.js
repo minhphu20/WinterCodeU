@@ -6,21 +6,6 @@ let map;
 function createMap(){
     // Locate the user to its current location
     if (navigator.geolocation) {
-      var location_timeout = setTimeout(function() {
-        console.log("No location available");
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 37.422, lng: -122.084},
-          zoom: 16
-        });
-  
-        // Add a marker at Googleplex
-        addMarker('Stan the T-Rex', 37.421903, -122.084674, null, 'This is Stan, the T-Rex statue.', map);
-  
-        // Add a marker for the dog park
-        var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-        addMarker('Stan the T-Rex', 37.428352, -122.077574, image, 'This is a park for dogs.', map);
-      }, 10000);
-
       navigator.geolocation.getCurrentPosition(function(position) {
         var pos = {
           lat: position.coords.latitude,
@@ -35,6 +20,19 @@ function createMap(){
         addMarker('location', pos.lat, pos.lng, null, 'I\'m here', map);
 
         map.setCenter(pos);
+      }, function() {
+        console.log("No location available");
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.422, lng: -122.084},
+          zoom: 16
+        });
+  
+        // Add a marker at Googleplex
+        addMarker('Stan the T-Rex', 37.421903, -122.084674, null, 'This is Stan, the T-Rex statue.', map);
+  
+        // Add a marker for the dog park
+        var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+        addMarker('Stan the T-Rex', 37.428352, -122.077574, image, 'This is a park for dogs.', map);
       });
     }
 }

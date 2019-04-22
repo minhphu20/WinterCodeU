@@ -29,25 +29,18 @@ function createMap(){
         fetchMarkers();
 
       }, function() {
-        handleLocationError(true, infoWindow, map.getCenter());
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.422, lng: -122.084},
+          zoom: 16
+        });
+              
+        // Users have to add location themselves
+        map.addListener('click', (event) => {
+          createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
+        });
+
+        fetchMarkers();
       });
-
-    } else {
-
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 37.422, lng: -122.084},
-        zoom: 16
-      });
-
-      // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
-
-      // Users have to add location themselves
-      map.addListener('click', (event) => {
-        createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
-      });
-
-      fetchMarkers();
     }
 }
 
