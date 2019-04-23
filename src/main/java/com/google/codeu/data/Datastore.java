@@ -264,6 +264,7 @@ public class Datastore {
     props.put("birthday", (String) userEntity.getProperty("birthday"));
     props.put("weight", (String) userEntity.getProperty("weight"));
     props.put("imgUrl", (String) userEntity.getProperty("imgUrl"));
+    props.put("imageLabels", (String) userEntity.getProperty("imageLabels"));
     props.put("city", (String) userEntity.getProperty("city"));
     props.put("state", (String) userEntity.getProperty("state"));
     props.put("zip", (String) userEntity.getProperty("zip"));
@@ -289,6 +290,7 @@ public class Datastore {
     userEntity.setProperty("birthday", user.getBirthday());
     userEntity.setProperty("weight", user.getWeight());
     userEntity.setProperty("imgUrl", user.getImgUrl());
+    userEntity.setProperty("imageLabels", user.getImageLabels());
     System.out.println("done till uploading images in user...");
     if (user.getAddress() != null && user.getAddress().size() == 3) {
       System.out.println("setting address...");
@@ -393,12 +395,13 @@ public class Datastore {
       String birthday = (String) userEntity.getProperty("birthday");
       String weight = (String) userEntity.getProperty("weight");
       String imgUrl = (String) userEntity.getProperty("imgUrl");
+      String imageLabels = (String) userEntity.getProperty("imageLabels");
       ArrayList<String> address = new ArrayList<String>();
       address.add((String) userEntity.getProperty("city"));
       address.add((String) userEntity.getProperty("state"));
       address.add((String) userEntity.getProperty("zip"));
 
-      user = new User(email, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imgUrl);
+      user = new User(email, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imgUrl, imageLabels);
     } catch (Exception e) {
       System.err.println("Error reading user.");
       System.err.println(userEntity.toString());

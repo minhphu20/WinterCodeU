@@ -17,6 +17,7 @@ function fetchProfile() {
         document.getElementById('gender').value = user.gender;
         document.getElementById('dog-name').innerHTML = user.name;
         document.getElementById('profile-img').src = user.imgUrl;
+        document.getElementById('image-labels').innerHTML = user.imageLabels;
         console.log(user);
       });
 }

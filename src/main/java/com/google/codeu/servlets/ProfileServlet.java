@@ -65,7 +65,7 @@ public class ProfileServlet extends HttpServlet {
       address.add("");
       address.add("");
       address.add("");
-      userData = new User(user, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", address, "../images/cooldoge.png");
+      userData = new User(user, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", address, "../images/cooldoge.png", "");
       datastore.storeUser(userData);
     }
 
@@ -100,11 +100,13 @@ public class ProfileServlet extends HttpServlet {
     List<BlobKey> blobKeys = blobs.get("image");
 
     String imageUrl = "";
+    String imageLabels = "";
     HashSet<String> likes = new HashSet<String>();
     HashSet<String> notLikes = new HashSet<String>();
     User user = datastore.getUser(userEmail);
     if (user != null) {
       imageUrl = user.getImgUrl();
+      imageLabels = user.getImageLabels();
       likes = user.getLikes();
       notLikes = user.getNotLikes();
     }
@@ -121,7 +123,7 @@ public class ProfileServlet extends HttpServlet {
       }
     }
 
-    user = new User(userEmail, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imageUrl);
+    user = new User(userEmail, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imageUrl, imageLabels);
     datastore.storeUser(user);
   
     response.sendRedirect("/user-profile.html");

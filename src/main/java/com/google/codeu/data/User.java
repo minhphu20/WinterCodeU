@@ -14,10 +14,11 @@ public class User {
   private ArrayList<String> address;
   private String weight;
   private String imgUrl;
+  private String imageLabels;
   private HashSet<String> likes;
   private HashSet<String> notLikes;
 
-  public User(String email, String aboutMe, HashSet<String> likes, HashSet<String> notLikes, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl) {
+  public User(String email, String aboutMe, HashSet<String> likes, HashSet<String> notLikes, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl, String imageLabels) {
     this.email = email.trim();
     this.aboutMe = aboutMe;
     this.name = name;
@@ -29,6 +30,7 @@ public class User {
     this.imgUrl = imgUrl;
     this.likes = likes;
     this.notLikes = notLikes;
+    this.imageLabels = imageLabels;
   }
 
 public String getEmail() {
@@ -79,6 +81,9 @@ public String getEmail() {
     return notLikes;
   }
 
+  public String getImageLabels() {
+    return imageLabels;
+  }
   public void addLike(String user) {
     System.out.println("Inside adding likes..." + user);
     if (this.likes == null) {
