@@ -40,6 +40,7 @@ public class User {
   public void addChats(String recipient) {
     if(ongoingChats == null) {
       ongoingChats = new ArrayList<String>();
+      // ongoingChats.add("hahaha");
     }
     System.out.println("Add to chats" + recipient);
     ongoingChats.add(recipient);
@@ -50,6 +51,7 @@ public class User {
       return new ArrayList<String>();
     }
     System.out.println("Get ongoing...");
+    
     return ongoingChats;
   }
 

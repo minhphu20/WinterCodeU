@@ -14,9 +14,21 @@ function fetchChats() {
         }
 
         chats.forEach((chat) => {
+          console.log(chat);
           const chatDiv = buildChatDiv(chat);
           chatContainer.appendChild(chatDiv);
         })
+
+        // Build empty chat lists for matching users who haven't started chatting yet
+        const ongoingurl = '/ongoing';
+        fetch(ongoingurl)
+            .then((response) => {
+              return response.json();
+            })
+            .then(() => {
+              const chatDiv = buildEmptyChatDiv();
+              chatContainer.appendChild(chatDiv);
+            });
       });
 }
 
@@ -31,6 +43,25 @@ function checkLoggedIn() {
         window.location.replace('/');
       }
     })
+}
+
+function buildEmptyChatDiv() {
+  // console.log("Inside empty div");
+  const headerDiv = document.createElement('div');
+  headerDiv.classList.add('chat-header');
+
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add('chat-body');
+  bodyDiv.innerHTML = '<p>Start chating now!</p>';
+
+  const chatDiv = document.createElement('div');
+  chatDiv.classList.add('chat-div');
+  chatDiv.appendChild(headerDiv);
+  chatDiv.appendChild(bodyDiv);
+
+  headerDiv.appendChild(document.createTextNode('target email'));
+
+  return chatDiv;
 }
 
 /**

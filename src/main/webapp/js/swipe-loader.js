@@ -60,7 +60,14 @@ function postLike() {
                 if(startChat === true) {
                     window.location.replace("chat.html?user=" + targetEmail);
                 } else {
-                    fetchProspect();
+                    fetch("/like?email=" + targetEmail + "&status=like", { method: "POST" })
+                        .then((response) => {
+                            return response.text();
+                        })
+                        .then((answer) => {
+                            fetchProspect();
+                        });
+                    // fetchProspect();
                 }
                                 
             } else {

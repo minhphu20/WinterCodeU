@@ -47,11 +47,12 @@ public class LikeServlet extends HttpServlet {
             System.out.println("The prospective user is not in Datastore. Adding them...");
             prospectiveMatch = new User(prospectiveEmail, null, new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "");
         }
-
+        
         String status = request.getParameter("status");
         System.out.println("status: " + status);
         if ("like".equals(status)) {
             user.addLike(prospectiveEmail);
+            prospectiveMatch.addChats(userEmail);
             System.out.println("Done adding like...");
         } else {
             user.addNotLike(prospectiveEmail);

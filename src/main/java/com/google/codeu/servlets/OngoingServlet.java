@@ -60,6 +60,8 @@ public class OngoingServlet extends HttpServlet {
     }
     
     ArrayList<String> ongoingChats = datastore.openedChats(userObject);
+    // ArrayList<String> ongoingChats = userObject.getOngoing();
+
     if(ongoingChats == null || ongoingChats.size() == 0) {
       System.out.println("no ongoing " + userObject.getName());
       response.getWriter().println("[]");

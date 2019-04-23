@@ -432,6 +432,8 @@ public class Datastore {
   }
 
   public ArrayList<String> openedChats(User user) {
+    System.out.println("Openedchats");
+    user.addChats("uauaua");
     for(String s : user.getOngoing()) {
       System.out.println(s);
     }
