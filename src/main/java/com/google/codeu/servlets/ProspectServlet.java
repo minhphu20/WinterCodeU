@@ -39,7 +39,7 @@ public class ProspectServlet extends HttpServlet {
 
         if (user == null) {
             System.out.println("The current user is not in Datastore. Adding them...");
-            user = new User(userEmail, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "");
+            user = new User(userEmail, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "", "");
             datastore.storeUser(user);
             System.out.println("done adding " + userEmail);
         }
