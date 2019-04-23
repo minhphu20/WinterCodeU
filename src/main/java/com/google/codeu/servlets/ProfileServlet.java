@@ -69,7 +69,7 @@ public class ProfileServlet extends HttpServlet {
       address.add("");
       address.add("");
       address.add("");
-      userData = new User(user, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", address, "../images/cooldoge.png", "");
+      userData = new User(user, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", address, "../images/cooldoge.png", "doge, shiba inu, meme, cool");
       datastore.storeUser(userData);
     }
 
