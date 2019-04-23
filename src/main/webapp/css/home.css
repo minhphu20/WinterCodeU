@@ -1,11 +1,28 @@
-
-/* Our Team
--------------------------------------------------------*/
-
 .column {
   float: left;
   width: 33.33%;
   padding: 30px 0 30px 0;
+}
+
+.container_one {
+  background-color: #dedede;
+}
+
+#chat {
+  width: 300px;
+  height: 340px;
+}
+
+.home-img {
+  padding-bottom: 90px;
+}
+
+.centerblock h1 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #555555;
+  font-size: 70px;
+  text-align: center;
+  margin: 65px auto 30px;
 }
 
 .our-team .team-row {

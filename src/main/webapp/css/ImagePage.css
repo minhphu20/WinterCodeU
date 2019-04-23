@@ -1,13 +1,14 @@
 /* Title styling */
 h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 50px;
-    color: #20b2aa;
-    text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
+  padding-top: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 50px;
+  color: #20b2aa;
+  text-shadow:
+  -1px -1px 0 #000,
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000;
 }
 
 /* User name styling */
@@ -26,15 +27,6 @@ h2 {
     margin-left: auto;
     margin-right: auto;
     width: 30%;
-}
-
-/* Profile image styling */
-.mainImage {
-    border-radius: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
 }
 
 /* Button image styling */
@@ -63,8 +55,6 @@ h2 {
     cursor: pointer;
     overflow: hidden;
 }
-
-
 
 /* div for button */
 .buttonbox {
