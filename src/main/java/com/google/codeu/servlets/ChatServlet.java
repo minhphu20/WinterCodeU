@@ -83,6 +83,9 @@ public class ChatServlet extends HttpServlet {
     recipientObject.addHasChats(user);
     userObject.addHasChats(recipient);
 
+    datastore.storeUser(recipientObject);
+    datastore.storeUser(userObject);
+
     response.sendRedirect("/chat.html?user=" + recipient);
   }
 

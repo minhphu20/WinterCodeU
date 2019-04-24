@@ -68,7 +68,14 @@ public class LikeServlet extends HttpServlet {
         if (("like".equals(status)) && (datastore.isLiked(user, prospectiveMatch))) {
             System.out.println("It's a match! We will start chatting...");
             // Add current user to prospectiveMatch's ongoing chats
+
+            System.out.println("Add chats " + prospectiveMatch + " " + user);
             prospectiveMatch.addChats(userEmail);
+            user.addChats(prospectiveEmail);
+
+            datastore.storeUser(prospectiveMatch);
+            datastore.storeUser(user);
+
             System.out.println("Add " + userEmail + " to " + prospectiveMatch + prospectiveMatch.getName());
 
             response.setContentType("text/html");
