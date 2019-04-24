@@ -52,7 +52,6 @@ public class LikeServlet extends HttpServlet {
         System.out.println("status: " + status);
         if ("like".equals(status)) {
             user.addLike(prospectiveEmail);
-            prospectiveMatch.addChats(userEmail);
             System.out.println("Done adding like...");
         } else {
             user.addNotLike(prospectiveEmail);

@@ -239,20 +239,6 @@ public class Datastore {
     return messages;
   }
 
-  /**
-   * Get the chatrooms that the current user opened
-   */
-   public List<Message> getUnreadMessage(String targetUser) {
-    List<Message> unreadMessage = new ArrayList<>();
-    List<Message> allMessages = getRecentPrivateMessages(targetUser);
-    for(Message m : allMessages) {
-      if(!m.getIsRead()) {
-        unreadMessage.add(m);
-      }
-    }
-    return unreadMessage;
-   }
-
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
     System.out.println("enter storing user...");
@@ -431,6 +417,7 @@ public class Datastore {
     return notSeen;
   }
 
+  /** Returns empty chat room lists of a user */
   public ArrayList<String> openedChats(User user) {
     // System.out.println("Openedchats");
     user.addChats("uauaua");

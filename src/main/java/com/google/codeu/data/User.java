@@ -125,8 +125,4 @@ public class User {
     this.notLikes.add(user);
   }
 
-  public boolean getHasUnopenedCR() {
-    return getOngoing() != null;
-  }
-
 }
