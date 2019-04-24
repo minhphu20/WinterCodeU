@@ -21,31 +21,26 @@ function createMap(){
 
         map.setCenter(pos);
       }, function() {
-        handleLocationError(true, infoWindow, map.getCenter());
+        console.log("No location available");
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.422, lng: -122.084},
+          zoom: 16
+        });
+  
+        // Add a marker at Googleplex
+        addMarker('Stan the T-Rex', 37.421903, -122.084674, null, 'This is Stan, the T-Rex statue.', map);
+  
+        // Add a marker for the dog park
+        var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+        addMarker('Stan the T-Rex', 37.428352, -122.077574, image, 'This is a park for dogs.', map);
       });
-    } else {
-
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 37.422, lng: -122.084},
-        zoom: 16
-      });
-
-      // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
     }
-
-    // Add a marker at Googleplex
-    addMarker('Stan the T-Rex', 37.421903, -122.084674, null, 'This is Stan, the T-Rex statue.', map);
-
-    // Add a marker for the dog park
-    var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-    addMarker('Stan the T-Rex', 37.428352, -122.077574, image, 'This is a park for dogs.', map);
 }
 
 /**
  * Add markers to the map
  * @param {*} title title of the marker
- * @param {*} lat latitude of th marker
+ * @param {*} lat latitude of th marker 
  * @param {*} lng longitude of the marker
  * @param {*} image image of the marker, null for default image
  * @param {*} content content of the slide info window
