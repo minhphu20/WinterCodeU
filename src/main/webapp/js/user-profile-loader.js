@@ -17,8 +17,20 @@ function fetchProfile() {
         document.getElementById('gender').value = user.gender;
         document.getElementById('dog-name').innerHTML = user.name;
         document.getElementById('profile-img').src = user.imgUrl;
+        populateLabels(user.imageLabels);
         console.log(user);
       });
+}
+
+function populateLabels(imageLabels) {
+  let labels = imageLabels.split(",");
+  const labelDiv = document.getElementById('image-labels');
+  labels.forEach(function(label){
+    let labelElem = document.createElement('div');
+    labelElem.classList.add('label');
+    labelElem.innerHTML = label;
+    labelDiv.appendChild(labelElem);
+  })
 }
 
 /**

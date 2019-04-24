@@ -32,6 +32,16 @@ input {
   margin: 3%;
 }
 
+.label {
+  background-color: #fc9c9c;
+  border-radius: 50px;
+  display: inline-block;
+  padding: 2%;
+  margin: 1%;
+  font-size: 12px;
+  border: thin solid black;
+}
+
 #map{
   width: 200px;
   height: 200px;

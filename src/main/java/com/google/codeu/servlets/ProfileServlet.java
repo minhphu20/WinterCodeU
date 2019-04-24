@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.io.ByteArrayOutputStream;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,8 @@ import com.google.appengine.api.images.ImagesServiceFailureException;
 import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.protobuf.ByteString;
+import com.google.cloud.vision.v1.*;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.User;
 import com.google.gson.Gson;
@@ -65,7 +69,7 @@ public class ProfileServlet extends HttpServlet {
       address.add("");
       address.add("");
       address.add("");
-      userData = new User(user, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", address, "../images/cooldoge.png");
+      userData = new User(user, "", new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", address, "../images/cooldoge.png", "doge, shiba inu, meme, cool");
       datastore.storeUser(userData);
     }
 
@@ -100,11 +104,13 @@ public class ProfileServlet extends HttpServlet {
     List<BlobKey> blobKeys = blobs.get("image");
 
     String imageUrl = "";
+    String imageLabels = "";
     HashSet<String> likes = new HashSet<String>();
     HashSet<String> notLikes = new HashSet<String>();
     User user = datastore.getUser(userEmail);
     if (user != null) {
       imageUrl = user.getImgUrl();
+      imageLabels = user.getImageLabels();
       likes = user.getLikes();
       notLikes = user.getNotLikes();
     }
@@ -116,14 +122,70 @@ public class ProfileServlet extends HttpServlet {
       try {
         imageUrl = imagesService.getServingUrl(options);
         System.out.println(imageUrl);
+        byte[] blobBytes = getBlobBytes(blobstoreService, blobKey);
+        imageLabels = getImageLabels(blobBytes);
       } catch (ImagesServiceFailureException unused) {
 
       }
     }
 
-    user = new User(userEmail, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imageUrl);
+    user = new User(userEmail, aboutMe, likes, notLikes, name, breed, gender, birthday, weight, address, imageUrl, imageLabels);
     datastore.storeUser(user);
   
     response.sendRedirect("/user-profile.html");
+  }
+
+  private String getImageLabels(byte[] imgBytes) throws IOException {
+    ByteString byteString = ByteString.copyFrom(imgBytes);
+    Image image = Image.newBuilder().setContent(byteString).build();
+  
+    Feature feature = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
+    AnnotateImageRequest request =
+        AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
+    List<AnnotateImageRequest> requests = new ArrayList<>();
+    requests.add(request);
+  
+    ImageAnnotatorClient client = ImageAnnotatorClient.create();
+    BatchAnnotateImagesResponse batchResponse = client.batchAnnotateImages(requests);
+    client.close();
+    List<AnnotateImageResponse> imageResponses = batchResponse.getResponsesList();
+    AnnotateImageResponse imageResponse = imageResponses.get(0);
+  
+    if (imageResponse.hasError()) {
+      System.err.println("Error getting image labels: " + imageResponse.getError().getMessage());
+      return null;
+    }
+  
+    String labelsString = imageResponse.getLabelAnnotationsList().stream()
+        .map(EntityAnnotation::getDescription)
+        .collect(Collectors.joining(", "));
+  
+    return labelsString;
+  }
+  
+  private byte[] getBlobBytes(BlobstoreService blobstoreService, BlobKey blobKey)
+      throws IOException {
+  
+    ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
+  
+    int fetchSize = BlobstoreService.MAX_BLOB_FETCH_SIZE;
+  
+    long currentByteIndex = 0;
+    boolean continueReading = true;
+    while (continueReading) {
+      // end index is inclusive, so we have to subtract 1 to get fetchSize bytes
+      byte[] b =
+          blobstoreService.fetchData(blobKey, currentByteIndex, currentByteIndex + fetchSize - 1);
+      outputBytes.write(b);
+  
+      // if we read fewer bytes than we requested, then we reached the end
+      if (b.length < fetchSize) {
+        continueReading = false;
+      }
+  
+      currentByteIndex += fetchSize;
+    }
+  
+    return outputBytes.toByteArray();
   }
 }

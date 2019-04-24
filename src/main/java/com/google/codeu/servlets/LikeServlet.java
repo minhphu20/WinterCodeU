@@ -35,7 +35,7 @@ public class LikeServlet extends HttpServlet {
         // Note: sometimes the current user is not stored in the datastore!
         if (user == null) {
             System.out.println("The current user is not in Datastore. Adding them...");
-            user = new User(userEmail, null, new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "");
+            user = new User(userEmail, null, new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "", "");
         }
 
         // Get who the user likes
@@ -45,7 +45,7 @@ public class LikeServlet extends HttpServlet {
         // Note: sometimes the prospective user is not stored in the datastore!
         if (prospectiveMatch == null) {
             System.out.println("The prospective user is not in Datastore. Adding them...");
-            prospectiveMatch = new User(prospectiveEmail, null, new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "");
+            prospectiveMatch = new User(prospectiveEmail, null, new HashSet<String>(), new HashSet<String>(), "", "", "", "", "", new ArrayList<String>() , "", "");
         }
 
         String status = request.getParameter("status");

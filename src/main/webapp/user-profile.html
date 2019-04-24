@@ -22,13 +22,12 @@
       <h1 id="page-title" class="shadow">Your Profile</h1>
       <form id="profile-form" action="/profile" method="POST" enctype="multipart/form-data">
         <div id="col-1">
+            <input type="file" id="profile-file" name="image">
             <img id="profile-img" name="profile-img"/>
             <br />
             <strong id="dog-name">Dog's Name</strong>
-            <br />
-            <input type="file" id="profile-file" name="image">
             <br/>
-            <div id="map"></div>
+            <div id="image-labels"></div>
         </div>
         <div id="col-2">
           Name
@@ -43,6 +42,7 @@
           <br />
           <input type="text" name="city" id="city" placeholder="City" required>
           <br /> 
+          <div id="map"></div>
         </div>
         <div id="col-3">
           Gender
