@@ -79,10 +79,10 @@ public class ChatServlet extends HttpServlet {
     User recipientObject = datastore.getUser(recipient);
     System.out.println("recipient " + recipient);
 
-    recipientObject.setHasUnread(true);
-    System.out.println("recipient " + recipientObject.getHasUnread());
-    message.setIsRead(false);
-    System.out.println("mesage status " + message.getIsRead());
+    // recipientObject.setHasUnread(true);
+    // System.out.println("recipient " + recipientObject.getHasUnread());
+    // message.setIsRead(false);
+    // System.out.println("mesage status " + message.getIsRead());
 
 
     response.sendRedirect("/chat.html?user=" + recipient);

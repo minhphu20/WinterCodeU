@@ -63,6 +63,26 @@ function fetchOngoing() {
       });
 }
 
+function buildEmptyChatDiv(user) {
+  // console.log("Inside empty div");
+  const headerDiv = document.createElement('div');
+  headerDiv.classList.add('chat-header');
+
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add('chat-body');
+  bodyDiv.innerHTML = '<p>Start chating now!</p>';
+
+  const chatDiv = document.createElement('div');
+  chatDiv.classList.add('chat-div');
+  chatDiv.appendChild(headerDiv);
+  chatDiv.appendChild(bodyDiv);
+
+  // headerDiv.appendChild(document.createTextNode('target email'));
+  headerDiv.appendChild(document.createTextNode(user));
+
+  return chatDiv;
+}
+
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;

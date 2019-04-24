@@ -68,8 +68,12 @@ public class OngoingServlet extends HttpServlet {
       return;
     }
 
+    System.out.println("Has ongoing " + userObject.getName());
+
+
     Gson gson = new Gson();
     String json = gson.toJson(ongoingChats);
+    System.out.println("Has ongoing json" + json);
     response.getWriter().println(json);
   }
 }

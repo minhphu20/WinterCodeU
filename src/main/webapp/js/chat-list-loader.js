@@ -1,3 +1,6 @@
+const urlParams = new URLSearchParams(window.location.search);
+const parameterUsername = urlParams.get('user');
+
 /** Fetches chats and add them to the page. **/
 function fetchChats() {
   const url = '/chat-list';
@@ -20,14 +23,18 @@ function fetchChats() {
         })
 
         // Build empty chat lists for matching users who haven't started chatting yet
-        const ongoingurl = '/ongoing';
+        const ongoingurl = '/ongoing?user=' + parameterUsername;
+        console.log("outside ongingurl fetching");
         fetch(ongoingurl)
             .then((response) => {
               return response.json();
             })
-            .then(() => {
-              const chatDiv = buildEmptyChatDiv();
-              chatContainer.appendChild(chatDiv);
+            .then((users) => {
+              users.forEach((user) => {
+                console.log(user);
+                const chatDiv = buildEmptyChatDiv(user);
+                chatContainer.appendChild(chatDiv);
+              })
             });
       });
 }
@@ -45,7 +52,8 @@ function checkLoggedIn() {
     })
 }
 
-function buildEmptyChatDiv() {
+/** Build an element that displays an empty chatroom */
+function buildEmptyChatDiv(user) {
   // console.log("Inside empty div");
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('chat-header');
@@ -59,7 +67,8 @@ function buildEmptyChatDiv() {
   chatDiv.appendChild(headerDiv);
   chatDiv.appendChild(bodyDiv);
 
-  headerDiv.appendChild(document.createTextNode('target email'));
+  headerDiv.appendChild(document.createTextNode(user));
+  chatDiv.setAttribute('onclick', "location.href='/chat.html?user=" + user + "'");
 
   return chatDiv;
 }
