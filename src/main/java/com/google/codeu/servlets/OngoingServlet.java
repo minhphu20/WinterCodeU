@@ -63,12 +63,12 @@ public class OngoingServlet extends HttpServlet {
     // ArrayList<String> ongoingChats = userObject.getOngoing();
 
     if(ongoingChats == null || ongoingChats.size() == 0) {
-      System.out.println("no ongoing " + userObject.getName());
+      // System.out.println("no ongoing " + userObject.getName());
       response.getWriter().println("[]");
       return;
     }
 
-    System.out.println("Has ongoing " + userObject.getName());
+    // System.out.println("Has ongoing " + userObject.getName());
 
 
     Gson gson = new Gson();

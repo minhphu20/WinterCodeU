@@ -16,8 +16,8 @@ public class User {
   private String imgUrl;
   private HashSet<String> likes;
   private HashSet<String> notLikes;
-  private boolean hasUnRead;
   private ArrayList<String> ongoingChats;
+  private HashSet<String> hasChatsWith;
 
   public User(String email, String aboutMe, HashSet<String> likes, HashSet<String> notLikes, String name, String breed, String gender, String birthday, String weight, ArrayList<String> address, String imgUrl) {
     this.email = email.trim();
@@ -33,16 +33,22 @@ public class User {
     this.notLikes = notLikes;
   }
 
-  public void setHasUnread(boolean hasUnRead) {
-    this.hasUnRead = hasUnRead;
+  public void addHasChats(String recipient) {
+    if(hasChatsWith == null) {
+      hasChatsWith = new HashSet<>();
+    }
+    hasChatsWith.add(recipient);
   }
 
   public void addChats(String recipient) {
+    if(hasChatsWith != null && hasChatsWith.contains(recipient)) {
+      return;
+    }
     if(ongoingChats == null) {
       ongoingChats = new ArrayList<String>();
-      // ongoingChats.add("hahaha");
     }
-    System.out.println("Add to chats" + recipient);
+    // System.out.println("Add to chats" + recipient);
+
     ongoingChats.add(recipient);
   }
 
@@ -51,7 +57,7 @@ public class User {
       return new ArrayList<String>();
     }
     System.out.println("Get ongoing...");
-    
+
     return ongoingChats;
   }
 
@@ -117,10 +123,6 @@ public class User {
       this.notLikes = new HashSet<String>();
     }
     this.notLikes.add(user);
-  }
-
-  public boolean getHasUnread() {
-    return hasUnRead;
   }
 
   public boolean getHasUnopenedCR() {

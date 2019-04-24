@@ -54,7 +54,7 @@ function addNavigation() {
             createListItem(createLink('/image-page.html', 'Swipe')));
 
           navigationElement.appendChild(
-            createListItem(createLink('/chat-list.html', 'Your Chats', 'chat-list-link')));
+            createListItem(createLink('/chat-list.html?user=' + loginStatus.username, 'Your Chats', 'chat-list-link')));
           
           navigationElement.appendChild(
             createListItem(createLink('/user-profile.html', 'Your Profile', 'user-profile-link')));

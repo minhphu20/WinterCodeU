@@ -44,43 +44,18 @@ function showMessageFormIfLoggedIn() {
       });
 }
 
-function fetchOngoing() {
-  const url = '/ongoing?user=' + parameterUsername;
-  fetch(url)
+function showHasNewChat() {
+  const ongoingurl = '/ongoing?user=' + parameterUsername;
+  // console.log("outside ongingurl fetching");
+  fetch(ongoingurl)
       .then((response) => {
         return response.json();
       })
-      .then((ongoingChats) => {
-        
-        if(!ongoingChats.length == 0) {
-          ongoingChats.forEach((ongoing) => {
-            alert("You have a new opened chat!");
-          });        
-        }
-        else {
-          console.log("there is no opened chat");
+      .then((users) => {
+        if(users.length !== 0) {
+          alert("You have a new chat room opened!")
         }
       });
-}
-
-function buildEmptyChatDiv(user) {
-  // console.log("Inside empty div");
-  const headerDiv = document.createElement('div');
-  headerDiv.classList.add('chat-header');
-
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('chat-body');
-  bodyDiv.innerHTML = '<p>Start chating now!</p>';
-
-  const chatDiv = document.createElement('div');
-  chatDiv.classList.add('chat-div');
-  chatDiv.appendChild(headerDiv);
-  chatDiv.appendChild(bodyDiv);
-
-  // headerDiv.appendChild(document.createTextNode('target email'));
-  headerDiv.appendChild(document.createTextNode(user));
-
-  return chatDiv;
 }
 
 /** Fetches messages and add them to the page. */
@@ -176,7 +151,7 @@ function fetchImageUploadUrlAndShowForm() {
 function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
-  fetchOngoing();
+  showHasNewChat();
   fetchMessages();
   const config = {removePlugins: [ 'ImageUpload' ]};
   ClassicEditor.create(document.getElementById('message-input'), config);

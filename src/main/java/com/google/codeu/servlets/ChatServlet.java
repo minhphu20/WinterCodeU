@@ -77,13 +77,11 @@ public class ChatServlet extends HttpServlet {
     datastore.storeMessage(message);
 
     User recipientObject = datastore.getUser(recipient);
+    User userObject = datastore.getUser(user);
     System.out.println("recipient " + recipient);
 
-    // recipientObject.setHasUnread(true);
-    // System.out.println("recipient " + recipientObject.getHasUnread());
-    // message.setIsRead(false);
-    // System.out.println("mesage status " + message.getIsRead());
-
+    recipientObject.addHasChats(user);
+    userObject.addHasChats(recipient);
 
     response.sendRedirect("/chat.html?user=" + recipient);
   }
